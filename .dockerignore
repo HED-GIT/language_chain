@@ -1,0 +1,6 @@
+build
+README.md
+.git
+.gitattributes
+.gitignore
+src/zig/zig-cache
