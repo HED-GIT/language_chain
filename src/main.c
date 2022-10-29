@@ -5,6 +5,7 @@
 #include "nim_chain.h"
 #include "oc_chain.h"
 // #include "rust_chain.h"
+#include "zig_chain.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -31,5 +32,8 @@ int main(int argc, char **argv)
     fprintf(stdout, "------------------------------\n");
     sleep(1);
     start_rust_chain();
+    fprintf(stdout, "------------------------------\n");
+    sleep(1);
+    start_zig_chain();;
     return 0;
 }

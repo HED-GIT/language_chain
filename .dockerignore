@@ -3,4 +3,5 @@ README.md
 .git
 .gitattributes
 .gitignore
-src/zig/zig-cache
+src/end_calls/zig/zig-cache
+src/mid_calls/zig/zig-cache
