@@ -3,17 +3,33 @@
 #include "d_chain.h"
 #include "go_chain.h"
 #include "nim_chain.h"
+#include "oc_chain.h"
+// #include "rust_chain.h"
 #include <stdio.h>
+#include <unistd.h>
 
-int main(int argc, char** argv){
+void start_rust_chain(void);
+
+int main(int argc, char **argv)
+{
     start_c_chain();
     fprintf(stdout, "------------------------------\n");
+    sleep(1);
     start_cpp_chain();
     fprintf(stdout, "------------------------------\n");
+    sleep(1);
     start_d_chain();
     fprintf(stdout, "------------------------------\n");
+    sleep(1);
     start_go_chain();
     fprintf(stdout, "------------------------------\n");
+    sleep(1);
     start_nim_chain();
+    fprintf(stdout, "------------------------------\n");
+    sleep(1);
+    start_oc_chain();
+    fprintf(stdout, "------------------------------\n");
+    sleep(1);
+    start_rust_chain();
     return 0;
 }

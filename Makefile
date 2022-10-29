@@ -6,8 +6,8 @@ C_CHAINDIR := src/mid_calls
 
 build: build/main
 
-build/main: src/main.c $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so
-	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so
+build/main: src/main.c $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so
+	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so
 
 $(LIBDIR)/libc_call.so: $(C_CALLDIR)/c/c_call.c $(C_CALLDIR)/c/c_call.h | directories
 	cp $(C_CALLDIR)/c/c_call.h $(HEADERDIR)/
@@ -69,6 +69,24 @@ $(LIBDIR)/libgo_chain.so: $(C_CHAINDIR)/go/go_chain.go $(LIBDIR)/libc_call.so $(
 $(LIBDIR)/libnim_chain.so: $(C_CHAINDIR)/nim/nim_chain.nim $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
 	nim c --app=lib --noMain --header:nim_chain.h -o:$(LIBDIR)/libnim_chain.so $(C_CHAINDIR)/nim/nim_chain.nim 
 	cp ~/.cache/nim/nim_chain_d/nim_chain.h $(HEADERDIR)/nim_chain.h
+
+$(LIBDIR)/liboc_chain.so: $(C_CHAINDIR)/objective-c/oc_chain.m $(C_CHAINDIR)/objective-c/oc_chain.h $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
+	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
+	gcc -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/objective-c/oc_chain.m -o $(OBJECTDIR)/oc_chain.o
+	gcc -shared -o $(LIBDIR)/liboc_chain.so $(OBJECTDIR)/oc_chain.o
+
+$(LIBDIR)/librust_chain.so: $(C_CHAINDIR)/rust/rust_chain.rs $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
+	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
+	bindgen $(HEADERDIR)/c_call.h -o $(HEADERDIR)/c_call.rs
+	bindgen $(HEADERDIR)/cpp_call.h -o $(HEADERDIR)/cpp_call.rs
+	bindgen $(HEADERDIR)/d_call.h -o $(HEADERDIR)/d_call.rs
+	bindgen $(HEADERDIR)/go_call.h -o $(HEADERDIR)/go_call.rs
+	bindgen $(HEADERDIR)/nim_call.h -o $(HEADERDIR)/nim_call.rs
+	bindgen $(HEADERDIR)/oc_call.h -o $(HEADERDIR)/oc_call.rs
+	bindgen $(HEADERDIR)/rust_call.h -o $(HEADERDIR)/rust_call.rs
+	bindgen $(HEADERDIR)/zig_call.h -o $(HEADERDIR)/zig_call.rs
+	cbindgen --output $(HEADERDIR)/rust_chain.h --lang c $(C_CHAINDIR)/rust/rust_chain.rs
+	rustc --crate-type=cdylib -L $(HEADERDIR)/ $(C_CHAINDIR)/rust/rust_chain.rs -o $(LIBDIR)/librust_chain.so
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
