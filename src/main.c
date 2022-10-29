@@ -7,7 +7,6 @@
 // #include "rust_chain.h"
 #include "zig_chain.h"
 #include <stdio.h>
-#include <unistd.h>
 
 void start_rust_chain(void);
 
@@ -15,25 +14,18 @@ int main(int argc, char **argv)
 {
     start_c_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
     start_cpp_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
     start_d_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
     start_go_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
     start_nim_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
     start_oc_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
     start_rust_chain();
     fprintf(stdout, "------------------------------\n");
-    sleep(1);
-    start_zig_chain();;
+    start_zig_chain();
     return 0;
 }
