@@ -6,8 +6,8 @@ C_CHAINDIR := src/mid_calls
 
 build: build/main
 
-build/main: src/main.c $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so
-	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so
+build/main: src/main.c $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so
+	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so
 
 $(LIBDIR)/libc_call.so: $(C_CALLDIR)/c/c_call.c $(C_CALLDIR)/c/c_call.h | directories
 	cp $(C_CALLDIR)/c/c_call.h $(HEADERDIR)/
@@ -65,6 +65,10 @@ $(LIBDIR)/libd_chain.so: $(C_CHAINDIR)/d/d_chain.h $(C_CHAINDIR)/d/d_chain.d $(L
 $(LIBDIR)/libgo_chain.so: $(C_CHAINDIR)/go/go_chain.go $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
 	C_INCLUDE_PATH="$(PWD)/$(HEADERDIR)" go build -o ./$(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
 	mv ./$(LIBDIR)/libgo_chain.h ./$(HEADERDIR)/go_chain.h
+
+$(LIBDIR)/libnim_chain.so: $(C_CHAINDIR)/nim/nim_chain.nim $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
+	nim c --app=lib --noMain --header:nim_chain.h -o:$(LIBDIR)/libnim_chain.so $(C_CHAINDIR)/nim/nim_chain.nim 
+	cp ~/.cache/nim/nim_chain_d/nim_chain.h $(HEADERDIR)/nim_chain.h
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)

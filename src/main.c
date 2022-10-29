@@ -2,6 +2,7 @@
 #include "cpp_chain.h"
 #include "d_chain.h"
 #include "go_chain.h"
+#include "nim_chain.h"
 #include <stdio.h>
 
 int main(int argc, char** argv){
@@ -12,5 +13,7 @@ int main(int argc, char** argv){
     start_d_chain();
     fprintf(stdout, "------------------------------\n");
     start_go_chain();
+    fprintf(stdout, "------------------------------\n");
+    start_nim_chain();
     return 0;
 }
