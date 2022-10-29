@@ -6,8 +6,8 @@ C_CHAINDIR := src/mid_calls
 
 build: build/main
 
-build/main: src/main.c $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so
-	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libc_chain.so -l:libcpp_chain.so
+build/main: src/main.c $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so
+	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so
 
 $(LIBDIR)/libc_call.so: $(C_CALLDIR)/c/c_call.c $(C_CALLDIR)/c/c_call.h | directories
 	cp $(C_CALLDIR)/c/c_call.h $(HEADERDIR)/
@@ -46,16 +46,21 @@ $(LIBDIR)/liboc_call.so: $(C_CALLDIR)/objective-c/oc_call.m $(C_CALLDIR)/objecti
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CALLDIR)/objective-c/oc_call.m -o $(OBJECTDIR)/oc_call.o
 	gcc -shared -o $(LIBDIR)/liboc_call.so $(OBJECTDIR)/oc_call.o
 
-$(LIBDIR)/libc_chain.so: $(C_CHAINDIR)/c/c_chain.h $(C_CHAINDIR)/c/c_chain.c call_dir
+$(LIBDIR)/libc_chain.so: $(C_CHAINDIR)/c/c_chain.h $(C_CHAINDIR)/c/c_chain.c $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
 	cp $(C_CHAINDIR)/c/c_chain.h $(HEADERDIR)/
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/c/c_chain.c -o $(OBJECTDIR)/c_chain.o
 	gcc -shared -o $(LIBDIR)/libc_chain.so $(OBJECTDIR)/c_chain.o
 
-$(LIBDIR)/libcpp_chain.so: $(C_CHAINDIR)/c++/cpp_chain.hpp $(C_CHAINDIR)/c++/cpp_chain.cpp call_dir
+$(LIBDIR)/libcpp_chain.so: $(C_CHAINDIR)/c++/cpp_chain.hpp $(C_CHAINDIR)/c++/cpp_chain.cpp $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
 	cp $(C_CHAINDIR)/c++/cpp_chain.hpp $(HEADERDIR)/cpp_chain.h
 	g++ -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/c++/cpp_chain.cpp -o $(OBJECTDIR)/cpp_chain.o
 	g++ -shared -o $(LIBDIR)/libcpp_chain.so $(OBJECTDIR)/cpp_chain.o
 
+
+$(LIBDIR)/libd_chain.so: $(C_CHAINDIR)/d/d_chain.h $(C_CHAINDIR)/d/d_chain.d $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so | directories
+	cp $(C_CHAINDIR)/d/d_chain.h $(HEADERDIR)/d_chain.h
+	dmd -c $(C_CHAINDIR)/d/d_chain.d -fPIC -of$(OBJECTDIR)/d_chain.o
+	dmd -of$(LIBDIR)/libd_chain.so $(OBJECTDIR)/d_chain.o -shared
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
@@ -66,8 +71,6 @@ $(OBJECTDIR):
 $(HEADERDIR):
 	mkdir -p $(HEADERDIR)
 
-call_dir: $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so
-
 directories: $(LIBDIR) $(OBJECTDIR) $(HEADERDIR)
 
 run: build/main
@@ -77,4 +80,4 @@ clean:
 	rm -rf build
 	rm -rf $(C_CALLDIR)/zig/zig-cache
 
-.PHONY: clean directories run build call_dir
+.PHONY: clean directories run build
