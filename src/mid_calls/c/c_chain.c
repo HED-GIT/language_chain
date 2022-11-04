@@ -8,6 +8,7 @@
 #include "zig_call.h"
 #include "nim_call.h"
 #include "oc_call.h"
+#include "swift_call.h"
 
 void start_c_chain(){
     call_c("c called by c");
@@ -18,4 +19,5 @@ void start_c_chain(){
     call_zig("zig called by c");
     call_nim("nim called by c");
     call_oc("oc called by c");
+    call_swift("swift called by c");
 }

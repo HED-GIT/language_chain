@@ -8,6 +8,7 @@ package main
 // #include "oc_call.h"
 // #include "rust_call.h"
 // #include "zig_call.h"
+// #include "swift_call.h"
 // #include <stdlib.h>
 import "C" // has to be seperate from the others
 
@@ -33,6 +34,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(nim));
 	oc := C.CString("oc called by go");
 	defer C.free(unsafe.Pointer(oc));
+	swift := C.CString("swift called by go");
+	defer C.free(unsafe.Pointer(swift));
 
 	C.call_c(c);
     C.call_cpp(cpp);
@@ -42,6 +45,7 @@ func start_go_chain() {
     C.call_zig(zig);
     C.call_nim(nim);
     C.call_oc(oc);
+    C.call_swift(swift);
 }
 
 func main(){}

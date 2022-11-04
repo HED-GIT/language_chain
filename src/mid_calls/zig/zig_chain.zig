@@ -22,6 +22,9 @@ const call_nim = @cImport({
 const call_oc = @cImport({
     @cInclude("oc_call.h");
 }).call_oc;
+const call_swift = @cImport({
+    @cInclude("swift_call.h");
+}).call_swift;
 
 pub export fn start_zig_chain() callconv(.C) void {
     call_c("c called by zig");
@@ -34,4 +37,6 @@ pub export fn start_zig_chain() callconv(.C) void {
     var nim = "nim called by zig".*;
     call_nim(&nim);
     call_oc("oc called by zig");
+    var swift = "swift called by zig".*;
+    call_swift(&swift);
 }

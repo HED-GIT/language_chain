@@ -8,6 +8,7 @@
 #include "zig_call.h"
 #include "nim_call.h"
 #include "oc_call.h"
+#include "swift_call.h"
 
 extern "C" void call_nim(const char*); // todo manage to move this to autogen header
 
@@ -20,4 +21,5 @@ void start_cpp_chain(){
     call_zig((const char*)"zig called by c++");
     call_nim((const char*)"nim called by c++");
     call_oc((const char*)"oc called by c++");
+    call_swift("swift called by c++");
 }

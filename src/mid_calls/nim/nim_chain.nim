@@ -6,6 +6,7 @@ proc call_nim(x: cstring) {.importc.}
 proc call_oc(x: cstring) {.importc.}
 proc call_rust(x: cstring) {.importc.}
 proc call_zig(x: cstring) {.importc.}
+proc call_swift(x: cstring) {.importc.}
 
 
 proc start_nim_chain() {.exportc, dynlib.} =
@@ -17,3 +18,4 @@ proc start_nim_chain() {.exportc, dynlib.} =
     call_zig("zig called by nim");
     call_nim("nim called by nim");
     call_oc("oc called by nim");
+    call_swift("swift called by nim");

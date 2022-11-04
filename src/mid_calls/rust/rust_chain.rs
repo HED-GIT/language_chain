@@ -20,6 +20,7 @@ extern "C" {
     fn call_go(x: *const ::std::os::raw::c_char);
     fn call_oc(x: *const ::std::os::raw::c_char);
     fn call_zig(x: *const ::std::os::raw::c_char);
+    fn call_swift(x: *const ::std::os::raw::c_char);
 }
 
 #[no_mangle]
@@ -41,5 +42,7 @@ pub extern fn start_rust_chain(){
         call_nim(nim.as_ptr() as *mut i8);
         let oc = CString::new("oc called by rust").unwrap();
         call_oc(oc.as_ptr() as *mut i8);
+        let swift = CString::new("swift called by rust").unwrap();
+        call_swift(swift.as_ptr() as *mut i8);
     }
 }

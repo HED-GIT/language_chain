@@ -6,6 +6,7 @@ extern (C) void call_nim(const char* x);
 extern (C) void call_oc(const char* x);
 extern (C) void call_rust(const char* x);
 extern (C) void call_zig(const char* x);
+extern (C) void call_swift(const char* x);
 
 extern (C) void start_d_chain(){
     call_c("c called by d");
@@ -16,4 +17,5 @@ extern (C) void start_d_chain(){
     call_zig("zig called by d");
     call_nim("nim called by d");
     call_oc("oc called by d");
+    call_oc("swift called by d");
 }
