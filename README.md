@@ -11,6 +11,7 @@ a c program that should call libraries written in different languages which then
 - zig
 - go
 - rust
+- swift
 
 ## todos
 
