@@ -1,5 +1,3 @@
-proc print(a: cstring) {.importc.}
-
 proc printf(formatstr: cstring) {.importc: "printf", varargs, header: "<stdio.h>".}
 
 proc call_nim(x: cstring) {.exportc, dynlib.} =
