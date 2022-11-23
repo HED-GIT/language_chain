@@ -6,13 +6,14 @@ BUILDDIR			:= $(LIBDIR) $(OBJECTDIR) $(HEADERDIR)
 C_CALLDIR 			:= src/end_calls
 C_CHAINDIR 			:= src/mid_calls
 
-CALL_LIBS 			:= $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so
+CALL_LIBS 			:= $(LIBDIR)/libc_call.a $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so
 CHAIN_LIBS 			:= $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so $(LIBDIR)/libzig_chain.so $(LIBDIR)/libswift_chain.so
 LIBS 				:= $(CALL_LIBS) $(CHAIN_LIBS)
 
-CALL_LIBS_FLAGS 	:= -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so
-CHAIN_LIBS_FLAGS 	:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so
-LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS)
+CALL_LIBS_FLAGS 		:= -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so
+CALL_LIBS_STATIC_FLAGS 	:= -l:libc_call.a
+CHAIN_LIBS_FLAGS 		:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so
+LIBS_FLAGS 				:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(CALL_LIBS_STATIC_FLAGS)
 
 CALL_HEADERS		:= $(HEADERDIR)/c_call.h $(HEADERDIR)/cpp_call.h $(HEADERDIR)/rust_call.h $(HEADERDIR)/go_call.h $(HEADERDIR)/zig_call.h $(HEADERDIR)/d_call.h $(HEADERDIR)/nim_call.h $(HEADERDIR)/oc_call.h $(HEADERDIR)/swift_call.h
 CHAIN_HEADERS		:= $(HEADERDIR)/c_chain.h $(HEADERDIR)/cpp_chain.h $(HEADERDIR)/rust_chain.h $(HEADERDIR)/go_chain.h $(HEADERDIR)/zig_chain.h $(HEADERDIR)/d_chain.h $(HEADERDIR)/nim_chain.h $(HEADERDIR)/oc_chain.h $(HEADERDIR)/swift_chain.h
@@ -22,10 +23,10 @@ build: build/main
 build/main: src/main.c $(LIBS) $(CHAIN_HEADERS)
 	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS)
 
-$(LIBDIR)/libc_call.so $(HEADERDIR)/c_call.h: $(C_CALLDIR)/c/c_call.c $(C_CALLDIR)/c/c_call.h | directories
+$(LIBDIR)/libc_call.a $(HEADERDIR)/c_call.h: $(C_CALLDIR)/c/c_call.c $(C_CALLDIR)/c/c_call.h | directories
 	cp $(C_CALLDIR)/c/c_call.h $(HEADERDIR)/
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CALLDIR)/c/c_call.c -o $(OBJECTDIR)/c_call.o
-	gcc -shared -o $(LIBDIR)/libc_call.so $(OBJECTDIR)/c_call.o
+	ar -rcs $(LIBDIR)/libc_call.a $(OBJECTDIR)/c_call.o
 
 $(LIBDIR)/libswift_call.so $(HEADERDIR)/swift_call.h: $(C_CALLDIR)/swift/swift_call.swift $(C_CALLDIR)/swift/swift_call.h
 	cp $(C_CALLDIR)/swift/swift_call.h $(HEADERDIR)/
