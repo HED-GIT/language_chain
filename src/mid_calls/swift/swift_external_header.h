@@ -7,3 +7,4 @@ void call_zig(const char * text);
 void call_d(const char * text);
 void call_cpp(const char * text);
 void call_c(const char * text);
+void call_pascal(const char * text);

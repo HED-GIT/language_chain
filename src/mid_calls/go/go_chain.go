@@ -9,6 +9,7 @@ package main
 // #include "rust_call.h"
 // #include "zig_call.h"
 // #include "swift_call.h"
+// #include "pascal_call.h"
 // #include <stdlib.h>
 import "C" // has to be seperate from the others
 
@@ -36,6 +37,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(oc));
 	swift := C.CString("swift called by go");
 	defer C.free(unsafe.Pointer(swift));
+	pascal := C.CString("pascal called by go");
+	defer C.free(unsafe.Pointer(pascal));
 
 	C.call_c(c);
     C.call_cpp(cpp);
@@ -46,6 +49,7 @@ func start_go_chain() {
     C.call_nim(nim);
     C.call_oc(oc);
     C.call_swift(swift);
+    C.call_pascal(pascal);
 }
 
 func main(){}

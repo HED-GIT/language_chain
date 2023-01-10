@@ -25,6 +25,9 @@ const call_oc = @cImport({
 const call_swift = @cImport({
     @cInclude("swift_call.h");
 }).call_swift;
+const call_pascal = @cImport({
+    @cInclude("pascal_call.h");
+}).call_pascal;
 
 pub export fn start_zig_chain() callconv(.C) void {
     call_c("c called by zig");
@@ -39,4 +42,5 @@ pub export fn start_zig_chain() callconv(.C) void {
     call_oc("oc called by zig");
     var swift = "swift called by zig".*;
     call_swift(&swift);
+    call_pascal("pascal called by zig");
 }
