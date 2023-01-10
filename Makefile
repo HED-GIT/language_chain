@@ -1,18 +1,20 @@
 LIBDIR 				:= build/libs
 OBJECTDIR 			:= build/objects
 HEADERDIR 			:= build/headers
-BUILDDIR			:= $(LIBDIR) $(OBJECTDIR) $(HEADERDIR)
+ZIGCACHEDIR 		:= build/zig
+BUILDDIR			:= $(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(ZIG_CACHEDIR)
 
 C_CALLDIR 			:= src/end_calls
 C_CHAINDIR 			:= src/mid_calls
+
 
 CALL_LIBS 			:= $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so $(LIBDIR)/libpascal_call.so
 CHAIN_LIBS 			:= $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so $(LIBDIR)/libzig_chain.so $(LIBDIR)/libswift_chain.so $(LIBDIR)/libpascal_chain.so
 LIBS 				:= $(CALL_LIBS) $(CHAIN_LIBS)
 
-CALL_LIBS_FLAGS 		:= -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so -l:libpascal_call.so
-CHAIN_LIBS_FLAGS 		:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so -l:libpascal_chain.so
-LIBS_FLAGS 				:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS)
+CALL_LIBS_FLAGS 	:= -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so -l:libpascal_call.so
+CHAIN_LIBS_FLAGS 	:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so -l:libpascal_chain.so
+LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS)
 
 CALL_HEADERS		:= $(HEADERDIR)/c_call.h $(HEADERDIR)/cpp_call.h $(HEADERDIR)/rust_call.h $(HEADERDIR)/go_call.h $(HEADERDIR)/zig_call.h $(HEADERDIR)/d_call.h $(HEADERDIR)/nim_call.h $(HEADERDIR)/oc_call.h $(HEADERDIR)/swift_call.h $(HEADERDIR)/pascal_call.h
 CHAIN_HEADERS		:= $(HEADERDIR)/c_chain.h $(HEADERDIR)/cpp_chain.h $(HEADERDIR)/rust_chain.h $(HEADERDIR)/go_chain.h $(HEADERDIR)/zig_chain.h $(HEADERDIR)/d_chain.h $(HEADERDIR)/nim_chain.h $(HEADERDIR)/oc_chain.h $(HEADERDIR)/swift_chain.h $(HEADERDIR)/pascal_chain.h
@@ -46,7 +48,7 @@ $(LIBDIR)/libgo_call.so $(HEADERDIR)/go_call.h: $(C_CALLDIR)/go/go_call.go | dir
 	mv ./$(LIBDIR)/libgo_call.h ./$(HEADERDIR)/go_call.h
 
 $(LIBDIR)/libzig_call.so $(HEADERDIR)/zig_call.h: $(C_CALLDIR)/zig/zig_call.zig | directories
-	zig build-lib --library c -dynamic -I $(HEADERDIR)/ $(C_CALLDIR)/zig/zig_call.zig -femit-bin=$(LIBDIR)/libzig_call.so
+	zig build-lib --library c --cache-dir $(ZIGCACHEDIR)/call -dynamic -I $(HEADERDIR)/ $(C_CALLDIR)/zig/zig_call.zig -femit-bin=$(LIBDIR)/libzig_call.so
 	cp  $(C_CALLDIR)/zig/zig_call.h ./$(HEADERDIR)/zig_call.h
 
 $(LIBDIR)/libd_call.so $(HEADERDIR)/d_call.h: $(C_CALLDIR)/d/d_call.d | directories
@@ -109,7 +111,7 @@ $(LIBDIR)/librust_chain.so $(HEADERDIR)/rust_chain.h: $(C_CHAINDIR)/rust/rust_ch
 	rustc --crate-type=cdylib -L $(HEADERDIR)/ $(C_CHAINDIR)/rust/rust_chain.rs -o $(LIBDIR)/librust_chain.so
 
 $(LIBDIR)/libzig_chain.so $(HEADERDIR)/zig_chain.h: $(C_CHAINDIR)/zig/zig_chain.zig $(CALL_HEADERS) | directories
-	zig build-lib --library c -dynamic -I /usr/include/ -I $(HEADERDIR)/ $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(LIBDIR)/libzig_chain.so
+	zig build-lib --library c -dynamic --cache-dir $(ZIGCACHEDIR)/chain -I /usr/include/ -I $(HEADERDIR)/ $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(LIBDIR)/libzig_chain.so
 	cp  $(C_CHAINDIR)/zig/zig_chain.h ./$(HEADERDIR)/zig_chain.h
 
 $(LIBDIR)/libswift_chain.so $(HEADERDIR)/swift_chain.h: $(C_CHAINDIR)/swift/swift_chain.swift $(CALL_HEADERS) | directories
@@ -129,6 +131,9 @@ $(OBJECTDIR):
 $(HEADERDIR):
 	mkdir -p $(HEADERDIR)
 
+$(ZIGCACHEDIR):
+	mkdir -p $(ZIGCACHEDIR)
+
 directories: $(BUILDDIR)
 
 run: build/main
@@ -136,7 +141,5 @@ run: build/main
 
 clean:
 	rm -rf build
-	rm -rf $(C_CALLDIR)/zig/zig-cache
-	rm -rf $(C_CHAINDIR)/zig/zig-cache
 
 .PHONY: clean directories run build
