@@ -9,6 +9,7 @@ a c program that should call libraries written in different languages which then
 - d
 - nim
 - zig
+- objective c
 - go
 - rust
 - swift
