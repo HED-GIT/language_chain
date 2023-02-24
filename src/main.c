@@ -8,6 +8,7 @@
 #include "zig_chain.h"
 #include "swift_chain.h"
 #include "pascal_chain.h"
+#include "ada_chain.h"
 #include <stdio.h>
 
 void start_rust_chain(void);
@@ -33,5 +34,8 @@ int main(int argc, char **argv)
     start_swift_chain();
     fprintf(stdout, "------------------------------\n");
     start_pascal_chain();
+    fprintf(stdout, "------------------------------\n");
+    _init();
+    _ada_start_ada_chain();
     return 0;
 }

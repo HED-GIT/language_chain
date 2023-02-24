@@ -8,16 +8,16 @@ C_CALLDIR 			:= src/end_calls
 C_CHAINDIR 			:= src/mid_calls
 
 
-CALL_LIBS 			:= $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so $(LIBDIR)/libpascal_call.so
-CHAIN_LIBS 			:= $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so $(LIBDIR)/libzig_chain.so $(LIBDIR)/libswift_chain.so $(LIBDIR)/libpascal_chain.so
-LIBS 				:= $(CALL_LIBS) $(CHAIN_LIBS)
+CALL_LIBS 			:= $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so $(LIBDIR)/libpascal_call.so 
+CHAIN_LIBS 			:= $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so $(LIBDIR)/libzig_chain.so $(LIBDIR)/libswift_chain.so $(LIBDIR)/libpascal_chain.so $(LIBDIR)/libada_chain.so
+LIBS 				:= $(CALL_LIBS) $(CHAIN_LIBS) 
 
 CALL_LIBS_FLAGS 	:= -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so -l:libpascal_call.so
-CHAIN_LIBS_FLAGS 	:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so -l:libpascal_chain.so
-LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS)
+CHAIN_LIBS_FLAGS 	:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so -l:libpascal_chain.so -l:libada_chain.so
+LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) -lgnat -lgnarl
 
 CALL_HEADERS		:= $(HEADERDIR)/c_call.h $(HEADERDIR)/cpp_call.h $(HEADERDIR)/rust_call.h $(HEADERDIR)/go_call.h $(HEADERDIR)/zig_call.h $(HEADERDIR)/d_call.h $(HEADERDIR)/nim_call.h $(HEADERDIR)/oc_call.h $(HEADERDIR)/swift_call.h $(HEADERDIR)/pascal_call.h
-CHAIN_HEADERS		:= $(HEADERDIR)/c_chain.h $(HEADERDIR)/cpp_chain.h $(HEADERDIR)/rust_chain.h $(HEADERDIR)/go_chain.h $(HEADERDIR)/zig_chain.h $(HEADERDIR)/d_chain.h $(HEADERDIR)/nim_chain.h $(HEADERDIR)/oc_chain.h $(HEADERDIR)/swift_chain.h $(HEADERDIR)/pascal_chain.h
+CHAIN_HEADERS		:= $(HEADERDIR)/c_chain.h $(HEADERDIR)/cpp_chain.h $(HEADERDIR)/rust_chain.h $(HEADERDIR)/go_chain.h $(HEADERDIR)/zig_chain.h $(HEADERDIR)/d_chain.h $(HEADERDIR)/nim_chain.h $(HEADERDIR)/oc_chain.h $(HEADERDIR)/swift_chain.h $(HEADERDIR)/pascal_chain.h $(HEADERDIR)/ada_chain.h
 
 build: build/main
 
@@ -96,6 +96,15 @@ $(LIBDIR)/liboc_chain.so $(HEADERDIR)/oc_chain.h: $(C_CHAINDIR)/objective-c/oc_c
 	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/objective-c/oc_chain.m -o $(OBJECTDIR)/oc_chain.o
 	gcc -shared -o $(LIBDIR)/liboc_chain.so $(OBJECTDIR)/oc_chain.o
+
+$(LIBDIR)/libada_chain.so $(HEADERDIR)/ada_chain.h: $(C_CHAINDIR)/ada/ada_chain.adb $(C_CHAINDIR)/ada/ada_chain.ads $(C_CHAINDIR)/ada/ada_chain.h $(CALL_HEADERS) | directories
+	cp $(C_CHAINDIR)/ada/ada_chain.h $(HEADERDIR)/
+	# gcc -c -x ada -I$(C_CHAINDIR)/ada/ -I- $(C_CHAINDIR)/ada/ada_chain.adb -o $(OBJECTDIR)/ada_chain.o
+	# gcc -shared -o $(LIBDIR)/libada_chain.so $(OBJECTDIR)/ada_chain.o
+	gnatmake -fPIC $(C_CHAINDIR)/ada/ada_chain.adb -c
+	gnatbind ada_chain
+	# gcc -fPIC -c b~ada_chain.adb
+	gcc -shared -o $(LIBDIR)/libada_chain.so ada_chain.o
 
 $(LIBDIR)/librust_chain.so $(HEADERDIR)/rust_chain.h: $(C_CHAINDIR)/rust/rust_chain.rs $(CALL_HEADERS)  | directories
 	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
