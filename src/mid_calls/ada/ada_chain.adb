@@ -1,8 +1,10 @@
-with Ada.Text_IO;  use Ada.Text_IO;
 with ada_chain;
+with Text_IO; use Text_IO;
 
-procedure start_ada_chain is   
-begin
-    Put("Called");  
-end start_ada_chain;
+package body ada_chain is
 
+    procedure start_ada_chain is 
+    begin
+        Put_Line("Hello World!");
+    end start_ada_chain;
+end ada_chain;

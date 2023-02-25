@@ -4,7 +4,7 @@
     #define EXTERNC
 #endif
 
-EXTERNC void _ada_start_ada_chain();
+EXTERNC void start_ada_chain();
 EXTERNC void _init();
 
 #undef EXTERNC

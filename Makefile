@@ -103,12 +103,10 @@ $(LIBDIR)/liboc_chain.so $(HEADERDIR)/oc_chain.h: $(C_CHAINDIR)/objective-c/oc_c
 
 $(LIBDIR)/libada_chain.so $(HEADERDIR)/ada_chain.h: $(C_CHAINDIR)/ada/ada_chain.adb $(C_CHAINDIR)/ada/ada_chain.ads $(C_CHAINDIR)/ada/ada_chain.h $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/ada/ada_chain.h $(HEADERDIR)/
-	# gcc -c -x ada -I$(C_CHAINDIR)/ada/ -I- $(C_CHAINDIR)/ada/ada_chain.adb -o $(OBJECTDIR)/ada_chain.o
-	# gcc -shared -o $(LIBDIR)/libada_chain.so $(OBJECTDIR)/ada_chain.o
-	gnatmake -fPIC $(C_CHAINDIR)/ada/ada_chain.adb -c
-	gnatbind ada_chain
-	# gcc -fPIC -c b~ada_chain.adb
-	gcc -shared -o $(LIBDIR)/libada_chain.so ada_chain.o
+	gcc -c -s -I$(C_CHAINDIR)/ada/ -I- $(C_CHAINDIR)/ada/ada_chain.adb -o $(OBJECTDIR)/ada_chain.o -lgnat -lgnarl -fPIC
+	# gnatbind -n $(OBJECTDIR)/ada_chain -o b~ada_chain.adb
+	# gcc -fPIC -c -s b~ada_chain.adb -o b~ada_chain.o -lgnat -lgnarl
+	gcc -shared -o $(LIBDIR)/libada_chain.so $(OBJECTDIR)/ada_chain.o -lgnat -lgnarl
 
 $(LIBDIR)/librust_chain.so $(HEADERDIR)/rust_chain.h: $(C_CHAINDIR)/rust/rust_chain.rs $(CALL_HEADERS)  | directories
 	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/

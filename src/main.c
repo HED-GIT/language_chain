@@ -39,6 +39,6 @@ int main(int argc, char **argv)
     start_fortran_chain();
     fprintf(stdout, "------------------------------\n");
     _init();
-    _ada_start_ada_chain();
+    start_ada_chain();
     return 0;
 }
