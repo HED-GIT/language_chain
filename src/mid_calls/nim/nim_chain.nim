@@ -8,6 +8,7 @@ proc call_rust(x: cstring) {.importc.}
 proc call_zig(x: cstring) {.importc.}
 proc call_swift(x: cstring) {.importc.}
 proc call_pascal(x: cstring) {.importc.}
+proc call_fortran(x: cstring) {.importc.}
 
 
 proc start_nim_chain() {.exportc, dynlib.} =
@@ -21,3 +22,4 @@ proc start_nim_chain() {.exportc, dynlib.} =
     call_oc("oc called by nim");
     call_swift("swift called by nim");
     call_pascal("pascal called by nim");
+    call_fortran("fortran called by nim");

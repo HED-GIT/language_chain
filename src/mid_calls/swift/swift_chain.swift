@@ -30,4 +30,7 @@ public func start_swift_chain(){
     "pascal called from swift".withCString { cstr in
         call_pascal(UnsafeMutablePointer(mutating: cstr))
     }
+    "fortran called from swift".withCString { cstr in
+        call_fortran(UnsafeMutablePointer(mutating: cstr))
+    }
 }

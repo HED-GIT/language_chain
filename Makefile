@@ -2,22 +2,21 @@ LIBDIR 				:= build/libs
 OBJECTDIR 			:= build/objects
 HEADERDIR 			:= build/headers
 ZIGCACHEDIR 		:= build/zig
-BUILDDIR			:= $(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(ZIG_CACHEDIR)
+BUILDDIR			:= $(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(ZIGCACHEDIR)
 
 C_CALLDIR 			:= src/end_calls
 C_CHAINDIR 			:= src/mid_calls
 
+CALL_LIBS 			:= $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so $(LIBDIR)/libpascal_call.so $(LIBDIR)/libfortran_call.so
+CHAIN_LIBS 			:= $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so $(LIBDIR)/libzig_chain.so $(LIBDIR)/libswift_chain.so $(LIBDIR)/libpascal_chain.so $(LIBDIR)/libfortran_chain.so $(LIBDIR)/libada_chain.so
+LIBS 				:= $(CALL_LIBS) $(CHAIN_LIBS)
 
-CALL_LIBS 			:= $(LIBDIR)/libc_call.so $(LIBDIR)/libcpp_call.so $(LIBDIR)/librust_call.so $(LIBDIR)/libgo_call.so $(LIBDIR)/libd_call.so $(LIBDIR)/libzig_call.so $(LIBDIR)/libnim_call.so $(LIBDIR)/liboc_call.so $(LIBDIR)/libswift_call.so $(LIBDIR)/libpascal_call.so 
-CHAIN_LIBS 			:= $(LIBDIR)/libc_chain.so $(LIBDIR)/libcpp_chain.so $(LIBDIR)/libd_chain.so $(LIBDIR)/libgo_chain.so $(LIBDIR)/libnim_chain.so $(LIBDIR)/liboc_chain.so $(LIBDIR)/librust_chain.so $(LIBDIR)/libzig_chain.so $(LIBDIR)/libswift_chain.so $(LIBDIR)/libpascal_chain.so $(LIBDIR)/libada_chain.so
-LIBS 				:= $(CALL_LIBS) $(CHAIN_LIBS) 
+CALL_LIBS_FLAGS 	:= -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so -l:libpascal_call.so -l:libfortran_call.so
+CHAIN_LIBS_FLAGS 	:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so -l:libpascal_chain.so -l:libfortran_chain.so -l:libada_chain.so
+LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) -lgfortran -lgnat -lgnarl
 
-CALL_LIBS_FLAGS 	:= -l:libc_call.so -l:libcpp_call.so -l:librust_call.so -l:libgo_call.so -l:libd_call.so -l:libzig_call.so -l:libnim_call.so -l:liboc_call.so -l:libswift_call.so -l:libpascal_call.so
-CHAIN_LIBS_FLAGS 	:= -l:libc_chain.so -l:libcpp_chain.so -l:libd_chain.so -l:libgo_chain.so -l:libnim_chain.so -l:liboc_chain.so -l:librust_chain.so -l:libzig_chain.so -l:libswift_chain.so -l:libpascal_chain.so -l:libada_chain.so
-LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) -lgnat -lgnarl
-
-CALL_HEADERS		:= $(HEADERDIR)/c_call.h $(HEADERDIR)/cpp_call.h $(HEADERDIR)/rust_call.h $(HEADERDIR)/go_call.h $(HEADERDIR)/zig_call.h $(HEADERDIR)/d_call.h $(HEADERDIR)/nim_call.h $(HEADERDIR)/oc_call.h $(HEADERDIR)/swift_call.h $(HEADERDIR)/pascal_call.h
-CHAIN_HEADERS		:= $(HEADERDIR)/c_chain.h $(HEADERDIR)/cpp_chain.h $(HEADERDIR)/rust_chain.h $(HEADERDIR)/go_chain.h $(HEADERDIR)/zig_chain.h $(HEADERDIR)/d_chain.h $(HEADERDIR)/nim_chain.h $(HEADERDIR)/oc_chain.h $(HEADERDIR)/swift_chain.h $(HEADERDIR)/pascal_chain.h $(HEADERDIR)/ada_chain.h
+CALL_HEADERS		:= $(HEADERDIR)/c_call.h $(HEADERDIR)/cpp_call.h $(HEADERDIR)/rust_call.h $(HEADERDIR)/go_call.h $(HEADERDIR)/zig_call.h $(HEADERDIR)/d_call.h $(HEADERDIR)/nim_call.h $(HEADERDIR)/oc_call.h $(HEADERDIR)/swift_call.h $(HEADERDIR)/pascal_call.h $(HEADERDIR)/fortran_call.h
+CHAIN_HEADERS		:= $(HEADERDIR)/c_chain.h $(HEADERDIR)/cpp_chain.h $(HEADERDIR)/rust_chain.h $(HEADERDIR)/go_chain.h $(HEADERDIR)/zig_chain.h $(HEADERDIR)/d_chain.h $(HEADERDIR)/nim_chain.h $(HEADERDIR)/oc_chain.h $(HEADERDIR)/swift_chain.h $(HEADERDIR)/pascal_chain.h $(HEADERDIR)/fortran_chain.h $(HEADERDIR)/ada_chain.h
 
 build: build/main
 
@@ -68,6 +67,11 @@ $(LIBDIR)/liboc_call.so $(HEADERDIR)/oc_call.h: $(C_CALLDIR)/objective-c/oc_call
 $(LIBDIR)/libpascal_call.so $(HEADERDIR)/pascal_call.h: $(C_CALLDIR)/pascal/pascal_call.pp $(C_CALLDIR)/pascal/pascal_call.h | directories
 	cp $(C_CALLDIR)/pascal/pascal_call.h $(HEADERDIR)/
 	fpc $(C_CALLDIR)/pascal/pascal_call.pp -FE$(LIBDIR)/
+
+$(LIBDIR)/libfortran_call.so $(HEADERDIR)/fortran_call.h: $(C_CALLDIR)/fortran/fortran_call.f90 $(C_CALLDIR)/fortran/fortran_call.h | directories
+	cp $(C_CALLDIR)/fortran/fortran_call.h $(HEADERDIR)/
+	gcc -c -I$(HEADERDIR) -fPIC $(C_CALLDIR)/fortran/fortran_call.f90 -o $(OBJECTDIR)/fortran_call.o
+	gcc -shared -o $(LIBDIR)/libfortran_call.so $(OBJECTDIR)/fortran_call.o
 
 $(LIBDIR)/libc_chain.so $(HEADERDIR)/c_chain.h: $(C_CHAINDIR)/c/c_chain.h $(C_CHAINDIR)/c/c_chain.c $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/c/c_chain.h $(HEADERDIR)/
@@ -130,6 +134,12 @@ $(LIBDIR)/libswift_chain.so $(HEADERDIR)/swift_chain.h: $(C_CHAINDIR)/swift/swif
 $(LIBDIR)/libpascal_chain.so $(HEADERDIR)/pascal_chain.h: $(C_CHAINDIR)/pascal/pascal_chain.pp $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/pascal/pascal_chain.h $(HEADERDIR)/
 	fpc $(C_CHAINDIR)/pascal/pascal_chain.pp -FE$(LIBDIR)/
+
+$(LIBDIR)/libfortran_chain.so $(HEADERDIR)/fortran_chain.h: $(C_CHAINDIR)/fortran/fortran_chain.f90 $(CALL_HEADERS) | directories
+	cp $(C_CHAINDIR)/fortran/fortran_chain.h $(HEADERDIR)/
+	gcc -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/fortran/fortran_chain.f90 -o $(OBJECTDIR)/fortran_chain.o
+	gcc -shared -o $(LIBDIR)/libfortran_chain.so $(OBJECTDIR)/fortran_chain.o
+	rm -rf c_interface.mod
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)

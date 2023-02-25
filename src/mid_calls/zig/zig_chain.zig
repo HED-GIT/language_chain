@@ -28,6 +28,9 @@ const call_swift = @cImport({
 const call_pascal = @cImport({
     @cInclude("pascal_call.h");
 }).call_pascal;
+const call_fortran = @cImport({
+    @cInclude("fortran_call.h");
+}).call_fortran;
 
 pub export fn start_zig_chain() callconv(.C) void {
     call_c("c called by zig");
@@ -43,4 +46,6 @@ pub export fn start_zig_chain() callconv(.C) void {
     var swift = "swift called by zig".*;
     call_swift(&swift);
     call_pascal("pascal called by zig");
+    var fortran = "fortran called by zig".*;
+    call_fortran(&fortran);
 }
