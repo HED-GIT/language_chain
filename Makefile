@@ -131,6 +131,7 @@ $(LIBDIR)/libfortran_chain.so $(HEADERDIR)/fortran_chain.h: $(C_CHAINDIR)/fortra
 	cp $(C_CHAINDIR)/fortran/fortran_chain.h $(HEADERDIR)/
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/fortran/fortran_chain.f90 -o $(OBJECTDIR)/fortran_chain.o
 	gcc -shared -o $(LIBDIR)/libfortran_chain.so $(OBJECTDIR)/fortran_chain.o
+	rm -rf c_interface.mod
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
