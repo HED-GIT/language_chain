@@ -11,6 +11,7 @@
 #include "swift_call.h"
 #include "pascal_call.h"
 #include "fortran_call.h"
+#include "ada_call.h"
 
 extern "C" void call_nim(const char*); // todo manage to move this to autogen header
 
@@ -26,4 +27,5 @@ void start_cpp_chain(){
     call_swift("swift called by c++");
     call_pascal("pascal called by c++");
     call_fortran((char*)"fortran called by c++");
+    call_ada((char*)"ada called by c++");
 }

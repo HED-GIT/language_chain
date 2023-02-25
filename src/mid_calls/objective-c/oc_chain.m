@@ -9,6 +9,7 @@
 #include "swift_call.h"
 #include "pascal_call.h"
 #include "fortran_call.h"
+#include "ada_call.h"
 
 void start_oc_chain(){
     call_c("c called by oc");
@@ -22,4 +23,5 @@ void start_oc_chain(){
     call_swift("swift called by oc");
     call_pascal("pascal called by oc");
     call_fortran("fortran called by oc");
+    call_ada("ada called by oc");
 }

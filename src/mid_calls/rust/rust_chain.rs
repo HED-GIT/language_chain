@@ -24,6 +24,7 @@ extern "C" {
     fn call_swift(x: *const ::std::os::raw::c_char);
     fn call_pascal(x: *const ::std::os::raw::c_char);
     fn call_fortran(x: *const ::std::os::raw::c_char);
+    fn call_ada(x: *const ::std::os::raw::c_char);
 }
 
 #[no_mangle]
@@ -51,5 +52,7 @@ pub extern fn start_rust_chain(){
         call_pascal(pascal.as_ptr() as *mut i8);
         let fortran = CString::new("fortran called by rust").unwrap();
         call_fortran(fortran.as_ptr() as *mut i8);
+        let ada = CString::new("ada called by rust").unwrap();
+        call_ada(ada.as_ptr() as *mut i8);
     }
 }

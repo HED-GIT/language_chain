@@ -11,6 +11,7 @@ package main
 // #include "swift_call.h"
 // #include "pascal_call.h"
 // #include "fortran_call.h"
+// #include "ada_call.h"
 // #include <stdlib.h>
 import "C" // has to be seperate from the others
 
@@ -42,6 +43,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(pascal))
 	fortran := C.CString("fortran called by go")
 	defer C.free(unsafe.Pointer(fortran))
+	ada := C.CString("ada called by go")
+	defer C.free(unsafe.Pointer(ada))
 
 	C.call_c(c)
 	C.call_cpp(cpp)
@@ -54,6 +57,7 @@ func start_go_chain() {
 	C.call_swift(swift)
 	C.call_pascal(pascal)
 	C.call_fortran(fortran)
+	C.call_ada(ada)
 }
 
 func main() {}

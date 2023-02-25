@@ -38,7 +38,6 @@ int main(int argc, char **argv)
     fprintf(stdout, "------------------------------\n");
     start_fortran_chain();
     fprintf(stdout, "------------------------------\n");
-    _init();
     start_ada_chain();
     return 0;
 }

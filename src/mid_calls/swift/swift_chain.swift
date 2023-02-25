@@ -33,4 +33,7 @@ public func start_swift_chain(){
     "fortran called from swift".withCString { cstr in
         call_fortran(UnsafeMutablePointer(mutating: cstr))
     }
+    "ada called from swift".withCString { cstr in
+        call_ada(UnsafeMutablePointer(mutating: cstr))
+    }
 }
