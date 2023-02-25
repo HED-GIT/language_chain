@@ -10,6 +10,7 @@
 #include "oc_call.h"
 #include "swift_call.h"
 #include "pascal_call.h"
+#include "fortran_call.h"
 
 void start_c_chain(){
     call_c("c called by c");
@@ -22,4 +23,5 @@ void start_c_chain(){
     call_oc("oc called by c");
     call_swift("swift called by c");
     call_pascal("pascal called by c");
+    call_fortran("fortran called by c");
 }

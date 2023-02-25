@@ -8,6 +8,7 @@ extern (C) void call_rust(const char* x);
 extern (C) void call_zig(const char* x);
 extern (C) void call_swift(const char* x);
 extern (C) void call_pascal(const char* x);
+extern (C) void call_fortran(const char* x);
 
 extern (C) void start_d_chain(){
     call_c("c called by d");
@@ -20,4 +21,5 @@ extern (C) void start_d_chain(){
     call_oc("oc called by d");
     call_swift("swift called by d");
     call_pascal("pascal called by d");
+    call_fortran("fortran called by d");
 }

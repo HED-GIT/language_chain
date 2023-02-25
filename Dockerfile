@@ -1,7 +1,7 @@
 FROM archlinux:base
 
 RUN pacman -Syu --noconfirm
-RUN pacman -S --noconfirm base-devel sudo gcc gcc-objc make rustup go dmd cbindgen zig nim rust-bindgen git fpc
+RUN pacman -S --noconfirm base-devel sudo gcc gcc-objc gcc-fortran make rustup go dmd cbindgen zig nim rust-bindgen git fpc
 RUN rustup default stable
 
 RUN useradd build -m
