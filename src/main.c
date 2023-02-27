@@ -10,6 +10,7 @@
 #include "pascal_chain.h"
 #include "ada_chain.h"
 #include "fortran_chain.h"
+#include "cobol_chain.h"
 #include <stdio.h>
 
 void start_rust_chain(void);
@@ -39,5 +40,7 @@ int main(int argc, char **argv)
     start_fortran_chain();
     fprintf(stdout, "------------------------------\n");
     start_ada_chain();
+    fprintf(stdout, "------------------------------\n");
+    start_cobol_chain();
     return 0;
 }

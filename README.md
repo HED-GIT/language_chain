@@ -16,6 +16,7 @@ a c program that should call libraries written in different languages which then
 - pascal
 - fortran
 - ada
+- cobol
 
 ## todos
 
@@ -23,4 +24,4 @@ a c program that should call libraries written in different languages which then
 - nim_call should use native print instead of prints from c
 - c++ uses defined call_nim outside of header file (generated header does not include extern C)
 - use dmd -HC flags to generate headers for d code (as far as i know currently unsupported/only supported for c++headers)
-- try add cobol
+- cobol does not respect null termination

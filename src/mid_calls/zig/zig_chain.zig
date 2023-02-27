@@ -34,6 +34,9 @@ const call_fortran = @cImport({
 const call_ada = @cImport({
     @cInclude("ada_call.h");
 }).call_ada;
+const call_cobol = @cImport({
+    @cInclude("cobol_call.h");
+}).call_cobol;
 
 pub export fn start_zig_chain() callconv(.C) void {
     call_c("c called by zig");
@@ -53,5 +56,7 @@ pub export fn start_zig_chain() callconv(.C) void {
     call_fortran(&fortran);
     var ada = "ada called by zig".*;
     call_ada(&ada);
+    var cobol = "cobol called by zig".*;
+    call_cobol(&cobol);
 
 }

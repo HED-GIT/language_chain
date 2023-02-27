@@ -36,4 +36,7 @@ public func start_swift_chain(){
     "ada called from swift".withCString { cstr in
         call_ada(UnsafeMutablePointer(mutating: cstr))
     }
+    "cobol called from swift".withCString { cstr in
+        call_cobol(UnsafeMutablePointer(mutating: cstr))
+    }
 }

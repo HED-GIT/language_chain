@@ -60,6 +60,11 @@ module c_interface
             character(kind=c_char),dimension (*) :: a
         end subroutine call_ada
 
+        subroutine call_cobol(a) bind(C, name='call_cobol')
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char),dimension (*) :: a
+        end subroutine call_cobol
+
     end interface
 end module c_interface
 
@@ -79,5 +84,6 @@ subroutine start_fortran_chain() bind ( C, name='start_fortran_chain')
     call call_pascal('pascal called by fortran'//char(0));
     call call_fortran('fortran called by fortran'//char(0));
     call call_ada('ada called by fortran'//char(0));
+    call call_cobol('cobol called by fortran'//char(0));
     return
 end subroutine start_fortran_chain

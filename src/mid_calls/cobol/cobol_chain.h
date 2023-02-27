@@ -1,0 +1,1 @@
+void start_cobol_chain();

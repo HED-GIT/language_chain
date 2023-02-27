@@ -25,6 +25,7 @@ extern "C" {
     fn call_pascal(x: *const ::std::os::raw::c_char);
     fn call_fortran(x: *const ::std::os::raw::c_char);
     fn call_ada(x: *const ::std::os::raw::c_char);
+    fn call_cobol(x: *const ::std::os::raw::c_char);
 }
 
 #[no_mangle]
@@ -54,5 +55,7 @@ pub extern fn start_rust_chain(){
         call_fortran(fortran.as_ptr() as *mut i8);
         let ada = CString::new("ada called by rust").unwrap();
         call_ada(ada.as_ptr() as *mut i8);
+        let cobol = CString::new("cobol called by rust").unwrap();
+        call_cobol(cobol.as_ptr() as *mut i8);
     }
 }

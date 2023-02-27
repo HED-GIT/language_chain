@@ -12,6 +12,7 @@ procedure call_swift (str: PChar); external;
 procedure call_pascal (str: PChar); external;
 procedure call_fortran (str: PChar); external;
 procedure call_ada (str: PChar); external;
+procedure call_cobol (str: PChar); external;
 
 procedure start_pascal_chain() cdecl;
 begin
@@ -27,6 +28,7 @@ begin
     call_pascal('pascal called by pascal');
     call_fortran('fortran called by pascal');
     call_ada('ada called by pascal');
+    call_cobol('cobol called by pascal');
 end;
 
 exports

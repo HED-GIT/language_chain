@@ -12,6 +12,7 @@
 #include "pascal_call.h"
 #include "fortran_call.h"
 #include "ada_call.h"
+#include "cobol_call.h"
 
 void start_c_chain(){
     call_c("c called by c");
@@ -25,5 +26,6 @@ void start_c_chain(){
     call_swift("swift called by c");
     call_pascal("pascal called by c");
     call_fortran("fortran called by c");
-    call_fortran("ada called by c");
+    call_ada("ada called by c");
+    call_cobol("cobol called by c");
 }

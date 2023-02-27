@@ -42,6 +42,9 @@ package body ada_chain is
         procedure call_ada(a: chars_ptr) with
             Import => True,
             Convention => C;
+        procedure call_cobol(a: chars_ptr) with
+            Import => True,
+            Convention => C;
 
     cstring : constant chars_ptr := New_String ("c called by ada");
     ruststring : constant chars_ptr := New_String ("rust called by ada");
@@ -55,6 +58,7 @@ package body ada_chain is
     swiftstring : constant chars_ptr := New_String ("swift called by ada");
     zigstring : constant chars_ptr := New_String ("zig called by ada");
     adastring : constant chars_ptr := New_String ("ada called by ada");
+    cobolstring : constant chars_ptr := New_String ("cobol called by ada");
 
     begin
         call_c(cstring);
@@ -69,5 +73,6 @@ package body ada_chain is
         call_pascal(pascalstring);
         call_fortran(fortranstring);
         call_ada(adastring);
+        call_cobol(cobolstring);
     end start_ada_chain;
 end ada_chain;
