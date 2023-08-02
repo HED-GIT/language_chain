@@ -20,6 +20,6 @@ a c program that should call libraries written in different languages which then
 
 ## todos
 
-- rust_chain not using generated .rs files
+- rust_chain not using generated .rs files for nim
 - nim_call should use native print instead of prints from c
 - fortran acts weird in docker

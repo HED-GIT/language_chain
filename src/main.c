@@ -17,11 +17,17 @@ void start_rust_chain(void);
 
 int main(int argc, char **argv)
 {
+    start_ada_chain();
+    fprintf(stdout, "------------------------------\n");
     start_c_chain();
     fprintf(stdout, "------------------------------\n");
     start_cpp_chain();
     fprintf(stdout, "------------------------------\n");
+    start_cobol_chain();
+    fprintf(stdout, "------------------------------\n");
     start_d_chain();
+    fprintf(stdout, "------------------------------\n");
+    start_fortran_chain();
     fprintf(stdout, "------------------------------\n");
     start_go_chain();
     fprintf(stdout, "------------------------------\n");
@@ -29,18 +35,12 @@ int main(int argc, char **argv)
     fprintf(stdout, "------------------------------\n");
     start_oc_chain();
     fprintf(stdout, "------------------------------\n");
-    start_rust_chain();
+    start_pascal_chain();
     fprintf(stdout, "------------------------------\n");
-    start_zig_chain();
+    start_rust_chain();
     fprintf(stdout, "------------------------------\n");
     start_swift_chain();
     fprintf(stdout, "------------------------------\n");
-    start_pascal_chain();
-    fprintf(stdout, "------------------------------\n");
-    start_fortran_chain();
-    fprintf(stdout, "------------------------------\n");
-    start_ada_chain();
-    fprintf(stdout, "------------------------------\n");
-    start_cobol_chain();
+    start_zig_chain();
     return 0;
 }
