@@ -1,17 +1,17 @@
 #![allow(non_camel_case_types)]
 
-include!("../../../build/headers/ada_call.rs");
-include!("../../../build/headers/c_call.rs");
-include!("../../../build/headers/cpp_call.rs");
-include!("../../../build/headers/cobol_call.rs");
-include!("../../../build/headers/d_call.rs");
-include!("../../../build/headers/fortran_call.rs");
-include!("../../../build/headers/go_call.rs");
-//include!("../../../build/headers/nim_call.rs");
-include!("../../../build/headers/oc_call.rs");
-include!("../../../build/headers/pascal_call.rs");
-include!("../../../build/headers/swift_call.rs");
-include!("../../../build/headers/zig_call.rs");
+include!("../../../build/rust/ada_call.rs");
+include!("../../../build/rust/c_call.rs");
+include!("../../../build/rust/cpp_call.rs");
+include!("../../../build/rust/cobol_call.rs");
+include!("../../../build/rust/d_call.rs");
+include!("../../../build/rust/fortran_call.rs");
+include!("../../../build/rust/go_call.rs");
+//include!("../../../build/rust/nim_call.rs");
+include!("../../../build/rust/oc_call.rs");
+include!("../../../build/rust/pascal_call.rs");
+include!("../../../build/rust/swift_call.rs");
+include!("../../../build/rust/zig_call.rs");
 
 include!("../../../src/end_calls/rust/rust_call.rs");
 

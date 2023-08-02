@@ -2,11 +2,11 @@
 # variables
 # ---------
 
-LIBDIR 				:= 	build/libs
-OBJECTDIR 			:= 	build/objects
+LIBDIR 				:= 	build/libs		# for all libraries
+OBJECTDIR 			:= 	build/objects	# for all build files
 HEADERDIR 			:= 	build/headers
-ZIGCACHEDIR 		:= 	build/zig
-BUILDDIR			:= 	$(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(ZIGCACHEDIR)
+RUSTDIR 			:= 	build/rust
+BUILDDIR			:= 	$(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(RUSTDIR)
 
 C_CALLDIR 			:= 	src/end_calls
 C_CHAINDIR 			:= 	src/mid_calls
@@ -99,18 +99,18 @@ CHAIN_HEADERS		:= 	$(HEADERDIR)/ada_chain.h		\
 						$(HEADERDIR)/swift_chain.h 		\
 						$(HEADERDIR)/zig_chain.h
 
-RUST_CALL_HEADERS	:= 	$(HEADERDIR)/ada_call.rs		\
-						$(HEADERDIR)/c_call.rs 			\
-						$(HEADERDIR)/cpp_call.rs 		\
-						$(HEADERDIR)/cobol_call.rs		\
-						$(HEADERDIR)/d_call.rs			\
-						$(HEADERDIR)/fortran_call.rs	\
-						$(HEADERDIR)/go_call.rs			\
-						$(HEADERDIR)/nim_call.rs		\
-						$(HEADERDIR)/oc_call.rs			\
-						$(HEADERDIR)/pascal_call.rs		\
-						$(HEADERDIR)/swift_call.rs		\
-						$(HEADERDIR)/zig_call.rs
+RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
+						$(RUSTDIR)/c_call.rs 			\
+						$(RUSTDIR)/cpp_call.rs 			\
+						$(RUSTDIR)/cobol_call.rs		\
+						$(RUSTDIR)/d_call.rs			\
+						$(RUSTDIR)/fortran_call.rs		\
+						$(RUSTDIR)/go_call.rs			\
+						$(RUSTDIR)/nim_call.rs			\
+						$(RUSTDIR)/oc_call.rs			\
+						$(RUSTDIR)/pascal_call.rs		\
+						$(RUSTDIR)/swift_call.rs		\
+						$(RUSTDIR)/zig_call.rs
 
 # -----
 # build
@@ -171,7 +171,8 @@ $(LIBDIR)/liboc_call.so $(HEADERDIR)/oc_call.h: $(C_CALLDIR)/objective-c/oc_call
 
 $(LIBDIR)/libpascal_call.so $(HEADERDIR)/pascal_call.h: $(C_CALLDIR)/pascal/pascal_call.pp $(C_CALLDIR)/pascal/pascal_call.h | directories
 	cp $(C_CALLDIR)/pascal/pascal_call.h $(HEADERDIR)/
-	fpc $(C_CALLDIR)/pascal/pascal_call.pp -FE$(LIBDIR)/
+	fpc $(C_CALLDIR)/pascal/pascal_call.pp -FE$(OBJECTDIR)/
+	cp $(OBJECTDIR)/libpascal_call.so $(LIBDIR)/libpascal_call.so
 
 $(LIBDIR)/librust_call.so $(HEADERDIR)/rust_call.h $(HEADERDIR)/rust_call.hpp: $(C_CALLDIR)/rust/rust_call.rs | directories
 	cbindgen --output $(HEADERDIR)/rust_call.h --lang c $(C_CALLDIR)/rust/rust_call.rs
@@ -180,10 +181,12 @@ $(LIBDIR)/librust_call.so $(HEADERDIR)/rust_call.h $(HEADERDIR)/rust_call.hpp: $
 
 $(LIBDIR)/libswift_call.so $(HEADERDIR)/swift_call.h: $(C_CALLDIR)/swift/swift_call.swift $(C_CALLDIR)/swift/swift_call.h
 	cp $(C_CALLDIR)/swift/swift_call.h $(HEADERDIR)/
-	swiftc $(C_CALLDIR)/swift/swift_call.swift -emit-module -emit-library -o $(LIBDIR)/libswift_call.so
+	swiftc $(C_CALLDIR)/swift/swift_call.swift -emit-module -emit-library -o $(OBJECTDIR)/libswift_call.so
+	cp $(OBJECTDIR)/libswift_call.so $(LIBDIR)/libswift_call.so
 
 $(LIBDIR)/libzig_call.so $(HEADERDIR)/zig_call.h: $(C_CALLDIR)/zig/zig_call.zig | directories
-	zig build-lib --library c --cache-dir $(ZIGCACHEDIR)/call -dynamic -I $(HEADERDIR)/ $(C_CALLDIR)/zig/zig_call.zig -femit-bin=$(LIBDIR)/libzig_call.so
+	zig build-lib --library c --cache-dir $(OBJECTDIR)/call -dynamic -I $(HEADERDIR)/ $(C_CALLDIR)/zig/zig_call.zig -femit-bin=$(OBJECTDIR)/libzig_call.so
+	cp $(OBJECTDIR)/libzig_call.so $(LIBDIR)/libzig_call.so
 	cp  $(C_CALLDIR)/zig/zig_call.h ./$(HEADERDIR)/zig_call.h
 
 
@@ -238,7 +241,8 @@ $(LIBDIR)/liboc_chain.so $(HEADERDIR)/oc_chain.h: $(C_CHAINDIR)/objective-c/oc_c
 
 $(LIBDIR)/libpascal_chain.so $(HEADERDIR)/pascal_chain.h: $(C_CHAINDIR)/pascal/pascal_chain.pp $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/pascal/pascal_chain.h $(HEADERDIR)/
-	fpc $(C_CHAINDIR)/pascal/pascal_chain.pp -FE$(LIBDIR)/
+	fpc $(C_CHAINDIR)/pascal/pascal_chain.pp -FE$(OBJECTDIR)/
+	cp $(OBJECTDIR)/libpascal_chain.so $(LIBDIR)/libpascal_chain.so
 
 $(LIBDIR)/librust_chain.so $(HEADERDIR)/rust_chain.h: $(C_CHAINDIR)/rust/rust_chain.rs $(CALL_HEADERS) $(RUST_CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
@@ -247,51 +251,53 @@ $(LIBDIR)/librust_chain.so $(HEADERDIR)/rust_chain.h: $(C_CHAINDIR)/rust/rust_ch
 
 $(LIBDIR)/libswift_chain.so $(HEADERDIR)/swift_chain.h: $(C_CHAINDIR)/swift/swift_chain.swift $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/swift/swift_chain.h $(HEADERDIR)/
-	swiftc $(C_CHAINDIR)/swift/swift_chain.swift -emit-module -emit-library -o $(LIBDIR)/libswift_chain.so -import-objc-header $(C_CHAINDIR)/swift/swift_external_header.h
+	swiftc $(C_CHAINDIR)/swift/swift_chain.swift -emit-module -emit-library -o $(OBJECTDIR)/libswift_chain.so -import-objc-header $(C_CHAINDIR)/swift/swift_external_header.h
+	cp $(OBJECTDIR)/libswift_chain.so $(LIBDIR)/libswift_chain.so
 
 $(LIBDIR)/libzig_chain.so $(HEADERDIR)/zig_chain.h: $(C_CHAINDIR)/zig/zig_chain.zig $(CALL_HEADERS) | directories
-	zig build-lib --library c -dynamic --cache-dir $(ZIGCACHEDIR)/chain -I /usr/include/ -I $(HEADERDIR)/ $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(LIBDIR)/libzig_chain.so
+	zig build-lib --library c -dynamic --cache-dir $(OBJECTDIR)/chain -I /usr/include/ -I $(HEADERDIR)/ $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(OBJECTDIR)/libzig_chain.so
+	cp $(OBJECTDIR)/libzig_chain.so $(LIBDIR)/libzig_chain.so
 	cp  $(C_CHAINDIR)/zig/zig_chain.h ./$(HEADERDIR)/zig_chain.h
 
 # ------------
 # rust headers
 # ------------
 
-$(HEADERDIR)/ada_call.rs: $(HEADERDIR)/ada_call.h | directories
-	bindgen $(HEADERDIR)/ada_call.h -o $(HEADERDIR)/ada_call.rs
+$(RUSTDIR)/ada_call.rs: $(HEADERDIR)/ada_call.h | directories
+	bindgen $(HEADERDIR)/ada_call.h -o $(RUSTDIR)/ada_call.rs
 
-$(HEADERDIR)/c_call.rs: $(HEADERDIR)/c_call.h | directories
-	bindgen $(HEADERDIR)/c_call.h -o $(HEADERDIR)/c_call.rs
+$(RUSTDIR)/c_call.rs: $(HEADERDIR)/c_call.h | directories
+	bindgen $(HEADERDIR)/c_call.h -o $(RUSTDIR)/c_call.rs
 
-$(HEADERDIR)/cpp_call.rs: $(HEADERDIR)/cpp_call.h | directories
-	bindgen $(HEADERDIR)/cpp_call.h -o $(HEADERDIR)/cpp_call.rs
+$(RUSTDIR)/cpp_call.rs: $(HEADERDIR)/cpp_call.h | directories
+	bindgen $(HEADERDIR)/cpp_call.h -o $(RUSTDIR)/cpp_call.rs
 
-$(HEADERDIR)/cobol_call.rs: $(HEADERDIR)/cobol_call.h | directories
-	bindgen $(HEADERDIR)/cobol_call.h -o $(HEADERDIR)/cobol_call.rs
+$(RUSTDIR)/cobol_call.rs: $(HEADERDIR)/cobol_call.h | directories
+	bindgen $(HEADERDIR)/cobol_call.h -o $(RUSTDIR)/cobol_call.rs
 
-$(HEADERDIR)/d_call.rs: $(HEADERDIR)/d_call.h | directories
-	bindgen $(HEADERDIR)/d_call.h -o $(HEADERDIR)/d_call.rs
+$(RUSTDIR)/d_call.rs: $(HEADERDIR)/d_call.h | directories
+	bindgen $(HEADERDIR)/d_call.h -o $(RUSTDIR)/d_call.rs
 
-$(HEADERDIR)/fortran_call.rs: $(HEADERDIR)/fortran_call.h | directories
-	bindgen $(HEADERDIR)/fortran_call.h -o $(HEADERDIR)/fortran_call.rs
+$(RUSTDIR)/fortran_call.rs: $(HEADERDIR)/fortran_call.h | directories
+	bindgen $(HEADERDIR)/fortran_call.h -o $(RUSTDIR)/fortran_call.rs
 
-$(HEADERDIR)/go_call.rs: $(HEADERDIR)/go_call.h | directories
-	bindgen $(HEADERDIR)/go_call.h -o $(HEADERDIR)/go_call.rs
+$(RUSTDIR)/go_call.rs: $(HEADERDIR)/go_call.h | directories
+	bindgen $(HEADERDIR)/go_call.h -o $(RUSTDIR)/go_call.rs
 
-$(HEADERDIR)/nim_call.rs: $(HEADERDIR)/nim_call.h | directories
-	bindgen $(HEADERDIR)/nim_call.h -o $(HEADERDIR)/nim_call.rs
+$(RUSTDIR)/nim_call.rs: $(HEADERDIR)/nim_call.h | directories
+	bindgen $(HEADERDIR)/nim_call.h -o $(RUSTDIR)/nim_call.rs
 
-$(HEADERDIR)/oc_call.rs: $(HEADERDIR)/oc_call.h | directories
-	bindgen $(HEADERDIR)/oc_call.h -o $(HEADERDIR)/oc_call.rs
+$(RUSTDIR)/oc_call.rs: $(HEADERDIR)/oc_call.h | directories
+	bindgen $(HEADERDIR)/oc_call.h -o $(RUSTDIR)/oc_call.rs
 
-$(HEADERDIR)/pascal_call.rs: $(HEADERDIR)/pascal_call.h | directories
-	bindgen $(HEADERDIR)/pascal_call.h -o $(HEADERDIR)/pascal_call.rs
+$(RUSTDIR)/pascal_call.rs: $(HEADERDIR)/pascal_call.h | directories
+	bindgen $(HEADERDIR)/pascal_call.h -o $(RUSTDIR)/pascal_call.rs
 
-$(HEADERDIR)/swift_call.rs: $(HEADERDIR)/swift_call.h | directories
-	bindgen $(HEADERDIR)/swift_call.h -o $(HEADERDIR)/swift_call.rs
+$(RUSTDIR)/swift_call.rs: $(HEADERDIR)/swift_call.h | directories
+	bindgen $(HEADERDIR)/swift_call.h -o $(RUSTDIR)/swift_call.rs
 
-$(HEADERDIR)/zig_call.rs: $(HEADERDIR)/zig_call.h | directories
-	bindgen $(HEADERDIR)/zig_call.h -o $(HEADERDIR)/zig_call.rs
+$(RUSTDIR)/zig_call.rs: $(HEADERDIR)/zig_call.h | directories
+	bindgen $(HEADERDIR)/zig_call.h -o $(RUSTDIR)/zig_call.rs
 
 
 # -------
@@ -307,8 +313,8 @@ $(OBJECTDIR):
 $(HEADERDIR):
 	mkdir -p $(HEADERDIR)
 
-$(ZIGCACHEDIR):
-	mkdir -p $(ZIGCACHEDIR)
+$(RUSTDIR):
+	mkdir -p $(RUSTDIR)
 
 directories: $(BUILDDIR)
 
