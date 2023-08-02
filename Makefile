@@ -121,13 +121,17 @@ $(LIBDIR)/libada_chain.so $(HEADERDIR)/ada_chain.h: $(C_CHAINDIR)/ada/ada_chain.
 
 $(LIBDIR)/librust_chain.so $(HEADERDIR)/rust_chain.h: $(C_CHAINDIR)/rust/rust_chain.rs $(CALL_HEADERS)  | directories
 	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
+	# bindgen $(HEADERDIR)/ada_call.h -o $(HEADERDIR)/ada_call.rs
 	# bindgen $(HEADERDIR)/c_call.h -o $(HEADERDIR)/c_call.rs
 	# bindgen $(HEADERDIR)/cpp_call.h -o $(HEADERDIR)/cpp_call.rs
 	# bindgen $(HEADERDIR)/d_call.h -o $(HEADERDIR)/d_call.rs
+	# bindgen $(HEADERDIR)/fortran_call.h -o $(HEADERDIR)/fortran_call.rs
 	# bindgen $(HEADERDIR)/go_call.h -o $(HEADERDIR)/go_call.rs
 	# bindgen $(HEADERDIR)/nim_call.h -o $(HEADERDIR)/nim_call.rs
 	# bindgen $(HEADERDIR)/oc_call.h -o $(HEADERDIR)/oc_call.rs
+	# bindgen $(HEADERDIR)/pascal_call.h -o $(HEADERDIR)/pascal_call.rs
 	# bindgen $(HEADERDIR)/rust_call.h -o $(HEADERDIR)/rust_call.rs
+	# bindgen $(HEADERDIR)/swift_call.h -o $(HEADERDIR)/swift_call.rs
 	# bindgen $(HEADERDIR)/zig_call.h -o $(HEADERDIR)/zig_call.rs
 	cbindgen --output $(HEADERDIR)/rust_chain.h --lang c $(C_CHAINDIR)/rust/rust_chain.rs
 	rustc --crate-type=cdylib -L $(HEADERDIR)/ $(C_CHAINDIR)/rust/rust_chain.rs -o $(LIBDIR)/librust_chain.so
