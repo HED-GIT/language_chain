@@ -4,24 +4,22 @@ a c program that should call libraries written in different languages which then
 
 ## languages
 
+- ada
 - c
 - c++
+- cobol
 - d
-- nim
-- zig
-- objective c
+- fortran
 - go
+- nim
+- objective-c
+- pascal
 - rust
 - swift
-- pascal
-- fortran
-- ada
-- cobol
+- zig
 
 ## todos
 
 - rust_chain not using generated .rs files
 - nim_call should use native print instead of prints from c
-- c++ uses defined call_nim outside of header file (generated header does not include extern C)
-- use dmd -HC flags to generate headers for d code (as far as i know currently unsupported/only supported for c++headers)
-- cobol does not respect null termination
+- fortran acts weird in docker
