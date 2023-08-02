@@ -82,7 +82,7 @@ $(LIBDIR)/libada_call.so $(HEADERDIR)/ada_call.h: $(C_CALLDIR)/ada/ada_call.adb 
 
 $(LIBDIR)/libcobol_call.so $(HEADERDIR)/cobol_call.h: $(C_CALLDIR)/cobol/cobol_call.cob $(C_CALLDIR)/cobol/cobol_call.h | directories
 	cp $(C_CALLDIR)/cobol/cobol_call.h $(HEADERDIR)/
-	cobc -m -Wall -free $(C_CALLDIR)/cobol/cobol_call.cob -o $(LIBDIR)/libcobol_call.so -fimplicit-init
+	cobc -m -Wall -free -O $(C_CALLDIR)/cobol/cobol_call.cob -o $(LIBDIR)/libcobol_call.so -fimplicit-init
 
 $(LIBDIR)/libc_chain.so $(HEADERDIR)/c_chain.h: $(C_CHAINDIR)/c/c_chain.h $(C_CHAINDIR)/c/c_chain.c $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/c/c_chain.h $(HEADERDIR)/
@@ -152,7 +152,7 @@ $(LIBDIR)/libfortran_chain.so $(HEADERDIR)/fortran_chain.h: $(C_CHAINDIR)/fortra
 
 $(LIBDIR)/libcobol_chain.so $(HEADERDIR)/cobol_chain.h: $(C_CHAINDIR)/cobol/cobol_chain.cob $(C_CHAINDIR)/cobol/cobol_chain.h $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/cobol/cobol_chain.h $(HEADERDIR)/
-	cobc -m -Wall -free $(C_CHAINDIR)/cobol/cobol_chain.cob -o $(LIBDIR)/libcobol_chain.so -L$(LIBDIR) $(CALL_LIBS_FLAGS) -fimplicit-init
+	cobc -m -Wall -free -O $(C_CHAINDIR)/cobol/cobol_chain.cob -o $(LIBDIR)/libcobol_chain.so -L$(LIBDIR) $(CALL_LIBS_FLAGS) -fimplicit-init
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
