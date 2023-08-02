@@ -2,11 +2,16 @@
 # variables
 # ---------
 
-LIBDIR 				:= 	build/libs		# for all libraries
-OBJECTDIR 			:= 	build/objects	# for all build files
-HEADERDIR 			:= 	build/headers
-RUSTDIR 			:= 	build/rust
-BUILDDIR			:= 	$(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(RUSTDIR)
+EXENAME				:=	main
+
+BUILDDIR			:=	build
+LIBDIR 				:= 	$(BUILDDIR)/libs
+# for all libraries
+OBJECTDIR 			:= 	$(BUILDDIR)/objects
+# for all build files
+HEADERDIR 			:= 	$(BUILDDIR)/headers
+RUSTDIR 			:= 	$(BUILDDIR)/rust
+DIRLIST				:= 	$(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(RUSTDIR)
 
 C_CALLDIR 			:= 	src/end_calls
 C_CHAINDIR 			:= 	src/mid_calls
@@ -116,10 +121,10 @@ RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
 # build
 # -----
 
-build: build/main
+build: $(BUILDDIR)/$(EXENAME)
 
-build/main: src/main.c $(LIBS) $(CHAIN_HEADERS)
-	gcc -o build/main src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS)
+$(BUILDDIR)/$(EXENAME): src/main.c $(LIBS) $(CHAIN_HEADERS)
+	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS)
 
 # ---------
 # call libs
@@ -316,7 +321,7 @@ $(HEADERDIR):
 $(RUSTDIR):
 	mkdir -p $(RUSTDIR)
 
-directories: $(BUILDDIR)
+directories: $(DIRLIST)
 
 # -----
 # other
