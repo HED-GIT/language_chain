@@ -1,5 +1,8 @@
 build
+.vscode
 README.md
 .git
 .gitattributes
 .gitignore
+Dockerfile
+docker-compose.yml
