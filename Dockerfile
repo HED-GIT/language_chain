@@ -25,7 +25,7 @@ RUN chown -R build .
 RUN sudo -u build makepkg
 RUN pacman -U *.pkg.tar.zst --noconfirm
 
-WORKDIR /
+WORKDIR /app
 COPY . .
 RUN make
 CMD ["make", "run"]
