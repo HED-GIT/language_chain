@@ -4,6 +4,7 @@
 #include "go_chain.h"
 #include "nim_chain.h"
 #include "oc_chain.h"
+#include "odin_chain.h"
 // #include "rust_chain.h"
 #include "zig_chain.h"
 #include "swift_chain.h"
@@ -34,6 +35,8 @@ int main(int argc, char **argv)
     start_nim_chain();
     fprintf(stdout, "------------------------------\n");
     start_oc_chain();
+    fprintf(stdout, "------------------------------\n");
+    start_odin_chain();
     fprintf(stdout, "------------------------------\n");
     start_pascal_chain();
     fprintf(stdout, "------------------------------\n");

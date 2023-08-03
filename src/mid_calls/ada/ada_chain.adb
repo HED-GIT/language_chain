@@ -33,6 +33,9 @@ package body ada_chain is
         procedure call_oc(a: chars_ptr) with
             Import => True,
             Convention => C;
+        procedure call_odin(a: chars_ptr) with
+            Import => True,
+            Convention => C;
         procedure call_pascal(a: chars_ptr) with
             Import => True,
             Convention => C;
@@ -55,6 +58,7 @@ package body ada_chain is
     gostring : constant chars_ptr := New_String ("go called by ada");
     nimstring : constant chars_ptr := New_String ("nim called by ada");
     ocstring : constant chars_ptr := New_String ("oc called by ada");
+    odinstring : constant chars_ptr := New_String ("odin called by ada");
     pascalstring : constant chars_ptr := New_String ("pascal called by ada");
     ruststring : constant chars_ptr := New_String ("rust called by ada");
     swiftstring : constant chars_ptr := New_String ("swift called by ada");
@@ -70,6 +74,7 @@ package body ada_chain is
         call_go(gostring);
         call_nim(nimstring);
         call_oc(ocstring);
+        call_odin(odinstring);
         call_pascal(pascalstring);
         call_rust(ruststring);
         call_swift(swiftstring);

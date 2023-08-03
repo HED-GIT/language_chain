@@ -13,6 +13,7 @@ a c program that should call libraries written in different languages which then
 - go
 - nim
 - objective-c
+- odin
 - pascal
 - rust
 - swift

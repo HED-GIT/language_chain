@@ -27,6 +27,9 @@ public func start_swift_chain(){
     "oc called from swift".withCString { cstr in
         call_oc(UnsafeMutablePointer(mutating: cstr))
     }
+    "odin called from swift".withCString { cstr in
+        call_odin(UnsafeMutablePointer(mutating: cstr))
+    }
     "pascal called from swift".withCString { cstr in
         call_pascal(UnsafeMutablePointer(mutating: cstr))
     }

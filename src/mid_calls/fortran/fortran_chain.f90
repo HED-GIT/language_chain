@@ -45,6 +45,11 @@ module c_interface
             character(kind=c_char),dimension (*) :: a
         end subroutine call_oc
 
+        subroutine call_odin(a) bind(C, name='call_odin')
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char),dimension (*) :: a
+        end subroutine call_odin
+
         subroutine call_pascal(a) bind(C, name='call_pascal')
             use, intrinsic :: iso_c_binding
             character(kind=c_char),dimension (*) :: a

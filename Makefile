@@ -25,6 +25,7 @@ CALL_LIBS 			:= 	$(LIBDIR)/libada_call.so		\
 						$(LIBDIR)/libgo_call.so  		\
 						$(LIBDIR)/libnim_call.so  		\
 						$(LIBDIR)/liboc_call.so  		\
+						$(LIBDIR)/libodin_call.so  		\
 						$(LIBDIR)/libpascal_call.so		\
 						$(LIBDIR)/librust_call.so  		\
 						$(LIBDIR)/libswift_call.so  	\
@@ -39,6 +40,7 @@ CHAIN_LIBS 			:=  $(LIBDIR)/libada_chain.so	  	\
 						$(LIBDIR)/libgo_chain.so   		\
 						$(LIBDIR)/libnim_chain.so   	\
 						$(LIBDIR)/liboc_chain.so   		\
+						$(LIBDIR)/libodin_chain.so		\
 						$(LIBDIR)/libpascal_chain.so   	\
 						$(LIBDIR)/librust_chain.so  	\
 						$(LIBDIR)/libswift_chain.so   	\
@@ -55,6 +57,7 @@ CALL_LIBS_FLAGS 	:= 	-l:libada_call.so				\
 						-l:libgo_call.so 				\
 						-l:libnim_call.so 				\
 						-l:liboc_call.so 				\
+						-l:libodin_call.so 				\
 						-l:libpascal_call.so 			\
 						-l:librust_call.so 				\
 						-l:libswift_call.so 			\
@@ -69,6 +72,7 @@ CHAIN_LIBS_FLAGS 	:= 	-l:libada_chain.so				\
 						-l:libgo_chain.so 				\
 						-l:libnim_chain.so 				\
 						-l:liboc_chain.so 				\
+						-l:libodin_chain.so 			\
 						-l:libpascal_chain.so 			\
 						-l:librust_chain.so 			\
 						-l:libswift_chain.so 			\
@@ -85,6 +89,7 @@ CALL_HEADERS		:= 	$(HEADERDIR)/ada_call.h			\
 						$(HEADERDIR)/go_call.h 			\
 						$(HEADERDIR)/nim_call.h 		\
 						$(HEADERDIR)/oc_call.h 			\
+						$(HEADERDIR)/odin_call.h 			\
 						$(HEADERDIR)/pascal_call.h 		\
 						$(HEADERDIR)/rust_call.h 		\
 						$(HEADERDIR)/swift_call.h 		\
@@ -99,6 +104,7 @@ CHAIN_HEADERS		:= 	$(HEADERDIR)/ada_chain.h		\
 						$(HEADERDIR)/go_chain.h 		\
 						$(HEADERDIR)/nim_chain.h 		\
 						$(HEADERDIR)/oc_chain.h 		\
+						$(HEADERDIR)/odin_chain.h 		\
 						$(HEADERDIR)/pascal_chain.h 	\
 						$(HEADERDIR)/rust_chain.h 		\
 						$(HEADERDIR)/swift_chain.h 		\
@@ -113,6 +119,7 @@ RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
 						$(RUSTDIR)/go_call.rs			\
 						$(RUSTDIR)/nim_call.rs			\
 						$(RUSTDIR)/oc_call.rs			\
+						$(RUSTDIR)/odin_call.rs			\
 						$(RUSTDIR)/pascal_call.rs		\
 						$(RUSTDIR)/swift_call.rs		\
 						$(RUSTDIR)/zig_call.rs
@@ -173,6 +180,10 @@ $(LIBDIR)/liboc_call.so $(HEADERDIR)/oc_call.h: $(C_CALLDIR)/objective-c/oc_call
 	cp $(C_CALLDIR)/objective-c/oc_call.h $(HEADERDIR)/
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CALLDIR)/objective-c/oc_call.m -o $(OBJECTDIR)/oc_call.o
 	gcc -shared -o $(LIBDIR)/liboc_call.so $(OBJECTDIR)/oc_call.o
+
+$(LIBDIR)/libodin_call.so $(HEADERDIR)/odin_call.h: $(C_CALLDIR)/odin/odin_call.odin $(C_CALLDIR)/odin/odin_call.h | directories
+	cp $(C_CALLDIR)/odin/odin_call.h $(HEADERDIR)/
+	odin build $(C_CALLDIR)/odin/odin_call.odin -file -build-mode:shared -out=$(LIBDIR)/libodin_call.so
 
 $(LIBDIR)/libpascal_call.so $(HEADERDIR)/pascal_call.h: $(C_CALLDIR)/pascal/pascal_call.pp $(C_CALLDIR)/pascal/pascal_call.h | directories
 	cp $(C_CALLDIR)/pascal/pascal_call.h $(HEADERDIR)/
@@ -244,6 +255,10 @@ $(LIBDIR)/liboc_chain.so $(HEADERDIR)/oc_chain.h: $(C_CHAINDIR)/objective-c/oc_c
 	gcc -c -I$(HEADERDIR) -fPIC $(C_CHAINDIR)/objective-c/oc_chain.m -o $(OBJECTDIR)/oc_chain.o
 	gcc -shared -o $(LIBDIR)/liboc_chain.so $(OBJECTDIR)/oc_chain.o
 
+$(LIBDIR)/libodin_chain.so $(HEADERDIR)/odin_chain.h: $(C_CHAINDIR)/odin/odin_chain.odin $(C_CHAINDIR)/odin/odin_chain.h $(CALL_HEADERS) | directories
+	cp $(C_CHAINDIR)/odin/odin_chain.h $(HEADERDIR)/
+	odin build $(C_CHAINDIR)/odin/odin_chain.odin -file -build-mode:shared -out=$(LIBDIR)/libodin_chain.so
+
 $(LIBDIR)/libpascal_chain.so $(HEADERDIR)/pascal_chain.h: $(C_CHAINDIR)/pascal/pascal_chain.pp $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/pascal/pascal_chain.h $(HEADERDIR)/
 	fpc $(C_CHAINDIR)/pascal/pascal_chain.pp -FE$(OBJECTDIR)/
@@ -294,6 +309,9 @@ $(RUSTDIR)/nim_call.rs: $(HEADERDIR)/nim_call.h | directories
 
 $(RUSTDIR)/oc_call.rs: $(HEADERDIR)/oc_call.h | directories
 	bindgen $(HEADERDIR)/oc_call.h -o $(RUSTDIR)/oc_call.rs
+
+$(RUSTDIR)/odin_call.rs: $(HEADERDIR)/odin_call.h | directories
+	bindgen $(HEADERDIR)/odin_call.h -o $(RUSTDIR)/odin_call.rs
 
 $(RUSTDIR)/pascal_call.rs: $(HEADERDIR)/pascal_call.h | directories
 	bindgen $(HEADERDIR)/pascal_call.h -o $(RUSTDIR)/pascal_call.rs

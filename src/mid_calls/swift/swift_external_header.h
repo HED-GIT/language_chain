@@ -7,6 +7,7 @@ void call_fortran(const char * text);
 void call_go(const char * text);
 void call_nim(const char * text);
 void call_oc(const char * text);
+void call_odin(const char * text);
 void call_pascal(const char * text);
 void call_rust(const char * text);
 void call_swift(const char * text);

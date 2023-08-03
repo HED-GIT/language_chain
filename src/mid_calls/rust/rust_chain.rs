@@ -9,6 +9,7 @@ include!("../../../build/rust/fortran_call.rs");
 include!("../../../build/rust/go_call.rs");
 //include!("../../../build/rust/nim_call.rs");
 include!("../../../build/rust/oc_call.rs");
+include!("../../../build/rust/odin_call.rs");
 include!("../../../build/rust/pascal_call.rs");
 include!("../../../build/rust/swift_call.rs");
 include!("../../../build/rust/zig_call.rs");
@@ -42,6 +43,8 @@ pub extern fn start_rust_chain(){
         call_nim(nim.as_ptr() as *mut i8);
         let oc = CString::new("oc called by rust").unwrap();
         call_oc(oc.as_ptr() as *mut i8);
+        let odin = CString::new("odin called by rust").unwrap();
+        call_odin(odin.as_ptr() as *mut i8);
         let pascal = CString::new("pascal called by rust").unwrap();
         call_pascal(pascal.as_ptr() as *mut i8);
         let rust = CString::new("rust called by rust").unwrap();

@@ -9,6 +9,7 @@ package main
 // #include "go_call.h"
 // #include "nim_call.h"
 // #include "oc_call.h"
+// #include "odin_call.h"
 // #include "pascal_call.h"
 // #include "rust_call.h"
 // #include "swift_call.h"
@@ -40,6 +41,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(nim))
 	oc := C.CString("oc called by go")
 	defer C.free(unsafe.Pointer(oc))
+	odin := C.CString("odin called by go")
+	defer C.free(unsafe.Pointer(odin))
 	pascal := C.CString("pascal called by go")
 	defer C.free(unsafe.Pointer(pascal))
 	rust := C.CString("rust called by go")
@@ -58,6 +61,7 @@ func start_go_chain() {
 	C.call_go(_go)
 	C.call_nim(nim)
 	C.call_oc(oc)
+	C.call_odin(odin)
 	C.call_pascal(pascal)
 	C.call_rust(rust)
 	C.call_swift(swift)

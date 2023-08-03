@@ -7,6 +7,7 @@
 #include "go_call.h"
 #include "nim_call.h"
 #include "oc_call.h"
+#include "odin_call.h"
 #include "pascal_call.h"
 #include "rust_call.h"
 #include "swift_call.h"
@@ -22,6 +23,7 @@ void start_oc_chain(){
     call_go("go called by oc");
     call_nim("nim called by oc");
     call_oc("oc called by oc");
+    call_odin("odin called by oc");
     call_pascal("pascal called by oc");
     call_rust("rust called by oc");
     call_swift("swift called by oc");

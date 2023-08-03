@@ -9,6 +9,7 @@ procedure call_fortran (str: PChar); external;
 procedure call_go (str: PChar); external;
 procedure call_nim (str: PChar); external;
 procedure call_oc (str: PChar); external;
+procedure call_odin (str: PChar); external;
 procedure call_pascal (str: PChar); external;
 procedure call_rust (str: PChar); external;
 procedure call_swift (str: PChar); external;
@@ -25,6 +26,7 @@ begin
     call_go('go called by pascal');
     call_nim('nim called by pascal');
     call_oc('oc called by pascal');
+    call_odin('odin called by pascal');
     call_pascal('pascal called by pascal');
     call_rust('rust called by pascal');
     call_swift('swift called by pascal');
