@@ -13,4 +13,4 @@ Linkage section.
 PROCEDURE DIVISION using msg.
     compute msg-length = 0
     inspect msg tallying msg-length for characters before initial x'00'
-    display msg(1:msg-length).
+    display msg(1:msg-length) upon sysout.

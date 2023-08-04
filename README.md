@@ -23,4 +23,4 @@ a c program that should call libraries written in different languages which then
 
 - rust_chain not using generated .rs files for nim
 - nim_call should use native print instead of prints from c
-- fortran acts weird in docker
+- something acts weird in docker (fortran doesn't seem to be the problem), okay fortran is the problem
