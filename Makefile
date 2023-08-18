@@ -39,7 +39,7 @@ CHAIN_LIBS 			:=  $(LIBDIR)/libada_chain.so	  	\
 						$(LIBDIR)/libd_chain.so   		\
 						$(LIBDIR)/libfortran_chain.so   \
 						$(LIBDIR)/libgo_chain.so   		\
-						$(LIBDIR)/libhaskell_chain.so   		\
+						$(LIBDIR)/libhaskell_chain.so   \
 						$(LIBDIR)/libnim_chain.so   	\
 						$(LIBDIR)/liboc_chain.so   		\
 						$(LIBDIR)/libodin_chain.so		\
@@ -73,7 +73,7 @@ CHAIN_LIBS_FLAGS 	:= 	-l:libada_chain.so				\
 						-l:libd_chain.so 				\
 						-l:libfortran_chain.so 			\
 						-l:libgo_chain.so 				\
-						-l:libhaskell_chain.so 				\
+						-l:libhaskell_chain.so 			\
 						-l:libnim_chain.so 				\
 						-l:liboc_chain.so 				\
 						-l:libodin_chain.so 			\
@@ -131,6 +131,10 @@ RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
 						$(RUSTDIR)/swift_call.rs		\
 						$(RUSTDIR)/zig_call.rs
 
+GHC_INCLUDE		:= /usr/lib/ghc-9.0.2/include
+GHC_LIB			:= -l:libHSrts_thr-ghc9.0.2.so
+GHC_LIB_DIR		:= /usr/lib/ghc-9.0.2/rts/
+
 # -----
 # build
 # -----
@@ -138,7 +142,7 @@ RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
 build: $(BUILDDIR)/$(EXENAME)
 
 $(BUILDDIR)/$(EXENAME): src/main.c $(LIBS) $(CHAIN_HEADERS)
-	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS) -I/usr/lib/ghc-9.0.2/include -L/usr/lib/ghc-9.0.2/rts/ -l:libHSrts_thr-ghc9.0.2.so
+	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS) -I$(GHC_INCLUDE) -L$(GHC_LIB_DIR) $(GHC_LIB)
 
 # ---------
 # call libs
@@ -231,12 +235,12 @@ $(LIBDIR)/libada_chain.so $(HEADERDIR)/ada_chain.h: $(C_CHAINDIR)/ada/ada_chain.
 
 $(LIBDIR)/libc_chain.so $(HEADERDIR)/c_chain.h: $(C_CHAINDIR)/c/c_chain.h $(C_CHAINDIR)/c/c_chain.c $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/c/c_chain.h $(HEADERDIR)/
-	gcc -c -I$(HEADERDIR) -I/usr/lib/ghc-9.0.2/include -fPIC $(C_CHAINDIR)/c/c_chain.c -o $(OBJECTDIR)/c_chain.o
+	gcc -c -I$(HEADERDIR) -I$(GHC_INCLUDE) -fPIC $(C_CHAINDIR)/c/c_chain.c -o $(OBJECTDIR)/c_chain.o
 	gcc -shared -o $(LIBDIR)/libc_chain.so $(OBJECTDIR)/c_chain.o
 
 $(LIBDIR)/libcpp_chain.so $(HEADERDIR)/cpp_chain.h: $(C_CHAINDIR)/c++/cpp_chain.hpp $(C_CHAINDIR)/c++/cpp_chain.cpp $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/c++/cpp_chain.hpp $(HEADERDIR)/cpp_chain.h
-	g++ -c -I$(HEADERDIR) -I/usr/lib/ghc-9.0.2/include -fPIC $(C_CHAINDIR)/c++/cpp_chain.cpp -o $(OBJECTDIR)/cpp_chain.o
+	g++ -c -I$(HEADERDIR) -I$(GHC_INCLUDE) -fPIC $(C_CHAINDIR)/c++/cpp_chain.cpp -o $(OBJECTDIR)/cpp_chain.o
 	g++ -shared -o $(LIBDIR)/libcpp_chain.so $(OBJECTDIR)/cpp_chain.o
 
 $(LIBDIR)/libcobol_chain.so $(HEADERDIR)/cobol_chain.h: $(C_CHAINDIR)/cobol/cobol_chain.cob $(C_CHAINDIR)/cobol/cobol_chain.h $(CALL_HEADERS) | directories
@@ -255,7 +259,7 @@ $(LIBDIR)/libfortran_chain.so $(HEADERDIR)/fortran_chain.h: $(C_CHAINDIR)/fortra
 	rm -rf c_interface.mod
 
 $(LIBDIR)/libgo_chain.so $(HEADERDIR)/go_chain.h: $(C_CHAINDIR)/go/go_chain.go $(CALL_HEADERS) | directories
-	C_INCLUDE_PATH="$(PWD)/$(HEADERDIR):/usr/lib/ghc-9.0.2/include" go build -o ./$(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
+	C_INCLUDE_PATH="$(PWD)/$(HEADERDIR):$(GHC_INCLUDE)" go build -o ./$(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
 	mv ./$(LIBDIR)/libgo_chain.h ./$(HEADERDIR)/go_chain.h
 
 $(LIBDIR)/libhaskell_chain.so $(HEADERDIR)/haskell_chain.h: $(C_CHAINDIR)/haskell/haskell_chain.hs $(CALL_HEADERS) | directories
@@ -269,7 +273,7 @@ $(LIBDIR)/libnim_chain.so $(HEADERDIR)/nim_chain.h: $(C_CHAINDIR)/nim/nim_chain.
 
 $(LIBDIR)/liboc_chain.so $(HEADERDIR)/oc_chain.h: $(C_CHAINDIR)/objective-c/oc_chain.m $(C_CHAINDIR)/objective-c/oc_chain.h $(CALL_HEADERS) | directories
 	cp $(C_CHAINDIR)/objective-c/oc_chain.h $(HEADERDIR)/
-	gcc -c -I$(HEADERDIR) -I/usr/lib/ghc-9.0.2/include -fPIC $(C_CHAINDIR)/objective-c/oc_chain.m -o $(OBJECTDIR)/oc_chain.o
+	gcc -c -I$(HEADERDIR) -I$(GHC_INCLUDE) -fPIC $(C_CHAINDIR)/objective-c/oc_chain.m -o $(OBJECTDIR)/oc_chain.o
 	gcc -shared -o $(LIBDIR)/liboc_chain.so $(OBJECTDIR)/oc_chain.o
 
 $(LIBDIR)/libodin_chain.so $(HEADERDIR)/odin_chain.h: $(C_CHAINDIR)/odin/odin_chain.odin $(C_CHAINDIR)/odin/odin_chain.h $(CALL_HEADERS) | directories
@@ -293,7 +297,7 @@ $(LIBDIR)/libswift_chain.so $(HEADERDIR)/swift_chain.h: $(C_CHAINDIR)/swift/swif
 	cp $(OBJECTDIR)/libswift_chain.so $(LIBDIR)/libswift_chain.so
 
 $(LIBDIR)/libzig_chain.so $(HEADERDIR)/zig_chain.h: $(C_CHAINDIR)/zig/zig_chain.zig $(CALL_HEADERS) | directories
-	zig build-lib --library c -dynamic --cache-dir $(OBJECTDIR)/chain -I /usr/include/ -I $(HEADERDIR)/ -I /usr/lib/ghc-9.0.2/include/ $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(OBJECTDIR)/libzig_chain.so
+	zig build-lib --library c -dynamic --cache-dir $(OBJECTDIR)/chain -I /usr/include/ -I $(HEADERDIR)/ -I $(GHC_INCLUDE) $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(OBJECTDIR)/libzig_chain.so
 	cp $(OBJECTDIR)/libzig_chain.so $(LIBDIR)/libzig_chain.so
 	cp  $(C_CHAINDIR)/zig/zig_chain.h ./$(HEADERDIR)/zig_chain.h
 
@@ -323,7 +327,7 @@ $(RUSTDIR)/go_call.rs: $(HEADERDIR)/go_call.h | directories
 	bindgen $(HEADERDIR)/go_call.h -o $(RUSTDIR)/go_call.rs
 
 $(RUSTDIR)/haskell_call.rs: $(HEADERDIR)/haskell_call.h | directories
-	bindgen $(HEADERDIR)/haskell_call.h -o $(RUSTDIR)/haskell_call.rs -- -I/usr/lib/ghc-9.0.2/include
+	bindgen $(HEADERDIR)/haskell_call.h -o $(RUSTDIR)/haskell_call.rs -- -I$(GHC_INCLUDE)
 
 $(RUSTDIR)/nim_call.rs: $(HEADERDIR)/nim_call.h | directories
 	bindgen $(HEADERDIR)/nim_call.h -o $(RUSTDIR)/nim_call.rs
@@ -367,7 +371,7 @@ directories: $(DIRLIST)
 # -----
 
 run: build/main
-	LD_LIBRARY_PATH="$(LIBDIR):/usr/lib/ghc-9.0.2/rts/:$LD_LIBRARY_PATH" ./build/main
+	LD_LIBRARY_PATH="$(LIBDIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" ./build/main
 
 clean:
 	rm -rf build
