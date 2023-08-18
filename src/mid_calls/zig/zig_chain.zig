@@ -19,6 +19,9 @@ const call_fortran = @cImport({
 const call_go = @cImport({
     @cInclude("go_call.h");
 }).call_go;
+const call_haskell = @cImport({
+    @cInclude("haskell_call.h");
+}).call_haskell;
 const call_nim = @cImport({
     @cInclude("nim_call.h");
 }).call_nim;
@@ -53,6 +56,8 @@ pub export fn start_zig_chain() callconv(.C) void {
     call_fortran(&fortran);
     var go = "go called by zig".*;
     call_go(&go);
+    var haskell = "haskell called by zig".*;
+    call_haskell(&haskell);
     var nim = "nim called by zig".*;
     call_nim(&nim);
     call_oc("oc called by zig");

@@ -7,6 +7,7 @@ include!("../../../build/rust/cobol_call.rs");
 include!("../../../build/rust/d_call.rs");
 include!("../../../build/rust/fortran_call.rs");
 include!("../../../build/rust/go_call.rs");
+include!("../../../build/rust/haskell_call.rs");
 //include!("../../../build/rust/nim_call.rs");
 include!("../../../build/rust/oc_call.rs");
 include!("../../../build/rust/odin_call.rs");
@@ -17,6 +18,7 @@ include!("../../../build/rust/zig_call.rs");
 include!("../../../src/end_calls/rust/rust_call.rs");
 
 use std::ffi::CString;
+use std::ffi::c_void;
 
 extern "C" {
     fn call_nim(x: *const ::std::os::raw::c_char);
@@ -39,6 +41,8 @@ pub extern fn start_rust_chain(){
         call_fortran(fortran.as_ptr() as *mut i8);
         let go = CString::new("go called by rust").unwrap();
         call_go(go.as_ptr() as *mut i8);
+        let haskell = CString::new("haskell called by rust").unwrap();
+        call_haskell(haskell.as_ptr() as *mut c_void);
         let nim = CString::new("nim called by rust").unwrap();
         call_nim(nim.as_ptr() as *mut i8);
         let oc = CString::new("oc called by rust").unwrap();

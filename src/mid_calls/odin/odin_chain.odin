@@ -9,6 +9,7 @@ foreign import lib_cobol "libcobol_call"
 foreign import lib_d "libd_call"
 foreign import lib_fortran "libfortran_call"
 foreign import lib_go "libgo_call"
+foreign import lib_haskell "libhaskell_call"
 foreign import lib_nim "libnim_call"
 foreign import lib_oc "liboc_call"
 foreign import lib_odin "libodin_call"
@@ -37,6 +38,9 @@ foreign lib_fortran {
 }
 foreign lib_go {
     call_go :: proc(x: cstring) ---
+}
+foreign lib_haskell {
+    call_haskell :: proc(x: cstring) ---
 }
 foreign lib_nim {
     call_nim :: proc(x: cstring) ---
@@ -70,6 +74,7 @@ start_odin_chain :: proc "c"() {
     call_d("d called by odin")
     call_fortran("fortran called by odin")
     call_go("go called by odin")
+    call_haskell("haskell called by odin")
     call_nim("nim called by odin")
     call_oc("oc called by odin")
     call_odin("odin called by odin")

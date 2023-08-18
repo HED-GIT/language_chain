@@ -14,6 +14,7 @@ PROCEDURE DIVISION.
     CALL "call_d" using z"d called from cobol".
     CALL "call_fortran" using z"fortran called from cobol".
     CALL "call_go" using z"go called from cobol".
+    CALL "call_haskell" using z"haskell called from cobol".
     CALL "call_nim" using z"nim called from cobol".
     CALL "call_oc" using z"oc called from cobol".
     CALL "call_odin" using z"odin called from cobol".

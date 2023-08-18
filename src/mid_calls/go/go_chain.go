@@ -7,6 +7,7 @@ package main
 // #include "d_call.h"
 // #include "fortran_call.h"
 // #include "go_call.h"
+// void call_haskell(char*);
 // #include "nim_call.h"
 // #include "oc_call.h"
 // #include "odin_call.h"
@@ -37,6 +38,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(fortran))
 	_go := C.CString("go called by go")
 	defer C.free(unsafe.Pointer(_go))
+	haskell := C.CString("haskell called by go")
+	defer C.free(unsafe.Pointer(haskell))
 	nim := C.CString("nim called by go")
 	defer C.free(unsafe.Pointer(nim))
 	oc := C.CString("oc called by go")
@@ -59,6 +62,7 @@ func start_go_chain() {
 	C.call_d(d)
 	C.call_fortran(fortran)
 	C.call_go(_go)
+	C.call_haskell(haskell)
 	C.call_nim(nim)
 	C.call_oc(oc)
 	C.call_odin(odin)

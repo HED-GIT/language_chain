@@ -5,6 +5,7 @@ proc call_cobol(x: cstring) {.importc.}
 proc call_d(x: cstring) {.importc.}
 proc call_fortran(x: cstring) {.importc.}
 proc call_go(x: cstring) {.importc.}
+proc call_haskell(x: cstring) {.importc.}
 proc call_nim(x: cstring) {.importc.}
 proc call_oc(x: cstring) {.importc.}
 proc call_odin(x: cstring) {.importc.}
@@ -21,6 +22,7 @@ proc start_nim_chain() {.exportc, dynlib.} =
     call_d("d called by nim");
     call_fortran("fortran called by nim");
     call_go("go called by nim");
+    call_haskell("haskell called by nim");
     call_nim("nim called by nim");
     call_oc("oc called by nim");
     call_odin("odin called by nim");

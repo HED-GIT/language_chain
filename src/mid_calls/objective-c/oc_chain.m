@@ -5,6 +5,7 @@
 #include "d_call.h"
 #include "fortran_call.h"
 #include "go_call.h"
+#include "haskell_call.h"
 #include "nim_call.h"
 #include "oc_call.h"
 #include "odin_call.h"
@@ -21,6 +22,7 @@ void start_oc_chain(){
     call_d("d called by oc");
     call_fortran("fortran called by oc");
     call_go("go called by oc");
+    call_go("haskell called by oc");
     call_nim("nim called by oc");
     call_oc("oc called by oc");
     call_odin("odin called by oc");

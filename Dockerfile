@@ -1,11 +1,13 @@
 FROM archlinux:base
 
 RUN pacman -Syyuu --noconfirm
-RUN pacman -S --noconfirm base-devel sudo gcc gcc-objc gcc-ada gcc-fortran make rustup gnucobol go dmd cbindgen zig nim rust-bindgen git fpc patchelf llvm14 clang14 python3
-RUN rustup default stable
 
 RUN useradd build -m
 RUN passwd -d build
+
+## odin
+
+RUN pacman -S --noconfirm llvm14 clang14 which python3 git base-devel sudo clang
 
 RUN git clone https://aur.archlinux.org/odin.git
 WORKDIR odin
@@ -13,6 +15,10 @@ RUN chown -R build .
 
 RUN sudo -u build makepkg --skippgpcheck
 RUN pacman -U *.pkg.tar.zst --noconfirm
+
+## ncurses5-compat-libs
+
+RUN pacman -S --noconfirm glibc gcc-libs
 
 RUN git clone https://aur.archlinux.org/ncurses5-compat-libs.git
 WORKDIR ncurses5-compat-libs
@@ -29,6 +35,11 @@ RUN chown -R build .
 
 RUN sudo -u build makepkg
 RUN pacman -U *.pkg.tar.zst --noconfirm
+
+## rest
+
+RUN pacman -S --noconfirm gcc gcc-objc gcc-ada gcc-fortran make rustup gnucobol go dmd cbindgen zig nim rust-bindgen fpc patchelf ghc
+RUN rustup default stable
 
 WORKDIR /app
 COPY . .

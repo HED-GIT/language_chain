@@ -5,8 +5,10 @@ subroutine call_fortran(instr) bind ( C, name="call_fortran")
 
     len=0
     do
-       if (instr(len+1) == C_NULL_CHAR) exit
-       len = len + 1
+        if (instr(len+1) == C_NULL_CHAR) exit
+        len = len + 1
+        write(*,'(A)', advance="no") (instr(len))
     end do
-    write(*,'(A)') instr(1:len)
+    write(*,*)
+    call flush(1)
 end subroutine call_fortran
