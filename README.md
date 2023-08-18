@@ -1,4 +1,4 @@
-# c_all_lib_call
+# language_chain
 
 a test program where different compiled languages call each other
 
