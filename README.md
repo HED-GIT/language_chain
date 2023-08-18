@@ -1,6 +1,6 @@
 # c_all_lib_call
 
-a c program that should call libraries written in different languages which then call librarys in all the other languages
+a test program where different compiled languages call each other
 
 ## languages
 
