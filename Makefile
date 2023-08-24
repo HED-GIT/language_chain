@@ -24,6 +24,7 @@ CALL_LIBS 			:= 	$(LIBDIR)/libada_call.so		\
 						$(LIBDIR)/libfortran_call.so	\
 						$(LIBDIR)/libgo_call.so  		\
 						$(LIBDIR)/libhaskell_call.so	\
+						$(LIBDIR)/libjava_call.so $(LIBDIR)/libr_java_call.so		\
 						$(LIBDIR)/libnim_call.so  		\
 						$(LIBDIR)/liboc_call.so  		\
 						$(LIBDIR)/libodin_call.so  		\
@@ -33,19 +34,7 @@ CALL_LIBS 			:= 	$(LIBDIR)/libada_call.so		\
 						$(LIBDIR)/libzig_call.so
 
 CHAIN_LIBS 			:=  $(LIBDIR)/libada_chain.so	  	\
-						$(LIBDIR)/libc_chain.so   		\
-						$(LIBDIR)/libcpp_chain.so   	\
-						$(LIBDIR)/libcobol_chain.so		\
-						$(LIBDIR)/libd_chain.so   		\
-						$(LIBDIR)/libfortran_chain.so   \
-						$(LIBDIR)/libgo_chain.so   		\
-						$(LIBDIR)/libhaskell_chain.so   \
-						$(LIBDIR)/libnim_chain.so   	\
-						$(LIBDIR)/liboc_chain.so   		\
-						$(LIBDIR)/libodin_chain.so		\
-						$(LIBDIR)/libpascal_chain.so   	\
-						$(LIBDIR)/librust_chain.so  	\
-						$(LIBDIR)/libswift_chain.so   	\
+						$(LIBDIR)/libjava_chain.so $(LIBDIR)/libr_java_chain.so		\
 						$(LIBDIR)/libzig_chain.so
 
 LIBS 				:= 	$(CALL_LIBS) $(CHAIN_LIBS)
@@ -58,6 +47,7 @@ CALL_LIBS_FLAGS 	:= 	-l:libada_call.so				\
 						-l:libfortran_call.so 			\
 						-l:libgo_call.so 				\
 						-l:libhaskell_call.so			\
+						-l:libjava_call.so -l:libr_java_call.so				\
 						-l:libnim_call.so 				\
 						-l:liboc_call.so 				\
 						-l:libodin_call.so 				\
@@ -67,19 +57,7 @@ CALL_LIBS_FLAGS 	:= 	-l:libada_call.so				\
 						-l:libzig_call.so
 
 CHAIN_LIBS_FLAGS 	:= 	-l:libada_chain.so				\
-						-l:libc_chain.so 				\
-						-l:libcpp_chain.so 				\
-						-l:libcobol_chain.so			\
-						-l:libd_chain.so 				\
-						-l:libfortran_chain.so 			\
-						-l:libgo_chain.so 				\
-						-l:libhaskell_chain.so 			\
-						-l:libnim_chain.so 				\
-						-l:liboc_chain.so 				\
-						-l:libodin_chain.so 			\
-						-l:libpascal_chain.so 			\
-						-l:librust_chain.so 			\
-						-l:libswift_chain.so 			\
+						-l:libjava_chain.so -l:libr_java_chain.so				\
 						-l:libzig_chain.so
 
 LIBS_FLAGS 			:= 	$(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) -lgfortran
@@ -92,6 +70,7 @@ CALL_HEADERS		:= 	$(HEADERDIR)/ada_call.h			\
 						$(HEADERDIR)/fortran_call.h 	\
 						$(HEADERDIR)/go_call.h 			\
 						$(HEADERDIR)/haskell_call.h		\
+						$(HEADERDIR)/java_call.h $(HEADERDIR)/r_java_call.h		\
 						$(HEADERDIR)/nim_call.h 		\
 						$(HEADERDIR)/oc_call.h 			\
 						$(HEADERDIR)/odin_call.h 		\
@@ -101,19 +80,7 @@ CALL_HEADERS		:= 	$(HEADERDIR)/ada_call.h			\
 						$(HEADERDIR)/zig_call.h
 
 CHAIN_HEADERS		:= 	$(HEADERDIR)/ada_chain.h		\
-						$(HEADERDIR)/c_chain.h 			\
-						$(HEADERDIR)/cpp_chain.h 		\
-						$(HEADERDIR)/cobol_chain.h		\
-						$(HEADERDIR)/d_chain.h 			\
-						$(HEADERDIR)/fortran_chain.h 	\
-						$(HEADERDIR)/go_chain.h 		\
-						$(HEADERDIR)/haskell_chain.h 	\
-						$(HEADERDIR)/nim_chain.h 		\
-						$(HEADERDIR)/oc_chain.h 		\
-						$(HEADERDIR)/odin_chain.h 		\
-						$(HEADERDIR)/pascal_chain.h 	\
-						$(HEADERDIR)/rust_chain.h 		\
-						$(HEADERDIR)/swift_chain.h 		\
+						$(HEADERDIR)/java_chain.h $(HEADERDIR)/r_java_chain.h		\
 						$(HEADERDIR)/zig_chain.h
 
 RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
@@ -124,6 +91,7 @@ RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
 						$(RUSTDIR)/fortran_call.rs		\
 						$(RUSTDIR)/go_call.rs			\
 						$(RUSTDIR)/haskell_call.rs		\
+						$(RUSTDIR)/java_call.rs			\
 						$(RUSTDIR)/nim_call.rs			\
 						$(RUSTDIR)/oc_call.rs			\
 						$(RUSTDIR)/odin_call.rs			\
@@ -187,6 +155,17 @@ $(LIBDIR)/libhaskell_call.so $(HEADERDIR)/haskell_call.h: $(C_CALLDIR)/haskell/h
 	ghc -dynamic -fPIC -c $(C_CALLDIR)/haskell/haskell_call.hs -o $(OBJECTDIR)/haskell_call.o -ohi $(OBJECTDIR)/haskell_call.hi
 	ghc -dynamic -shared -flink-rts $(OBJECTDIR)/haskell_call.o -o $(LIBDIR)/libhaskell_call.so
 	mv $(C_CALLDIR)/haskell/haskell_call_stub.h $(HEADERDIR)/haskell_call.h
+
+$(LIBDIR)/libjava_call.so $(LIBDIR)/libr_java_call.so $(HEADERDIR)/java_call.h $(HEADERDIR)/r_java_call.h: $(C_CALLDIR)/java/r_java_call.java $(C_CALLDIR)/java/java_call.c $(C_CALLDIR)/java/java_call.h | directories
+	javac $(C_CALLDIR)/java/r_java_call.java -d $(OBJECTDIR)/r_java_call
+	(cd $(OBJECTDIR)/r_java_call && native-image --shared -H:Name=libfoobar)
+	mv $(OBJECTDIR)/r_java_call/graal_isolate.h $(HEADERDIR)/
+	mv $(OBJECTDIR)/r_java_call/libfoobar.h $(HEADERDIR)/r_java_call.h
+	mv $(OBJECTDIR)/r_java_call/libfoobar.so $(LIBDIR)/libr_java_call.so
+	cp $(C_CALLDIR)/java/java_call.h $(HEADERDIR)/
+	
+	gcc -c -I$(HEADERDIR) -FPIC $(C_CALLDIR)/java/java_call.c -o $(OBJECTDIR)/java_call.o
+	gcc -shared -o $(LIBDIR)/libjava_call.so $(OBJECTDIR)/java_call.o
 
 $(LIBDIR)/libnim_call.so $(HEADERDIR)/nim_call.h: $(C_CALLDIR)/nim/nim_call.nim | directories
 	nim c --app=lib --noMain --header:nim_call.h -o:$(LIBDIR)/libnim_call.so $(C_CALLDIR)/nim/nim_call.nim 
@@ -267,6 +246,17 @@ $(LIBDIR)/libhaskell_chain.so $(HEADERDIR)/haskell_chain.h: $(C_CHAINDIR)/haskel
 	ghc -dynamic -shared -flink-rts $(OBJECTDIR)/haskell_chain.o -o $(LIBDIR)/libhaskell_chain.so
 	mv $(C_CHAINDIR)/haskell/haskell_chain_stub.h $(HEADERDIR)/haskell_chain.h
 
+$(LIBDIR)/libjava_chain.so $(LIBDIR)/libr_java_chain.so $(HEADERDIR)/java_chain.h $(HEADERDIR)/r_java_chain.h: $(C_CHAINDIR)/java/r_java_chain.java $(C_CHAINDIR)/java/java_chain.c $(C_CHAINDIR)/java/java_chain.h | directories
+	javac $(C_CHAINDIR)/java/r_java_chain.java -d $(OBJECTDIR)/r_java_chain
+	(cd $(OBJECTDIR)/r_java_chain && native-image --shared -H:Name=libfoobar)
+	mv $(OBJECTDIR)/r_java_chain/graal_isolate.h $(HEADERDIR)/
+	mv $(OBJECTDIR)/r_java_chain/libfoobar.h $(HEADERDIR)/r_java_chain.h
+	mv $(OBJECTDIR)/r_java_chain/libfoobar.so $(LIBDIR)/libr_java_chain.so
+	cp $(C_CHAINDIR)/java/java_chain.h $(HEADERDIR)/
+	
+	gcc -c -I$(HEADERDIR) -FPIC $(C_CHAINDIR)/java/java_chain.c -o $(OBJECTDIR)/java_chain.o
+	gcc -shared -o $(LIBDIR)/libjava_chain.so $(OBJECTDIR)/java_chain.o
+
 $(LIBDIR)/libnim_chain.so $(HEADERDIR)/nim_chain.h: $(C_CHAINDIR)/nim/nim_chain.nim $(CALL_HEADERS) | directories
 	nim c --app=lib --noMain --header:nim_chain.h -o:$(LIBDIR)/libnim_chain.so $(C_CHAINDIR)/nim/nim_chain.nim 
 	cp ~/.cache/nim/nim_chain_d/nim_chain.h $(HEADERDIR)/nim_chain.h
@@ -328,6 +318,9 @@ $(RUSTDIR)/go_call.rs: $(HEADERDIR)/go_call.h | directories
 
 $(RUSTDIR)/haskell_call.rs: $(HEADERDIR)/haskell_call.h | directories
 	bindgen $(HEADERDIR)/haskell_call.h -o $(RUSTDIR)/haskell_call.rs -- -I$(GHC_INCLUDE)
+
+$(RUSTDIR)/java_call.rs: $(HEADERDIR)/java_call.h | directories
+	bindgen $(HEADERDIR)/java_call.h -o $(RUSTDIR)/java_call.rs
 
 $(RUSTDIR)/nim_call.rs: $(HEADERDIR)/nim_call.h | directories
 	bindgen $(HEADERDIR)/nim_call.h -o $(RUSTDIR)/nim_call.rs

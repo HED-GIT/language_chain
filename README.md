@@ -12,6 +12,7 @@ a test program where different compiled languages call each other
 - fortran
 - go
 - haskell
+- java
 - nim
 - objective-c
 - odin

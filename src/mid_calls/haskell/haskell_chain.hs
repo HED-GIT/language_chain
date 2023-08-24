@@ -10,6 +10,7 @@ foreign import ccall "d_call.h call_d" call_d :: CString -> IO()
 foreign import ccall "fortran_call.h call_fortran" call_fortran :: CString -> IO()
 foreign import ccall "go_call.h call_go" call_go :: CString -> IO()
 foreign import ccall "haskell_call.h call_haskell" call_haskell :: CString -> IO()
+foreign import ccall "java_call.h call_java" call_java :: CString -> IO()
 foreign import ccall "nim_call.h call_nim" call_nim :: CString -> IO()
 foreign import ccall "oc_call.h call_oc" call_oc :: CString -> IO()
 foreign import ccall "odin_call.h call_odin" call_odin :: CString -> IO()
@@ -36,6 +37,8 @@ start_haskell_chain = do
     call_go go_text
     haskell_text <- newCString "haskell called by haskell"
     call_haskell haskell_text
+    java_text <- newCString "java called by haskell"
+    call_java java_text
     nim_text <- newCString "nim called by haskell"
     call_nim nim_text
     oc_text <- newCString "oc called by haskell"

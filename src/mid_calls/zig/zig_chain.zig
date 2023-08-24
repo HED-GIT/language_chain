@@ -22,6 +22,9 @@ const call_go = @cImport({
 const call_haskell = @cImport({
     @cInclude("haskell_call.h");
 }).call_haskell;
+const call_java = @cImport({
+    @cInclude("java_call.h");
+}).call_java;
 const call_nim = @cImport({
     @cInclude("nim_call.h");
 }).call_nim;
@@ -58,6 +61,8 @@ pub export fn start_zig_chain() callconv(.C) void {
     call_go(&go);
     var haskell = "haskell called by zig".*;
     call_haskell(&haskell);
+    var java = "java called by zig".*;
+    call_java(&java);
     var nim = "nim called by zig".*;
     call_nim(&nim);
     call_oc("oc called by zig");

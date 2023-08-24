@@ -30,6 +30,9 @@ package body ada_chain is
         procedure call_haskell(a: chars_ptr) with
             Import => True,
             Convention => C;
+        procedure call_java(a: chars_ptr) with
+            Import => True,
+            Convention => C;
         procedure call_nim(a: chars_ptr) with
             Import => True,
             Convention => C;
@@ -60,6 +63,7 @@ package body ada_chain is
     fortranstring : constant chars_ptr := New_String ("fortran called by ada");
     gostring : constant chars_ptr := New_String ("go called by ada");
     haskellstring : constant chars_ptr := New_String ("haskell called by ada");
+    javastring : constant chars_ptr := New_String ("java called by ada");
     nimstring : constant chars_ptr := New_String ("nim called by ada");
     ocstring : constant chars_ptr := New_String ("oc called by ada");
     odinstring : constant chars_ptr := New_String ("odin called by ada");
@@ -77,6 +81,7 @@ package body ada_chain is
         call_fortran(fortranstring);
         call_go(gostring);
         call_haskell(haskellstring);
+        call_java(javastring);
         call_nim(nimstring);
         call_oc(ocstring);
         call_odin(odinstring);

@@ -40,6 +40,11 @@ module c_interface
             character(kind=c_char),dimension (*) :: a
         end subroutine call_haskell
 
+        subroutine call_java(a) bind(C, name='call_java')
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char),dimension (*) :: a
+        end subroutine call_java
+
         subroutine call_nim(a) bind(C, name='call_nim')
             use, intrinsic :: iso_c_binding
             character(kind=c_char),dimension (*) :: a

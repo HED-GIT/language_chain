@@ -8,6 +8,7 @@
 #include "fortran_call.h"
 #include "go_call.h"
 #include "haskell_call.h"
+#include "java_call.h"
 extern "C"{
 #include "nim_call.h"
 }
@@ -27,6 +28,7 @@ void start_cpp_chain(){
     call_fortran((char*)"fortran called by c++");
     call_go((char*)"go called by c++");
     call_haskell((char*)"go called by c++");
+    call_java("java called by c++");
     call_nim((char*)"nim called by c++");
     call_oc("oc called by c++");
     call_odin("odin called by c++");
