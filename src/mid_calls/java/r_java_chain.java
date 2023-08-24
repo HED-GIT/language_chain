@@ -9,10 +9,10 @@ import org.graalvm.nativeimage.c.type.CTypeConversion;
 public class r_java_chain
 {
     @CFunction("call_c")
-    static native void call_c(CCharPointer text);
+    static native void call_c(CCharPointer c);
 
     @CEntryPoint(name = "r_start_java_chain")
-    public static void r_start_java_chain( IsolateThread isolateThread) {
-        //call_c(CTypeConversion.toCString("c called by java").get());
+    public static void r_start_java_chain(IsolateThread isolateThread) {
+        //call_c(CTypeConversion.toCString("asdf").get());
     }
 }

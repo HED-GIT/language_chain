@@ -21,6 +21,12 @@ a test program where different compiled languages call each other
 - swift
 - zig
 
+## todos before merge
+
+- fix program running into `unable to allocate additional stack space` error before even reaching main
+- fix java_chain crashing when calling any end_calls
+- update docker
+
 ## todos
 
 - rust_chain not using generated .rs files for nim

@@ -1,3 +1,9 @@
-#pragma once
+#ifdef __cplusplus
+    #define EXTERNC extern "C"
+#else
+    #define EXTERNC
+#endif
 
-void call_java(char* text);
+EXTERNC void call_java(const  char* x);
+
+#undef EXTERNC

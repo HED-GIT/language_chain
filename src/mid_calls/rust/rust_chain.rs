@@ -45,7 +45,7 @@ pub extern fn start_rust_chain(){
         let haskell = CString::new("haskell called by rust").unwrap();
         call_haskell(haskell.as_ptr() as *mut c_void);
         let java = CString::new("java called by rust").unwrap();
-        call_java(java.as_ptr() as *mut c_void);
+        call_java(java.as_ptr() as *mut i8);
         let nim = CString::new("nim called by rust").unwrap();
         call_nim(nim.as_ptr() as *mut i8);
         let oc = CString::new("oc called by rust").unwrap();
