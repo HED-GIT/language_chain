@@ -149,7 +149,7 @@ GHC_LIB_DIR		:= /usr/lib/ghc-9.0.2/rts/
 build: $(BUILDDIR)/$(EXENAME)
 
 $(BUILDDIR)/$(EXENAME): src/main.c $(LIBS) $(CHAIN_HEADERS)
-	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS) -I$(GHC_INCLUDE) -L$(GHC_LIB_DIR) $(GHC_LIB)
+	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS) -I$(GHC_INCLUDE) -L$(GHC_LIB_DIR) $(GHC_LIB) -Wl,-z,stack-size=4000000000
 
 # ---------
 # call libs
