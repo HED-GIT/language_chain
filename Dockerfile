@@ -60,6 +60,17 @@ RUN pacman -U *.pkg.tar.zst --noconfirm
 
 WORKDIR /
 
+## kotlin-native
+
+WORKDIR /
+
+RUN git clone https://aur.archlinux.org/kotlin-native-bin.git
+WORKDIR kotlin-native-bin
+RUN chown -R build .
+
+RUN sudo -u build makepkg --skippgpcheck
+RUN pacman -U *.pkg.tar.zst --noconfirm
+
 ## rest
 
 RUN pacman -S --noconfirm gcc gcc-objc gcc-ada gcc-fortran make rustup gnucobol go dmd cbindgen zig nim rust-bindgen fpc patchelf ghc

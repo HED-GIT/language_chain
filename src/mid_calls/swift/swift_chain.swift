@@ -27,6 +27,9 @@ public func start_swift_chain(){
     "java called from swift".withCString { cstr in
         call_java(UnsafeMutablePointer(mutating: cstr))
     }
+    "kotlin called from swift".withCString { cstr in
+        call_kotlin(UnsafeMutablePointer(mutating: cstr))
+    }
     "nim called from swift".withCString { cstr in
         call_nim(UnsafeMutablePointer(mutating: cstr))
     }

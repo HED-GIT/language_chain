@@ -7,6 +7,7 @@
 #include "go_chain.h"
 //#include "haskell_chain.h"
 #include "java_chain.h"
+#include "kotlin_chain.h"
 #include "nim_chain.h"
 #include "oc_chain.h"
 #include "odin_chain.h"
@@ -42,6 +43,8 @@ int main(int argc, char **argv)
     start_haskell_chain();
     fprintf(stdout, "------------------------------\n");
     start_java_chain();
+    fprintf(stdout, "------------------------------\n");
+    start_kotlin_chain();
     fprintf(stdout, "------------------------------\n");
     start_nim_chain();
     fprintf(stdout, "------------------------------\n");

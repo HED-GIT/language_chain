@@ -9,6 +9,7 @@ procedure call_fortran (str: PChar); external;
 procedure call_go (str: PChar); external;
 procedure call_haskell (str: PChar); external;
 procedure call_java (str: PChar); external;
+procedure call_kotlin (str: PChar); external;
 procedure call_nim (str: PChar); external;
 procedure call_oc (str: PChar); external;
 procedure call_odin (str: PChar); external;
@@ -28,6 +29,7 @@ begin
     call_go('go called by pascal');
     call_haskell('haskell called by pascal');
     call_java('java called by pascal');
+    call_kotlin('kotlin called by pascal');
     call_nim('nim called by pascal');
     call_oc('oc called by pascal');
     call_odin('odin called by pascal');

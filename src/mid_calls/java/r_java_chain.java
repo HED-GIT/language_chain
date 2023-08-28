@@ -36,6 +36,9 @@ public class r_java_chain
     @CFunction(value = "call_java")
     static native void call_java(CCharPointer c);
 
+    @CFunction(value = "call_kotlin")
+    static native void call_kotlin(CCharPointer c);
+
     @CFunction(value = "call_nim")
     static native void call_nim(CCharPointer c);
 
@@ -85,6 +88,9 @@ public class r_java_chain
     @CFunction(value = "javastring")
     static native CCharPointer javastring();
 
+    @CFunction(value = "kotlinstring")
+    static native CCharPointer kotlinstring();
+
     @CFunction(value = "nimstring")
     static native CCharPointer nimstring();
 
@@ -118,6 +124,7 @@ public class r_java_chain
         call_go(gostring());
         call_haskell(haskellstring());
         call_java(javastring());
+        call_kotlin(kotlinstring());
         call_nim(nimstring());
         call_oc(ocstring());
         call_odin(odinstring());

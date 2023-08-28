@@ -42,6 +42,10 @@ char* javastring(){
     return "java called by java";
 }
 
+char* kotlinstring(){
+    return "kotlin called by java";
+}
+
 char* nimstring(){
     return "nim called by java";
 }

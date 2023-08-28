@@ -7,6 +7,7 @@ proc call_fortran(x: cstring) {.importc.}
 proc call_go(x: cstring) {.importc.}
 proc call_haskell(x: cstring) {.importc.}
 proc call_java(x: cstring) {.importc.}
+proc call_kotlin(x: cstring) {.importc.}
 proc call_nim(x: cstring) {.importc.}
 proc call_oc(x: cstring) {.importc.}
 proc call_odin(x: cstring) {.importc.}
@@ -25,6 +26,7 @@ proc start_nim_chain() {.exportc, dynlib.} =
     call_go("go called by nim");
     call_haskell("haskell called by nim");
     call_java("java called by nim");
+    call_kotlin("kotlin called by nim");
     call_nim("nim called by nim");
     call_oc("oc called by nim");
     call_odin("odin called by nim");

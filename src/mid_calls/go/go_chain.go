@@ -9,6 +9,7 @@ package main
 // #include "go_call.h"
 // void call_haskell(char*);
 // #include "java_call.h"
+// #include "kotlin_call.h"
 // #include "nim_call.h"
 // #include "oc_call.h"
 // #include "odin_call.h"
@@ -43,6 +44,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(haskell))
 	java := C.CString("java called by go")
 	defer C.free(unsafe.Pointer(java))
+	kotlin := C.CString("kotlin called by go")
+	defer C.free(unsafe.Pointer(kotlin))
 	nim := C.CString("nim called by go")
 	defer C.free(unsafe.Pointer(nim))
 	oc := C.CString("oc called by go")
@@ -67,6 +70,7 @@ func start_go_chain() {
 	C.call_go(_go)
 	C.call_haskell(haskell)
 	C.call_java(java)
+	C.call_kotlin(kotlin)
 	C.call_nim(nim)
 	C.call_oc(oc)
 	C.call_odin(odin)

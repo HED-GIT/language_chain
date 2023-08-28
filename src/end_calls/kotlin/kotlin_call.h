@@ -6,6 +6,6 @@
     #define EXTERNC
 #endif
 
-EXTERNC void call_c(const char* x);
+EXTERNC void call_kotlin(const char* x);
 
 #undef EXTERNC

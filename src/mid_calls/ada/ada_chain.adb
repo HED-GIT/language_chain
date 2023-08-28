@@ -33,6 +33,9 @@ package body ada_chain is
         procedure call_java(a: chars_ptr) with
             Import => True,
             Convention => C;
+        procedure call_kotlin(a: chars_ptr) with
+            Import => True,
+            Convention => C;
         procedure call_nim(a: chars_ptr) with
             Import => True,
             Convention => C;
@@ -64,6 +67,7 @@ package body ada_chain is
     gostring : constant chars_ptr := New_String ("go called by ada");
     haskellstring : constant chars_ptr := New_String ("haskell called by ada");
     javastring : constant chars_ptr := New_String ("java called by ada");
+    kotlinstring : constant chars_ptr := New_String ("kotlin called by ada");
     nimstring : constant chars_ptr := New_String ("nim called by ada");
     ocstring : constant chars_ptr := New_String ("oc called by ada");
     odinstring : constant chars_ptr := New_String ("odin called by ada");
@@ -82,6 +86,7 @@ package body ada_chain is
         call_go(gostring);
         call_haskell(haskellstring);
         call_java(javastring);
+        call_kotlin(kotlinstring);
         call_nim(nimstring);
         call_oc(ocstring);
         call_odin(odinstring);

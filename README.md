@@ -13,6 +13,7 @@ a test program where different compiled languages call each other
 - go
 - haskell
 - java
+- kotlin
 - nim
 - objective-c
 - odin

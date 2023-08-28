@@ -9,6 +9,7 @@
 #include "go_call.h"
 #include "haskell_call.h"
 #include "java_call.h"
+#include "kotlin_call.h"
 #include "nim_call.h"
 #include "oc_call.h"
 #include "odin_call.h"
@@ -27,6 +28,7 @@ void start_c_chain(){
     call_go("go called by c");
     call_haskell("haskell called by c");
     call_java("java called by c");
+    call_kotlin("kotlin called by c");
     call_nim("nim called by c");
     call_oc("oc called by c");
     call_odin("odin called by c");
