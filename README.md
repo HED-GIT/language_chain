@@ -31,10 +31,10 @@ a test program where different languages call each other
 - gcc-ada
 - gcc-fortran
 - gcc-objc
-- ghc
+- ghc 9.0.2
 - gnucobol
 - go
-- kotlin-native-bin
+- kotlin-native
 - make
 - native-image
 - nim
