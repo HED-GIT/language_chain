@@ -21,12 +21,6 @@ a test program where different compiled languages call each other
 - swift
 - zig
 
-## todos before merge
-
-- fix program running into `unable to allocate additional stack space` error before even reaching main
-- fix java_chain crashing when calling any end_calls
-- update docker
-
 ## todos
 
 - rust_chain not using generated .rs files for nim
@@ -35,3 +29,4 @@ a test program where different compiled languages call each other
 - haskell has to be initialized, find a way to remove it
 - main not using haskell_chain.h and rust_chain.h
 - make go use haskell header file
+- make java not use strings that are defined in c code

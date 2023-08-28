@@ -36,6 +36,30 @@ RUN chown -R build .
 RUN sudo -u build makepkg
 RUN pacman -U *.pkg.tar.zst --noconfirm
 
+WORKDIR /
+
+## native-image
+
+RUN pacman -S --noconfirm java-runtime-common java-environment-common
+
+RUN git clone https://aur.archlinux.org/jdk19-graalvm-bin.git
+WORKDIR jdk19-graalvm-bin
+RUN chown -R build .
+
+RUN sudo -u build makepkg --skippgpcheck
+RUN pacman -U *.pkg.tar.zst --noconfirm
+
+WORKDIR /
+
+RUN git clone https://aur.archlinux.org/native-image-jdk19-bin.git
+WORKDIR native-image-jdk19-bin 
+RUN chown -R build .
+
+RUN sudo -u build makepkg --skippgpcheck
+RUN pacman -U *.pkg.tar.zst --noconfirm
+
+WORKDIR /
+
 ## rest
 
 RUN pacman -S --noconfirm gcc gcc-objc gcc-ada gcc-fortran make rustup gnucobol go dmd cbindgen zig nim rust-bindgen fpc patchelf ghc

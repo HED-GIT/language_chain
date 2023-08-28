@@ -86,8 +86,6 @@ CHAIN_LIBS_FLAGS 	:= 	-l:libada_chain.so									\
 						-l:libswift_chain.so	  							\
 						-l:libzig_chain.so
 
-LIBS_FLAGS 			:= 	$(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) -lgfortran
-
 CALL_HEADERS		:= 	$(HEADERDIR)/ada_call.h									\
 						$(HEADERDIR)/c_call.h 									\
 						$(HEADERDIR)/cpp_call.h 								\
@@ -142,6 +140,10 @@ GHC_INCLUDE		:= /usr/lib/ghc-9.0.2/include
 GHC_LIB			:= -l:libHSrts_thr-ghc9.0.2.so
 GHC_LIB_DIR		:= /usr/lib/ghc-9.0.2/rts/
 
+LIBS_FLAGS 		:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(GHC_LIB) -lgfortran
+LIBDIR_FLAGS	:= -L$(LIBDIR) -L$(GHC_LIB_DIR)
+HEADERDIR_FLAGS := -I$(HEADERDIR) -I$(GHC_INCLUDE) 
+
 # -----
 # build
 # -----
@@ -149,7 +151,7 @@ GHC_LIB_DIR		:= /usr/lib/ghc-9.0.2/rts/
 build: $(BUILDDIR)/$(EXENAME)
 
 $(BUILDDIR)/$(EXENAME): src/main.c $(LIBS) $(CHAIN_HEADERS)
-	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c -I$(HEADERDIR) -L$(LIBDIR) $(LIBS_FLAGS) -I$(GHC_INCLUDE) -L$(GHC_LIB_DIR) $(GHC_LIB) -Wl,-z,stack-size=4000000000
+	gcc -o $(BUILDDIR)/$(EXENAME) src/main.c $(HEADERDIR_FLAGS) $(LIBDIR_FLAGS) $(LIBS_FLAGS) 
 
 # ---------
 # call libs
@@ -197,7 +199,7 @@ $(LIBDIR)/libhaskell_call.so $(HEADERDIR)/haskell_call.h: $(C_CALLDIR)/haskell/h
 
 $(LIBDIR)/libjava_call.so $(LIBDIR)/libr_java_call.so $(HEADERDIR)/java_call.h $(HEADERDIR)/r_java_call.h: $(C_CALLDIR)/java/r_java_call.java $(C_CALLDIR)/java/java_call.c $(C_CALLDIR)/java/java_call.h | directories
 	javac $(C_CALLDIR)/java/r_java_call.java -d $(OBJECTDIR)/r_java_call
-	(cd $(OBJECTDIR)/r_java_call && native-image --shared -H:Name=libfoobar)
+	(cd $(OBJECTDIR)/r_java_call && /usr/lib/jvm/default/bin/native-image --shared -H:Name=libfoobar)
 	mv $(OBJECTDIR)/r_java_call/graal_isolate.h $(HEADERDIR)/
 	mv $(OBJECTDIR)/r_java_call/libfoobar.h $(HEADERDIR)/r_java_call.h
 	mv $(OBJECTDIR)/r_java_call/libfoobar.so $(LIBDIR)/libr_java_call.so
@@ -277,7 +279,7 @@ $(LIBDIR)/libfortran_chain.so $(HEADERDIR)/fortran_chain.h: $(C_CHAINDIR)/fortra
 	rm -rf c_interface.mod
 
 $(LIBDIR)/libgo_chain.so $(HEADERDIR)/go_chain.h: $(C_CHAINDIR)/go/go_chain.go $(CALL_HEADERS) | directories
-	C_INCLUDE_PATH="$(PWD)/$(HEADERDIR):$(GHC_INCLUDE)" go build -o $(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
+	C_INCLUDE_PATH="$(HEADERDIR):$(GHC_INCLUDE)" go build -o $(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
 	mv $(LIBDIR)/libgo_chain.h $(HEADERDIR)/go_chain.h
 
 $(LIBDIR)/libhaskell_chain.so $(HEADERDIR)/haskell_chain.h: $(C_CHAINDIR)/haskell/haskell_chain.hs $(CALL_HEADERS) | directories
@@ -287,7 +289,7 @@ $(LIBDIR)/libhaskell_chain.so $(HEADERDIR)/haskell_chain.h: $(C_CHAINDIR)/haskel
 
 $(LIBDIR)/libjava_chain.so $(LIBDIR)/libr_java_chain.so $(HEADERDIR)/java_chain.h $(HEADERDIR)/r_java_chain.h: $(C_CHAINDIR)/java/r_java_chain.java $(C_CHAINDIR)/java/java_chain.c $(C_CHAINDIR)/java/java_chain.h | directories
 	javac $(C_CHAINDIR)/java/r_java_chain.java -d $(OBJECTDIR)/r_java_chain
-	(cd $(OBJECTDIR)/r_java_chain && native-image --shared -H:Name=libfoobar)
+	(cd $(OBJECTDIR)/r_java_chain && /usr/lib/jvm/default/bin/native-image --shared -H:Name=libfoobar)
 	mv $(OBJECTDIR)/r_java_chain/graal_isolate.h $(HEADERDIR)/
 	mv $(OBJECTDIR)/r_java_chain/libfoobar.h $(HEADERDIR)/r_java_chain.h
 	mv $(OBJECTDIR)/r_java_chain/libfoobar.so $(LIBDIR)/libr_java_chain.so
