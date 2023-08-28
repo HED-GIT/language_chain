@@ -22,6 +22,33 @@ a test program where different languages call each other
 - swift
 - zig
 
+## dependencies
+
+- cbindgen
+- dmd
+- fpc
+- gcc
+- gcc-ada
+- gcc-fortran
+- gcc-objc
+- ghc
+- gnucobol
+- go
+- kotlin-native-bin
+- make
+- native-image
+- nim
+- odin
+- rustup
+- rust-bindgen
+- swift
+- zig
+
+or
+
+- docker
+- (docker-compose)
+
 ## todos
 
 - rust_chain not using generated .rs files for nim
