@@ -5,12 +5,12 @@
 EXENAME				:=	main
 
 BUILDDIR			:=	build
-LIBDIR 				:= 	$(BUILDDIR)/libs
+LIBDIR 				:= 	$(CURDIR)/$(BUILDDIR)/libs
 # for all libraries
-OBJECTDIR 			:= 	$(BUILDDIR)/objects
+OBJECTDIR 			:= 	$(CURDIR)/$(BUILDDIR)/objects
 # for all build files
-HEADERDIR 			:= 	$(BUILDDIR)/headers
-RUSTDIR 			:= 	$(BUILDDIR)/rust
+HEADERDIR 			:= 	$(CURDIR)/$(BUILDDIR)/headers
+RUSTDIR 			:= 	$(CURDIR)/$(BUILDDIR)/rust
 DIRLIST				:= 	$(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(RUSTDIR)
 
 C_CALLDIR 			:= 	src/end_calls
@@ -187,8 +187,8 @@ $(LIBDIR)/libfortran_call.so $(HEADERDIR)/fortran_call.h: $(C_CALLDIR)/fortran/f
 	gcc -shared -o $(LIBDIR)/libfortran_call.so $(OBJECTDIR)/fortran_call.o
 
 $(LIBDIR)/libgo_call.so $(HEADERDIR)/go_call.h: $(C_CALLDIR)/go/go_call.go | directories
-	go build -o ./$(LIBDIR)/libgo_call.so -buildmode=c-shared $(C_CALLDIR)/go/go_call.go
-	mv ./$(LIBDIR)/libgo_call.h ./$(HEADERDIR)/go_call.h
+	go build -o $(LIBDIR)/libgo_call.so -buildmode=c-shared $(C_CALLDIR)/go/go_call.go
+	mv $(LIBDIR)/libgo_call.h $(HEADERDIR)/go_call.h
 
 $(LIBDIR)/libhaskell_call.so $(HEADERDIR)/haskell_call.h: $(C_CALLDIR)/haskell/haskell_call.hs | directories
 	ghc -dynamic -fPIC -c $(C_CALLDIR)/haskell/haskell_call.hs -o $(OBJECTDIR)/haskell_call.o -ohi $(OBJECTDIR)/haskell_call.hi
@@ -237,7 +237,7 @@ $(LIBDIR)/libswift_call.so $(HEADERDIR)/swift_call.h: $(C_CALLDIR)/swift/swift_c
 $(LIBDIR)/libzig_call.so $(HEADERDIR)/zig_call.h: $(C_CALLDIR)/zig/zig_call.zig | directories
 	zig build-lib --library c --cache-dir $(OBJECTDIR)/call -dynamic -I $(HEADERDIR)/ $(C_CALLDIR)/zig/zig_call.zig -femit-bin=$(OBJECTDIR)/libzig_call.so
 	cp $(OBJECTDIR)/libzig_call.so $(LIBDIR)/libzig_call.so
-	cp  $(C_CALLDIR)/zig/zig_call.h ./$(HEADERDIR)/zig_call.h
+	cp  $(C_CALLDIR)/zig/zig_call.h $(HEADERDIR)/zig_call.h
 
 
 # ----------
@@ -277,13 +277,13 @@ $(LIBDIR)/libfortran_chain.so $(HEADERDIR)/fortran_chain.h: $(C_CHAINDIR)/fortra
 	rm -rf c_interface.mod
 
 $(LIBDIR)/libgo_chain.so $(HEADERDIR)/go_chain.h: $(C_CHAINDIR)/go/go_chain.go $(CALL_HEADERS) | directories
-	C_INCLUDE_PATH="$(PWD)/$(HEADERDIR):$(GHC_INCLUDE)" go build -o ./$(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
-	mv ./$(LIBDIR)/libgo_chain.h ./$(HEADERDIR)/go_chain.h
+	C_INCLUDE_PATH="$(PWD)/$(HEADERDIR):$(GHC_INCLUDE)" go build -o $(LIBDIR)/libgo_chain.so -buildmode=c-shared $(C_CHAINDIR)/go/go_chain.go
+	mv $(LIBDIR)/libgo_chain.h $(HEADERDIR)/go_chain.h
 
 $(LIBDIR)/libhaskell_chain.so $(HEADERDIR)/haskell_chain.h: $(C_CHAINDIR)/haskell/haskell_chain.hs $(CALL_HEADERS) | directories
 	ghc -dynamic -fPIC -c $(C_CHAINDIR)/haskell/haskell_chain.hs -o $(OBJECTDIR)/haskell_chain.o -ohi $(OBJECTDIR)/haskell_chain.hi
 	ghc -dynamic -shared -flink-rts $(OBJECTDIR)/haskell_chain.o -o $(LIBDIR)/libhaskell_chain.so
-	mv $(C_CHAINDIR)/haskell/haskell_chain_stub.h $(HEADERDIR)/haskell_chain.h
+	mv $(C_CHAINDIR)/haskell/haskell_chain_stub.h $(HEADERDIR)/haskell_chain.h || true			# true is required cause ghc does not fail if recompilation doesn't take place but therefor also doesn't generate the header
 
 $(LIBDIR)/libjava_chain.so $(LIBDIR)/libr_java_chain.so $(HEADERDIR)/java_chain.h $(HEADERDIR)/r_java_chain.h: $(C_CHAINDIR)/java/r_java_chain.java $(C_CHAINDIR)/java/java_chain.c $(C_CHAINDIR)/java/java_chain.h | directories
 	javac $(C_CHAINDIR)/java/r_java_chain.java -d $(OBJECTDIR)/r_java_chain
@@ -328,7 +328,7 @@ $(LIBDIR)/libswift_chain.so $(HEADERDIR)/swift_chain.h: $(C_CHAINDIR)/swift/swif
 $(LIBDIR)/libzig_chain.so $(HEADERDIR)/zig_chain.h: $(C_CHAINDIR)/zig/zig_chain.zig $(CALL_HEADERS) | directories
 	zig build-lib --library c -dynamic --cache-dir $(OBJECTDIR)/chain -I /usr/include/ -I $(HEADERDIR)/ -I $(GHC_INCLUDE) $(C_CHAINDIR)/zig/zig_chain.zig -femit-bin=$(OBJECTDIR)/libzig_chain.so
 	cp $(OBJECTDIR)/libzig_chain.so $(LIBDIR)/libzig_chain.so
-	cp  $(C_CHAINDIR)/zig/zig_chain.h ./$(HEADERDIR)/zig_chain.h
+	cp $(C_CHAINDIR)/zig/zig_chain.h $(HEADERDIR)/zig_chain.h
 
 # ------------
 # rust headers
@@ -403,7 +403,7 @@ directories: $(DIRLIST)
 # -----
 
 run: build/main
-	LD_LIBRARY_PATH="$(LIBDIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" ./build/main
+	LD_LIBRARY_PATH="$(LIBDIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" $(BUILDDIR)/main
 
 clean:
 	rm -rf build
