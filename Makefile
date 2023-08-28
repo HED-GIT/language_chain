@@ -17,154 +17,28 @@ DIRLIST				:= 	$(LIBDIR) $(OBJECTDIR) $(HEADERDIR) $(RUSTDIR) $(KOTLINDIR)
 C_CALLDIR 			:= 	src/end_calls
 C_CHAINDIR 			:= 	src/mid_calls
 
-CALL_LIBS 			:= 	$(LIBDIR)/libada_call.so									\
-						$(LIBDIR)/libc_call.so  									\
-						$(LIBDIR)/libcpp_call.so 									\
-						$(LIBDIR)/libcobol_call.so 									\
-						$(LIBDIR)/libd_call.so  									\
-						$(LIBDIR)/libfortran_call.so								\
-						$(LIBDIR)/libgo_call.so  									\
-						$(LIBDIR)/libhaskell_call.so								\
-						$(LIBDIR)/libjava_call.so $(LIBDIR)/libr_java_call.so		\
-						$(LIBDIR)/libkotlin_call.so	$(LIBDIR)/libr_kotlin_call.so	\
-						$(LIBDIR)/libnim_call.so  									\
-						$(LIBDIR)/liboc_call.so  									\
-						$(LIBDIR)/libodin_call.so  									\
-						$(LIBDIR)/libpascal_call.so									\
-						$(LIBDIR)/librust_call.so  									\
-						$(LIBDIR)/libswift_call.so  								\
-						$(LIBDIR)/libzig_call.so
+LANGUAGES			:=	ada c cpp cobol d fortran go haskell java kotlin nim oc odin pascal rust swift zig
+LANGUAGE_WRAPPERS	:=	java kotlin
+# everything that requires a wrapper to run
 
-CHAIN_LIBS 			:=  $(LIBDIR)/libada_chain.so	  								\
-						$(LIBDIR)/libc_chain.so	  									\
-						$(LIBDIR)/libcpp_chain.so	  								\
-						$(LIBDIR)/libcobol_chain.so	  								\
-						$(LIBDIR)/libd_chain.so	  									\
-						$(LIBDIR)/libfortran_chain.so	  							\
-						$(LIBDIR)/libgo_chain.so									\
-						$(LIBDIR)/libhaskell_chain.so	  							\
-						$(LIBDIR)/libjava_chain.so $(LIBDIR)/libr_java_chain.so		\
-						$(LIBDIR)/libkotlin_chain.so $(LIBDIR)/libr_kotlin_chain.so	\
-						$(LIBDIR)/libnim_chain.so									\
-						$(LIBDIR)/liboc_chain.so	 	 							\
-						$(LIBDIR)/libodin_chain.so									\
-						$(LIBDIR)/libpascal_chain.so	  							\
-						$(LIBDIR)/librust_chain.so	  								\
-						$(LIBDIR)/libswift_chain.so	  								\
-						$(LIBDIR)/libzig_chain.so
-
+CALL_LIBS 			:= 	$(foreach LANGUAGE,$(LANGUAGES), $(LIBDIR)/lib$(LANGUAGE)_call.so)
+CHAIN_LIBS 			:=  $(foreach LANGUAGE,$(LANGUAGES), $(LIBDIR)/lib$(LANGUAGE)_chain.so)
 LIBS 				:= 	$(CALL_LIBS) $(CHAIN_LIBS)
 
-CALL_LIBS_FLAGS 	:= 	-l:libada_call.so									\
-						-l:libc_call.so										\
-						-l:libcpp_call.so 									\
-						-l:libcobol_call.so									\
-						-l:libd_call.so 									\
-						-l:libfortran_call.so 								\
-						-l:libgo_call.so 									\
-						-l:libhaskell_call.so								\
-						-l:libjava_call.so -l:libr_java_call.so				\
-						-l:libkotlin_call.so -l:libr_kotlin_call.so			\
-						-l:libnim_call.so 									\
-						-l:liboc_call.so 									\
-						-l:libodin_call.so 									\
-						-l:libpascal_call.so 								\
-						-l:librust_call.so 									\
-						-l:libswift_call.so 								\
-						-l:libzig_call.so
+CALL_LIBS_FLAGS 	:= 	$(foreach LANGUAGE,$(LANGUAGES), -l:lib$(LANGUAGE)_call.so) $(foreach WRAPPER,$(LANGUAGE_WRAPPERS), -l:libr_$(WRAPPER)_call.so)
+CHAIN_LIBS_FLAGS 	:= 	$(foreach LANGUAGE,$(LANGUAGES), -l:lib$(LANGUAGE)_chain.so) $(foreach WRAPPER,$(LANGUAGE_WRAPPERS), -l:libr_$(WRAPPER)_chain.so)
 
-CHAIN_LIBS_FLAGS 	:= 	-l:libada_chain.so									\
-						-l:libc_chain.so	  								\
-						-l:libcpp_chain.so	  								\
-						-l:libcobol_chain.so  								\
-						-l:libd_chain.so  									\
-						-l:libfortran_chain.so  							\
-						-l:libgo_chain.so  									\
-						-l:libhaskell_chain.so  							\
-						-l:libjava_chain.so -l:libr_java_chain.so			\
-						-l:libkotlin_chain.so -l:libr_kotlin_chain.so		\
-						-l:libnim_chain.so  								\
-						-l:liboc_chain.so		  							\
-						-l:libodin_chain.so  								\
-						-l:libpascal_chain.so	  							\
-						-l:librust_chain.so	 	 							\
-						-l:libswift_chain.so	  							\
-						-l:libzig_chain.so
+CALL_HEADERS		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(HEADERDIR)/$(LANGUAGE)_call.h) $(foreach WRAPPER,$(LANGUAGE_WRAPPERS), $(HEADERDIR)/r_$(WRAPPER)_call.h)
+CHAIN_HEADERS		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(HEADERDIR)/$(LANGUAGE)_chain.h) $(foreach WRAPPER,$(LANGUAGE_WRAPPERS), $(HEADERDIR)/r_$(WRAPPER)_chain.h)
 
-CALL_HEADERS		:= 	$(HEADERDIR)/ada_call.h										\
-						$(HEADERDIR)/c_call.h 										\
-						$(HEADERDIR)/cpp_call.h 									\
-						$(HEADERDIR)/cobol_call.h									\
-						$(HEADERDIR)/d_call.h 										\
-						$(HEADERDIR)/fortran_call.h 								\
-						$(HEADERDIR)/go_call.h 										\
-						$(HEADERDIR)/haskell_call.h									\
-						$(HEADERDIR)/java_call.h $(HEADERDIR)/r_java_call.h			\
-						$(HEADERDIR)/kotlin_call.h $(HEADERDIR)/r_kotlin_call.h		\
-						$(HEADERDIR)/nim_call.h 									\
-						$(HEADERDIR)/oc_call.h 										\
-						$(HEADERDIR)/odin_call.h 									\
-						$(HEADERDIR)/pascal_call.h 									\
-						$(HEADERDIR)/rust_call.h 									\
-						$(HEADERDIR)/swift_call.h 									\
-						$(HEADERDIR)/zig_call.h
-
-CHAIN_HEADERS		:= 	$(HEADERDIR)/ada_chain.h									\
-						$(HEADERDIR)/c_chain.h										\
-						$(HEADERDIR)/cpp_chain.h									\
-						$(HEADERDIR)/cobol_chain.h									\
-						$(HEADERDIR)/d_chain.h										\
-						$(HEADERDIR)/fortran_chain.h								\
-						$(HEADERDIR)/go_chain.h										\
-						$(HEADERDIR)/haskell_chain.h								\
-						$(HEADERDIR)/java_chain.h $(HEADERDIR)/r_java_chain.h		\
-						$(HEADERDIR)/kotlin_chain.h	$(HEADERDIR)/r_kotlin_chain.h	\
-						$(HEADERDIR)/nim_chain.h									\
-						$(HEADERDIR)/oc_chain.h										\
-						$(HEADERDIR)/odin_chain.h									\
-						$(HEADERDIR)/rust_chain.h									\
-						$(HEADERDIR)/pascal_chain.h									\
-						$(HEADERDIR)/swift_chain.h									\
-						$(HEADERDIR)/zig_chain.h
-
-RUST_CALL_HEADERS	:= 	$(RUSTDIR)/ada_call.rs			\
-						$(RUSTDIR)/c_call.rs 			\
-						$(RUSTDIR)/cpp_call.rs 			\
-						$(RUSTDIR)/cobol_call.rs		\
-						$(RUSTDIR)/d_call.rs			\
-						$(RUSTDIR)/fortran_call.rs		\
-						$(RUSTDIR)/go_call.rs			\
-						$(RUSTDIR)/haskell_call.rs		\
-						$(RUSTDIR)/java_call.rs			\
-						$(RUSTDIR)/kotlin_call.rs		\
-						$(RUSTDIR)/nim_call.rs			\
-						$(RUSTDIR)/oc_call.rs			\
-						$(RUSTDIR)/odin_call.rs			\
-						$(RUSTDIR)/pascal_call.rs		\
-						$(RUSTDIR)/swift_call.rs		\
-						$(RUSTDIR)/zig_call.rs
-
-KOTLIN_CALL_HEADERS	:= 	$(KOTLINDIR)/ada_call.klib			\
-						$(KOTLINDIR)/c_call.klib 			\
-						$(KOTLINDIR)/cpp_call.klib 			\
-						$(KOTLINDIR)/cobol_call.klib		\
-						$(KOTLINDIR)/d_call.klib			\
-						$(KOTLINDIR)/fortran_call.klib		\
-						$(KOTLINDIR)/go_call.klib			\
-						$(KOTLINDIR)/haskell_call.klib		\
-						$(KOTLINDIR)/java_call.klib			\
-						$(KOTLINDIR)/kotlin_call.klib		\
-						$(KOTLINDIR)/nim_call.klib			\
-						$(KOTLINDIR)/oc_call.klib			\
-						$(KOTLINDIR)/odin_call.klib			\
-						$(KOTLINDIR)/rust_call.klib			\
-						$(KOTLINDIR)/pascal_call.klib		\
-						$(KOTLINDIR)/swift_call.klib		\
-						$(KOTLINDIR)/zig_call.klib
+RUST_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(RUSTDIR)/$(LANGUAGE)_call.rs)
+KOTLIN_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(KOTLINDIR)/$(LANGUAGE)_call.klib)
 
 GHC_INCLUDE		:= /usr/lib/ghc-9.0.2/include
 GHC_LIB			:= -l:libHSrts_thr-ghc9.0.2.so
 GHC_LIB_DIR		:= /usr/lib/ghc-9.0.2/rts/
+
+BASE_INCLUDE	:= /usr/include/
 
 LIBS_FLAGS 		:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(GHC_LIB) -lgfortran
 LIBDIR_FLAGS	:= -L$(LIBDIR) -L$(GHC_LIB_DIR)
@@ -318,6 +192,8 @@ $(LIBDIR)/libgo_chain.so $(HEADERDIR)/go_chain.h: $(C_CHAINDIR)/go/go_chain.go $
 	mv $(LIBDIR)/libgo_chain.h $(HEADERDIR)/go_chain.h
 
 $(LIBDIR)/libhaskell_chain.so $(HEADERDIR)/haskell_chain.h: $(C_CHAINDIR)/haskell/haskell_chain.hs $(CALL_HEADERS) | directories
+	rm -f $(OBJECTDIR)/haskell_chain.hi $(OBJECTDIR)/haskell_chain.o 
+	# forces everything to recompile, else if a call_header changes it gets stuck in a loop where it decides not to compile because it would not change the result everytime it is built
 	ghc -dynamic -fPIC -c $(C_CHAINDIR)/haskell/haskell_chain.hs -o $(OBJECTDIR)/haskell_chain.o -ohi $(OBJECTDIR)/haskell_chain.hi
 	ghc -dynamic -shared -flink-rts $(OBJECTDIR)/haskell_chain.o -o $(LIBDIR)/libhaskell_chain.so
 	mv $(C_CHAINDIR)/haskell/haskell_chain_stub.h $(HEADERDIR)/haskell_chain.h || true			# true is required cause ghc does not fail if recompilation doesn't take place but therefor also doesn't generate the header
@@ -334,7 +210,6 @@ $(LIBDIR)/libjava_chain.so $(LIBDIR)/libr_java_chain.so $(HEADERDIR)/java_chain.
 	gcc -shared -o $(LIBDIR)/libjava_chain.so $(OBJECTDIR)/java_chain.o
 
 $(LIBDIR)/libkotlin_chain.so $(LIBDIR)/libr_kotlin_chain.so $(HEADERDIR)/kotlin_chain.h $(HEADERDIR)/r_kotlin_chain.h: $(C_CHAINDIR)/kotlin/r_kotlin_chain.kt $(C_CHAINDIR)/kotlin/kotlin_chain.c $(C_CHAINDIR)/kotlin/kotlin_chain.h $(KOTLIN_CALL_HEADERS) | directories
-	
 	kotlinc-native -produce dynamic -o $(OBJECTDIR)/r_kotlin_chain $(C_CHAINDIR)/kotlin/r_kotlin_chain.kt $(foreach HEADER,$(KOTLIN_CALL_HEADERS), -library $(HEADER))
 	mv $(OBJECTDIR)/libr_kotlin_chain.so $(LIBDIR)/libr_kotlin_chain.so
 	mv $(OBJECTDIR)/r_kotlin_chain_api.h $(HEADERDIR)/r_kotlin_chain.h
@@ -381,53 +256,11 @@ $(LIBDIR)/libzig_chain.so $(HEADERDIR)/zig_chain.h: $(C_CHAINDIR)/zig/zig_chain.
 # rust headers
 # ------------
 
-$(RUSTDIR)/ada_call.rs: $(HEADERDIR)/ada_call.h | directories
-	bindgen $(HEADERDIR)/ada_call.h -o $(RUSTDIR)/ada_call.rs
-
-$(RUSTDIR)/c_call.rs: $(HEADERDIR)/c_call.h | directories
-	bindgen $(HEADERDIR)/c_call.h -o $(RUSTDIR)/c_call.rs
-
-$(RUSTDIR)/cpp_call.rs: $(HEADERDIR)/cpp_call.h | directories
-	bindgen $(HEADERDIR)/cpp_call.h -o $(RUSTDIR)/cpp_call.rs
-
-$(RUSTDIR)/cobol_call.rs: $(HEADERDIR)/cobol_call.h | directories
-	bindgen $(HEADERDIR)/cobol_call.h -o $(RUSTDIR)/cobol_call.rs
-
-$(RUSTDIR)/d_call.rs: $(HEADERDIR)/d_call.h | directories
-	bindgen $(HEADERDIR)/d_call.h -o $(RUSTDIR)/d_call.rs
-
-$(RUSTDIR)/fortran_call.rs: $(HEADERDIR)/fortran_call.h | directories
-	bindgen $(HEADERDIR)/fortran_call.h -o $(RUSTDIR)/fortran_call.rs
-
-$(RUSTDIR)/go_call.rs: $(HEADERDIR)/go_call.h | directories
-	bindgen $(HEADERDIR)/go_call.h -o $(RUSTDIR)/go_call.rs
+$(RUSTDIR)/%.rs: $(HEADERDIR)/%.h | directories
+	bindgen $< -o $@
 
 $(RUSTDIR)/haskell_call.rs: $(HEADERDIR)/haskell_call.h | directories
-	bindgen $(HEADERDIR)/haskell_call.h -o $(RUSTDIR)/haskell_call.rs -- -I$(GHC_INCLUDE)
-
-$(RUSTDIR)/java_call.rs: $(HEADERDIR)/java_call.h | directories
-	bindgen $(HEADERDIR)/java_call.h -o $(RUSTDIR)/java_call.rs
-
-$(RUSTDIR)/kotlin_call.rs: $(HEADERDIR)/kotlin_call.h | directories
-	bindgen $(HEADERDIR)/kotlin_call.h -o $(RUSTDIR)/kotlin_call.rs
-
-$(RUSTDIR)/nim_call.rs: $(HEADERDIR)/nim_call.h | directories
-	bindgen $(HEADERDIR)/nim_call.h -o $(RUSTDIR)/nim_call.rs
-
-$(RUSTDIR)/oc_call.rs: $(HEADERDIR)/oc_call.h | directories
-	bindgen $(HEADERDIR)/oc_call.h -o $(RUSTDIR)/oc_call.rs
-
-$(RUSTDIR)/odin_call.rs: $(HEADERDIR)/odin_call.h | directories
-	bindgen $(HEADERDIR)/odin_call.h -o $(RUSTDIR)/odin_call.rs
-
-$(RUSTDIR)/pascal_call.rs: $(HEADERDIR)/pascal_call.h | directories
-	bindgen $(HEADERDIR)/pascal_call.h -o $(RUSTDIR)/pascal_call.rs
-
-$(RUSTDIR)/swift_call.rs: $(HEADERDIR)/swift_call.h | directories
-	bindgen $(HEADERDIR)/swift_call.h -o $(RUSTDIR)/swift_call.rs
-
-$(RUSTDIR)/zig_call.rs: $(HEADERDIR)/zig_call.h | directories
-	bindgen $(HEADERDIR)/zig_call.h -o $(RUSTDIR)/zig_call.rs
+	bindgen $< -o $@ -- -I$(GHC_INCLUDE)
 
 # --------------
 # kotlin headers
@@ -441,28 +274,14 @@ $(KOTLINDIR)/haskell_call.klib: $(HEADERDIR)/haskell_call.h | directories
 	cinterop -header $< -pkg haskell_call -o $@ -compiler-options -I$(GHC_INCLUDE)
 
 $(KOTLINDIR)/nim_call.klib: $(HEADERDIR)/nim_call.h | directories
-	cinterop -header $< -pkg nim_call -o $@ -compiler-options -I/usr/include/
+	cinterop -header $< -pkg nim_call -o $@ -compiler-options -I$(BASE_INCLUDE)
 
 # -------
 # folders
 # -------
 
-$(LIBDIR):
-	mkdir -p $(LIBDIR)
-
-$(OBJECTDIR):
-	mkdir -p $(OBJECTDIR)
-
-$(HEADERDIR):
-	mkdir -p $(HEADERDIR)
-
-$(RUSTDIR):
-	mkdir -p $(RUSTDIR)
-
-$(KOTLINDIR):
-	mkdir -p $(KOTLINDIR)
-
-directories: $(DIRLIST)
+directories:
+	mkdir -p $(DIRLIST)
 
 # -----
 # other
