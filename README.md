@@ -1,6 +1,6 @@
 # language_chain
 
-a test program where different compiled languages call each other
+a test program where different languages call each other
 
 ## languages
 
