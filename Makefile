@@ -34,9 +34,10 @@ CHAIN_HEADERS		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(HEADER_DIR)/$(LANGUAGE)_ch
 RUST_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(RUST_DIR)/$(LANGUAGE)_call.rs)
 KOTLIN_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(KOTLIN_DIR)/$(LANGUAGE)_call.klib)
 
-GHC_INCLUDE		:= /usr/lib/ghc-9.0.2/include
-GHC_LIB			:= -l:libHSrts_thr-ghc9.0.2.so
-GHC_LIB_DIR		:= /usr/lib/ghc-9.0.2/rts/
+GHC_VERSION		:= 9.0.2
+GHC_INCLUDE		:= /usr/lib/ghc-$(GHC_VERSION)/include
+GHC_LIB			:= -l:libHSrts_thr-ghc$(GHC_VERSION).so
+GHC_LIB_DIR		:= /usr/lib/ghc-$(GHC_VERSION)/rts/
 
 BASE_INCLUDE	:= /usr/include/
 
