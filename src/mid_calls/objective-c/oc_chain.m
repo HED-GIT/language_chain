@@ -19,7 +19,7 @@
 void start_oc_chain(){
     call_ada("ada called by oc");
     call_c("c called by oc");
-    call_cpp("c++ called by oc");
+    call_cpp("cpp called by oc");
     call_cobol("cobol called by oc");
     call_d("d called by oc");
     call_fortran("fortran called by oc");

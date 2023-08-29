@@ -33,7 +33,7 @@ pub extern fn start_rust_chain(){
         call_ada(ada.as_ptr() as *mut i8);
         let c = CString::new("c called by rust").unwrap();
         call_c(c.as_ptr());
-        let cpp = CString::new("c++ called by rust").unwrap();
+        let cpp = CString::new("cpp called by rust").unwrap();
         call_cpp(cpp.as_ptr());
         let cobol = CString::new("cobol called by rust").unwrap();
         call_cobol(cobol.as_ptr() as *mut i8);

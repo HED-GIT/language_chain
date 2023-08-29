@@ -26,7 +26,7 @@ start_haskell_chain = do
     call_ada ada_text
     c_text <- newCString "c called by haskell"
     call_c c_text
-    cpp_text <- newCString "c++ called by haskell"
+    cpp_text <- newCString "cpp called by haskell"
     call_cpp cpp_text
     cobol_text <- newCString "cobol called by haskell"
     call_cobol cobol_text

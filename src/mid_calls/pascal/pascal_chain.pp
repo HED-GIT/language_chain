@@ -22,7 +22,7 @@ procedure start_pascal_chain() cdecl;
 begin
     call_ada('ada called by pascal');
     call_c('c called by pascal');
-    call_cpp('c++ called by pascal');
+    call_cpp('cpp called by pascal');
     call_cobol('cobol called by pascal');
     call_d('d called by pascal');
     call_fortran('fortran called by pascal');

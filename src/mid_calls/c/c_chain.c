@@ -21,7 +21,7 @@
 void start_c_chain(){
     call_ada("ada called by c");
     call_c("c called by c");
-    call_cpp("c++ called by c");
+    call_cpp("cpp called by c");
     call_cobol("cobol called by c");
     call_d("d called by c");
     call_fortran("fortran called by c");

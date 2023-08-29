@@ -21,21 +21,21 @@ extern "C"{
 #include "zig_call.h"
 
 void start_cpp_chain(){
-    call_ada("ada called by c++");
-    call_c("c called by c++");
-    call_cpp("c++ called by c++");
-    call_cobol("cobol called by c++");
-    call_d("d called by c++");
-    call_fortran("fortran called by c++");
-    call_go((char*)"go called by c++");
-    call_haskell((char*)"go called by c++");
-    call_java("java called by c++");
-    call_kotlin("kotlin called by c++");
-    call_nim((char*)"nim called by c++");
-    call_oc("oc called by c++");
-    call_odin("odin called by c++");
-    call_pascal("pascal called by c++");
-    call_rust("rust called by c++");
-    call_swift("swift called by c++");
-    call_zig("zig called by c++");
+    call_ada("ada called by cpp");
+    call_c("c called by cpp");
+    call_cpp("cpp called by cpp");
+    call_cobol("cobol called by cpp");
+    call_d("d called by cpp");
+    call_fortran("fortran called by cpp");
+    call_go((char*)"go called by cpp");
+    call_haskell((char*)"haskell called by cpp");
+    call_java("java called by cpp");
+    call_kotlin("kotlin called by cpp");
+    call_nim((char*)"nim called by cpp");
+    call_oc("oc called by cpp");
+    call_odin("odin called by cpp");
+    call_pascal("pascal called by cpp");
+    call_rust("rust called by cpp");
+    call_swift("swift called by cpp");
+    call_zig("zig called by cpp");
 }

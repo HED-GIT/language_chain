@@ -19,7 +19,7 @@ proc call_zig(x: cstring) {.importc.}
 proc start_nim_chain() {.exportc, dynlib.} =
     call_ada("ada called by nim");
     call_c("c called by nim");
-    call_cpp("c++ called by nim");
+    call_cpp("cpp called by nim");
     call_cobol("cobol called by nim");
     call_d("d called by nim");
     call_fortran("fortran called by nim");

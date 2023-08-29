@@ -21,7 +21,7 @@ import zig_call.call_zig
 fun r_start_kotlin_chain(){
     call_ada("ada called by kotlin")
     call_c("c called by kotlin")
-    call_cpp("c++ called by kotlin")
+    call_cpp("cpp called by kotlin")
     call_cobol("cobol called by kotlin")
     call_d("d called by kotlin")
     call_fortran("fortran called by kotlin")

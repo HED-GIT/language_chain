@@ -54,7 +54,7 @@ pub export fn start_zig_chain() callconv(.C) void {
     var ada = "ada called by zig".*;
     call_ada(&ada);
     call_c("c called by zig");
-    call_cpp("c++ called by zig");
+    call_cpp("cpp called by zig");
     var cobol = "cobol called by zig".*;
     call_cobol(&cobol);
     call_d("d called by zig");

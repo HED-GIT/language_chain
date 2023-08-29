@@ -30,7 +30,7 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(ada))
 	c := C.CString("c called by go")
 	defer C.free(unsafe.Pointer(c))
-	cpp := C.CString("c++ called by go")
+	cpp := C.CString("cpp called by go")
 	defer C.free(unsafe.Pointer(cpp))
 	cobol := C.CString("cobol called by go")
 	defer C.free(unsafe.Pointer(cobol))

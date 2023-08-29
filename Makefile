@@ -14,8 +14,10 @@ RUST_DIR 			:= 	$(CURDIR)/$(BUILD_DIR)/rust
 KOTLIN_DIR 			:= 	$(CURDIR)/$(BUILD_DIR)/kotlin
 DIR_LIST			:= 	$(LIB_DIR) $(OBJECT_DIR) $(HEADER_DIR) $(RUST_DIR) $(KOTLIN_DIR)
 
-CALL_DIR 			:= 	src/end_calls
-CHAIN_DIR 			:= 	src/mid_calls
+SRC_DIR				:=	src
+TEST_DIR			:=	test
+CALL_DIR 			:= 	$(SRC_DIR)/end_calls
+CHAIN_DIR 			:= 	$(SRC_DIR)/mid_calls
 
 LANGUAGES			:=	ada c cpp cobol d fortran go haskell java kotlin nim oc odin pascal rust swift zig
 LANGUAGE_WRAPPERS	:=	java kotlin
@@ -34,6 +36,9 @@ CHAIN_HEADERS		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(HEADER_DIR)/$(LANGUAGE)_ch
 RUST_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(RUST_DIR)/$(LANGUAGE)_call.rs)
 KOTLIN_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(KOTLIN_DIR)/$(LANGUAGE)_call.klib)
 
+CALL_TEST_EXES		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(BUILD_DIR)/test_$(LANGUAGE)_call)
+CHAIN_TEST_EXES		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(BUILD_DIR)/test_$(LANGUAGE)_chain)
+
 GHC_VERSION		:= 9.0.2
 GHC_INCLUDE		:= /usr/lib/ghc-$(GHC_VERSION)/include
 GHC_LIB			:= -l:libHSrts_thr-ghc$(GHC_VERSION).so
@@ -49,10 +54,25 @@ HEADER_DIR_FLAGS := -I$(HEADER_DIR) -I$(GHC_INCLUDE)
 # build
 # -----
 
+all: build run_test
+
 build: $(BUILD_DIR)/$(EXE_NAME)
 
-$(BUILD_DIR)/$(EXE_NAME): src/main.c $(LIBS) $(CHAIN_HEADERS)
+build_tests: $(CALL_TEST_EXES) $(CHAIN_TEST_EXES)
+
+$(BUILD_DIR)/$(EXE_NAME): $(SRC_DIR)/main.c $(LIBS) $(CHAIN_HEADERS)
 	gcc -o $(BUILD_DIR)/$(EXE_NAME) src/main.c $(HEADER_DIR_FLAGS) $(LIB_DIR_FLAGS) $(LIBS_FLAGS) 
+
+# -----
+# tests
+# -----
+
+$(BUILD_DIR)/test_%_call: $(TEST_DIR)/call_test.c $(LIBS)
+	gcc -o $(BUILD_DIR)/test_$*_call $(TEST_DIR)/call_test.c $(HEADER_DIR_FLAGS) $(LIB_DIR_FLAGS) $(LIBS_FLAGS) -D CALL_FUNCTION=call_$* -D CALL_LIB=\"$*_call.h\"
+
+$(BUILD_DIR)/test_%_chain: $(TEST_DIR)/chain_test.c $(LIBS) $(CHAIN_HEADERS)
+	gcc -o $(BUILD_DIR)/test_$*_chain $(TEST_DIR)/chain_test.c $(HEADER_DIR_FLAGS) $(LIB_DIR_FLAGS) $(LIBS_FLAGS) -D CHAIN_FUNCTION=start_$*_chain -D CHAIN_LIB=\"$*_chain.h\"
+
 
 # ---------
 # call libs
@@ -290,7 +310,15 @@ directories:
 run: build/main
 	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" $(BUILD_DIR)/$(EXE_NAME)
 
+run_test: run_call_tests run_chain_tests
+
+run_call_tests: $(CALL_TEST_EXES)
+	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" bash $(TEST_DIR)/call_test_runner.sh $(LANGUAGES)
+
+run_chain_tests: $(CHAIN_TEST_EXES)
+	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" bash $(TEST_DIR)/chain_test_runner.sh $(LANGUAGES)
+
 clean:
 	rm -rf build
 
-.PHONY: clean directories run build
+.PHONY: clean directories run build build_tests run_test run_call_tests run_chain_tests

@@ -94,7 +94,7 @@ subroutine start_fortran_chain() bind ( C, name='start_fortran_chain')
 
     call call_ada('ada called by fortran'//char(0));
     call call_c('c called by fortran'//char(0));
-    call call_cpp('c++ called by fortran'//char(0));
+    call call_cpp('cpp called by fortran'//char(0));
     call call_cobol('cobol called by fortran'//char(0));
     call call_d('d called by fortran'//char(0));
     call call_fortran('fortran called by fortran'//char(0));
@@ -104,6 +104,7 @@ subroutine start_fortran_chain() bind ( C, name='start_fortran_chain')
     call call_kotlin('kotlin called by fortran'//char(0));
     call call_nim('nim called by fortran'//char(0));
     call call_oc('oc called by fortran'//char(0));
+    call call_odin('odin called by fortran'//char(0));
     call call_pascal('pascal called by fortran'//char(0));
     call call_rust('rust called by fortran'//char(0));
     call call_swift('swift called by fortran'//char(0));

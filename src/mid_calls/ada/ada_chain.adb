@@ -60,7 +60,7 @@ package body ada_chain is
 
     adastring : constant chars_ptr := New_String ("ada called by ada");
     cstring : constant chars_ptr := New_String ("c called by ada");
-    cppstring : constant chars_ptr := New_String ("c++ called by ada");
+    cppstring : constant chars_ptr := New_String ("cpp called by ada");
     cobolstring : constant chars_ptr := New_String ("cobol called by ada");
     dstring : constant chars_ptr := New_String ("d called by ada");
     fortranstring : constant chars_ptr := New_String ("fortran called by ada");

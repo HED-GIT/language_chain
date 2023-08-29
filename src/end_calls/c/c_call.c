@@ -15,7 +15,7 @@ char* cstring(){
 }
 
 char* cppstring(){
-    return "c++ called by java";
+    return "cpp called by java";
 }
 
 char* cobolstring(){
