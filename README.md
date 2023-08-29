@@ -58,3 +58,10 @@ or
 - main not using haskell_chain.h and rust_chain.h
 - make go use haskell header file
 - make java not use strings that are defined in c code
+
+## possible future languages
+
+- crystal
+- julia
+- scala (using java and graalvm)
+- groovy (using java and graalvm)
