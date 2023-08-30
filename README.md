@@ -8,6 +8,7 @@ a test program where different languages call each other
 - c
 - c++
 - cobol
+- crystal
 - d
 - fortran
 - go
@@ -25,6 +26,7 @@ a test program where different languages call each other
 ## dependencies
 
 - cbindgen
+- crystal
 - dmd
 - fpc
 - gcc
@@ -61,7 +63,6 @@ or
 
 ## possible future languages
 
-- crystal
 - julia
 - scala (using java and graalvm)
 - groovy (using java and graalvm)

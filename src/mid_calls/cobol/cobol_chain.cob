@@ -11,6 +11,7 @@ PROCEDURE DIVISION.
     CALL "call_c" using z"c called by cobol".
     CALL "call_cpp" using z"cpp called by cobol".
     CALL "call_cobol" using z"cobol called by cobol".
+    CALL "call_crystal" using z"crystal called by cobol".
     CALL "call_d" using z"d called by cobol".
     CALL "call_fortran" using z"fortran called by cobol".
     CALL "call_go" using z"go called by cobol".

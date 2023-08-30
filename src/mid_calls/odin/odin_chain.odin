@@ -6,6 +6,7 @@ foreign import lib_ada "libada_call"
 foreign import lib_c "libc_call"
 foreign import lib_cpp "libcpp_call"
 foreign import lib_cobol "libcobol_call"
+foreign import lib_crystal "libcrystal_call"
 foreign import lib_d "libd_call"
 foreign import lib_fortran "libfortran_call"
 foreign import lib_go "libgo_call"
@@ -31,6 +32,9 @@ foreign lib_cpp {
 }
 foreign lib_cobol {
     call_cobol :: proc(x: cstring) ---
+}
+foreign lib_crystal {
+    call_crystal :: proc(x: cstring) ---
 }
 foreign lib_d {
     call_d :: proc(x: cstring) ---
@@ -79,6 +83,7 @@ start_odin_chain :: proc "c"() {
     call_c("c called by odin")
     call_cpp("cpp called by odin")
     call_cobol("cobol called by odin")
+    call_crystal("crystal called by odin")
     call_d("d called by odin")
     call_fortran("fortran called by odin")
     call_go("go called by odin")

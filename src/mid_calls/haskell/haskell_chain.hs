@@ -6,6 +6,7 @@ foreign import ccall "ada_call.h call_ada" call_ada :: CString -> IO()
 foreign import ccall "c_call.h call_c" call_c :: CString -> IO()
 foreign import ccall "cpp_call.h call_cpp" call_cpp :: CString -> IO()
 foreign import ccall "cobol_call.h call_cobol" call_cobol :: CString -> IO()
+foreign import ccall "crystal_call.h call_crystal" call_crystal :: CString -> IO()
 foreign import ccall "d_call.h call_d" call_d :: CString -> IO()
 foreign import ccall "fortran_call.h call_fortran" call_fortran :: CString -> IO()
 foreign import ccall "go_call.h call_go" call_go :: CString -> IO()
@@ -30,6 +31,8 @@ start_haskell_chain = do
     call_cpp cpp_text
     cobol_text <- newCString "cobol called by haskell"
     call_cobol cobol_text
+    crystal_text <- newCString "crystal called by haskell"
+    call_crystal crystal_text
     d_text <- newCString "d called by haskell"
     call_d d_text
     fortran_text <- newCString "fortran called by haskell"

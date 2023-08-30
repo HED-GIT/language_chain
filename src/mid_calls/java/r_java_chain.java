@@ -21,6 +21,9 @@ public class r_java_chain
     @CFunction(value = "call_cobol")
     static native void call_cobol(CCharPointer c);
 
+    @CFunction(value = "call_crystal")
+    static native void call_crystal(CCharPointer c);
+
     @CFunction(value = "call_d")
     static native void call_d(CCharPointer c);
 
@@ -73,6 +76,9 @@ public class r_java_chain
     @CFunction(value = "cobolstring")
     static native CCharPointer cobolstring();
 
+    @CFunction(value = "crystalstring")
+    static native CCharPointer crystalstring();
+
     @CFunction(value = "dstring")
     static native CCharPointer dstring();
 
@@ -119,6 +125,7 @@ public class r_java_chain
         call_c(cstring());
         call_cpp(cppstring());
         call_cobol(cobolstring());
+        call_crystal(crystalstring());
         call_d(dstring());
         call_fortran(fortranstring());
         call_go(gostring());

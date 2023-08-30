@@ -4,6 +4,7 @@ procedure call_ada (str: PChar); external;
 procedure call_c (str: PChar); external;
 procedure call_cpp (str: PChar); external;
 procedure call_cobol (str: PChar); external;
+procedure call_crystal (str: PChar); external;
 procedure call_d (str: PChar); external;
 procedure call_fortran (str: PChar); external;
 procedure call_go (str: PChar); external;
@@ -24,6 +25,7 @@ begin
     call_c('c called by pascal');
     call_cpp('cpp called by pascal');
     call_cobol('cobol called by pascal');
+    call_crystal('crystal called by pascal');
     call_d('d called by pascal');
     call_fortran('fortran called by pascal');
     call_go('go called by pascal');

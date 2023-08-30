@@ -2,6 +2,7 @@ proc call_ada(x: cstring) {.importc.}
 proc call_c(x: cstring) {.importc.}
 proc call_cpp(x: cstring) {.importc.}
 proc call_cobol(x: cstring) {.importc.}
+proc call_crystal(x: cstring) {.importc.}
 proc call_d(x: cstring) {.importc.}
 proc call_fortran(x: cstring) {.importc.}
 proc call_go(x: cstring) {.importc.}
@@ -21,6 +22,7 @@ proc start_nim_chain() {.exportc, dynlib.} =
     call_c("c called by nim");
     call_cpp("cpp called by nim");
     call_cobol("cobol called by nim");
+    call_crystal("crystal called by nim");
     call_d("d called by nim");
     call_fortran("fortran called by nim");
     call_go("go called by nim");

@@ -4,6 +4,7 @@ import ada_call.call_ada
 import c_call.call_c
 import cpp_call.call_cpp
 import cobol_call.call_cobol
+import crystal_call.call_crystal
 import d_call.call_d
 import fortran_call.call_fortran
 import go_call.call_go
@@ -23,6 +24,7 @@ fun r_start_kotlin_chain(){
     call_c("c called by kotlin")
     call_cpp("cpp called by kotlin")
     call_cobol("cobol called by kotlin")
+    call_crystal("crystal called by kotlin")
     call_d("d called by kotlin")
     call_fortran("fortran called by kotlin")
     call_go("go called by kotlin".cstr) 

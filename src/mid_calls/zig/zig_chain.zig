@@ -10,6 +10,9 @@ const call_cpp = @cImport({
 const call_cobol = @cImport({
     @cInclude("cobol_call.h");
 }).call_cobol;
+const call_crystal = @cImport({
+    @cInclude("crystal_call.h");
+}).call_crystal;
 const call_d = @cImport({
     @cInclude("d_call.h");
 }).call_d;
@@ -51,21 +54,18 @@ const call_zig = @cImport({
 }).call_zig;
 
 pub export fn start_zig_chain() callconv(.C) void {
-    var ada = "ada called by zig".*;
-    call_ada(&ada);
+    call_ada("ada called by zig");
     call_c("c called by zig");
     call_cpp("cpp called by zig");
-    var cobol = "cobol called by zig".*;
-    call_cobol(&cobol);
+    call_cobol("cobol called by zig");
+    call_crystal("crystal called by zig");
     call_d("d called by zig");
-    var fortran = "fortran called by zig".*;
-    call_fortran(&fortran);
+    call_fortran("fortran called by zig");
     var go = "go called by zig".*;
     call_go(&go);
     var haskell = "haskell called by zig".*;
     call_haskell(&haskell);
-    var java = "java called by zig".*;
-    call_java(&java);
+    call_java("java called by zig");
     call_kotlin("kotlin called by zig");
     var nim = "nim called by zig".*;
     call_nim(&nim);
@@ -73,8 +73,7 @@ pub export fn start_zig_chain() callconv(.C) void {
     call_odin("odin called by zig");
     call_pascal("pascal called by zig");
     call_rust("rust called by zig");
-    var swift = "swift called by zig".*;
-    call_swift(&swift);
+    call_swift("swift called by zig");
     call_zig("zig called by zig");
 
 }

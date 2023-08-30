@@ -4,6 +4,7 @@ package main
 // #include "c_call.h"
 // #include "cpp_call.h"
 // #include "cobol_call.h"
+// #include "crystal_call.h"
 // #include "d_call.h"
 // #include "fortran_call.h"
 // #include "go_call.h"
@@ -34,6 +35,8 @@ func start_go_chain() {
 	defer C.free(unsafe.Pointer(cpp))
 	cobol := C.CString("cobol called by go")
 	defer C.free(unsafe.Pointer(cobol))
+	crystal := C.CString("crystal called by go")
+	defer C.free(unsafe.Pointer(crystal))
 	d := C.CString("d called by go")
 	defer C.free(unsafe.Pointer(d))
 	fortran := C.CString("fortran called by go")
@@ -65,6 +68,7 @@ func start_go_chain() {
 	C.call_c(c)
 	C.call_cpp(cpp)
 	C.call_cobol(cobol)
+	C.call_crystal(crystal)
 	C.call_d(d)
 	C.call_fortran(fortran)
 	C.call_go(_go)

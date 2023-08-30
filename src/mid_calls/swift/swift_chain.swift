@@ -12,6 +12,9 @@ public func start_swift_chain(){
     "cobol called by swift".withCString { cstr in
         call_cobol(UnsafeMutablePointer(mutating: cstr))
     }
+    "crystal called by swift".withCString { cstr in
+        call_crystal(UnsafeMutablePointer(mutating: cstr))
+    }
     "d called by swift".withCString { cstr in
         call_d(UnsafeMutablePointer(mutating: cstr))
     }

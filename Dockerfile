@@ -73,7 +73,7 @@ RUN pacman -U *.pkg.tar.zst --noconfirm
 
 ## rest
 
-RUN pacman -S --noconfirm gcc gcc-objc gcc-ada gcc-fortran make rustup gnucobol go dmd cbindgen zig nim rust-bindgen fpc patchelf ghc
+RUN pacman -S --noconfirm gcc gcc-objc gcc-ada gcc-fortran make rustup gnucobol go dmd cbindgen zig nim rust-bindgen fpc patchelf ghc crystal
 RUN rustup default stable
 
 WORKDIR /app

@@ -22,6 +22,10 @@ char* cobolstring(){
     return "cobol called by java";
 }
 
+char* crystalstring(){
+    return "crystal called by java";
+}
+
 char* dstring(){
     return "d called by java";
 }

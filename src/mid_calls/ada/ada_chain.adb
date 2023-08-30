@@ -18,6 +18,9 @@ package body ada_chain is
         procedure call_cobol(a: chars_ptr) with
             Import => True,
             Convention => C;
+        procedure call_crystal(a: chars_ptr) with
+            Import => True,
+            Convention => C;
         procedure call_d(a: chars_ptr) with
             Import => True,
             Convention => C;
@@ -62,6 +65,7 @@ package body ada_chain is
     cstring : constant chars_ptr := New_String ("c called by ada");
     cppstring : constant chars_ptr := New_String ("cpp called by ada");
     cobolstring : constant chars_ptr := New_String ("cobol called by ada");
+    crystalstring : constant chars_ptr := New_String ("crystal called by ada");
     dstring : constant chars_ptr := New_String ("d called by ada");
     fortranstring : constant chars_ptr := New_String ("fortran called by ada");
     gostring : constant chars_ptr := New_String ("go called by ada");
@@ -81,6 +85,7 @@ package body ada_chain is
         call_c(cstring);
         call_cpp(cppstring);
         call_cobol(cobolstring);
+        call_crystal(crystalstring);
         call_d(dstring);
         call_fortran(fortranstring);
         call_go(gostring);

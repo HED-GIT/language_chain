@@ -8,8 +8,11 @@
 #include CHAIN_LIB
 #include <HsFFI.h>
 
+void crystal_init(void);
+
 int main(int argc, char** argv){
     hs_init(&argc, &argv);
+    crystal_init();
 
     CHAIN_FUNCTION();
 

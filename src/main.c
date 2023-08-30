@@ -2,6 +2,7 @@
 #include "c_chain.h"
 #include "cpp_chain.h"
 #include "cobol_chain.h"
+#include "crystal_chain.h"
 #include "d_chain.h"
 #include "fortran_chain.h"
 #include "go_chain.h"
@@ -21,10 +22,12 @@ void start_rust_chain(void);
 void start_haskell_chain(void);
 void hs_init(int *argc, char **argv[]);
 void hs_exit(void);
+void crystal_init(void);
 
 int main(int argc, char **argv)
 {
     hs_init(&argc, &argv);
+    crystal_init();
 
     start_ada_chain();
     fprintf(stdout, "------------------------------\n");
@@ -33,6 +36,8 @@ int main(int argc, char **argv)
     start_cpp_chain();
     fprintf(stdout, "------------------------------\n");
     start_cobol_chain();
+    fprintf(stdout, "------------------------------\n");
+    start_crystal_chain();
     fprintf(stdout, "------------------------------\n");
     start_d_chain();
     fprintf(stdout, "------------------------------\n");

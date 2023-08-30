@@ -5,7 +5,7 @@
 EXE_NAME			:=	main
 
 BUILD_DIR			:=	build
-LIB_DIR 				:= 	$(CURDIR)/$(BUILD_DIR)/libs
+LIB_DIR 			:= 	$(CURDIR)/$(BUILD_DIR)/libs
 # for all libraries
 OBJECT_DIR 			:= 	$(CURDIR)/$(BUILD_DIR)/objects
 # for all build files
@@ -19,7 +19,7 @@ TEST_DIR			:=	test
 CALL_DIR 			:= 	$(SRC_DIR)/end_calls
 CHAIN_DIR 			:= 	$(SRC_DIR)/mid_calls
 
-LANGUAGES			:=	ada c cpp cobol d fortran go haskell java kotlin nim oc odin pascal rust swift zig
+LANGUAGES			:=	ada c cpp cobol crystal d fortran go haskell java kotlin nim oc odin pascal rust swift zig
 LANGUAGE_WRAPPERS	:=	java kotlin
 # everything that requires a wrapper to run
 
@@ -39,16 +39,16 @@ KOTLIN_CALL_HEADERS	:= 	$(foreach LANGUAGE,$(LANGUAGES), $(KOTLIN_DIR)/$(LANGUAG
 CALL_TEST_EXES		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(BUILD_DIR)/test_$(LANGUAGE)_call)
 CHAIN_TEST_EXES		:= 	$(foreach LANGUAGE,$(LANGUAGES), $(BUILD_DIR)/test_$(LANGUAGE)_chain)
 
-GHC_VERSION		:= 9.0.2
-GHC_INCLUDE		:= /usr/lib/ghc-$(GHC_VERSION)/include
-GHC_LIB			:= -l:libHSrts_thr-ghc$(GHC_VERSION).so
-GHC_LIB_DIR		:= /usr/lib/ghc-$(GHC_VERSION)/rts/
+GHC_VERSION			:= 9.0.2
+GHC_INCLUDE			:= /usr/lib/ghc-$(GHC_VERSION)/include
+GHC_LIB				:= -l:libHSrts_thr-ghc$(GHC_VERSION).so
+GHC_LIB_DIR			:= /usr/lib/ghc-$(GHC_VERSION)/rts/
 
-BASE_INCLUDE	:= /usr/include/
+BASE_INCLUDE		:= /usr/include/
 
-LIBS_FLAGS 		:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(GHC_LIB) -lgfortran
-LIB_DIR_FLAGS	:= -L$(LIB_DIR) -L$(GHC_LIB_DIR)
-HEADER_DIR_FLAGS := -I$(HEADER_DIR) -I$(GHC_INCLUDE) 
+LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(GHC_LIB) -lgfortran
+LIB_DIR_FLAGS		:= -L$(LIB_DIR) -L$(GHC_LIB_DIR)
+HEADER_DIR_FLAGS 	:= -I$(HEADER_DIR) -I$(GHC_INCLUDE) 
 
 # -----
 # build
@@ -98,6 +98,10 @@ $(LIB_DIR)/libcpp_call.so $(HEADER_DIR)/cpp_call.h: $(CALL_DIR)/c++/cpp_call.cpp
 $(LIB_DIR)/libcobol_call.so $(HEADER_DIR)/cobol_call.h: $(CALL_DIR)/cobol/cobol_call.cob $(CALL_DIR)/cobol/cobol_call.h | directories
 	cp $(CALL_DIR)/cobol/cobol_call.h $(HEADER_DIR)/
 	cobc -m -Wall -free -O $(CALL_DIR)/cobol/cobol_call.cob -o $(LIB_DIR)/libcobol_call.so -fimplicit-init
+
+$(LIB_DIR)/libcrystal_call.so $(HEADER_DIR)/crystal_call.h: $(CALL_DIR)/crystal/crystal_call.cr $(CALL_DIR)/crystal/crystal_call.h | directories
+	crystal build --release --no-debug -o $(LIB_DIR)/libcrystal_call.so --link-flags="-shared" $(CALL_DIR)/crystal/crystal_call.cr
+	cp $(CALL_DIR)/crystal/crystal_call.h $(HEADER_DIR)/crystal_call.h
 
 $(LIB_DIR)/libd_call.so $(HEADER_DIR)/d_call.h: $(CALL_DIR)/d/d_call.d | directories
 	cp $(CALL_DIR)/d/d_call.h $(HEADER_DIR)/
@@ -196,6 +200,10 @@ $(LIB_DIR)/libcpp_chain.so $(HEADER_DIR)/cpp_chain.h: $(CHAIN_DIR)/c++/cpp_chain
 $(LIB_DIR)/libcobol_chain.so $(HEADER_DIR)/cobol_chain.h: $(CHAIN_DIR)/cobol/cobol_chain.cob $(CHAIN_DIR)/cobol/cobol_chain.h $(CALL_HEADERS) | directories
 	cp $(CHAIN_DIR)/cobol/cobol_chain.h $(HEADER_DIR)/
 	cobc -m -Wall -free -O $(CHAIN_DIR)/cobol/cobol_chain.cob -o $(LIB_DIR)/libcobol_chain.so -L$(LIB_DIR) $(CALL_LIBS_FLAGS) -fimplicit-init
+
+$(LIB_DIR)/libcrystal_chain.so $(HEADER_DIR)/crystal_chain.h: $(CHAIN_DIR)/crystal/crystal_chain.cr $(CHAIN_DIR)/crystal/crystal_chain.h | directories
+	crystal build --release --no-debug -o $(LIB_DIR)/libcrystal_chain.so --link-flags="-shared" $(CHAIN_DIR)/crystal/crystal_chain.cr
+	cp $(CHAIN_DIR)/crystal/crystal_chain.h $(HEADER_DIR)/crystal_chain.h
 
 $(LIB_DIR)/libd_chain.so $(HEADER_DIR)/d_chain.h: $(CHAIN_DIR)/d/d_chain.h $(CHAIN_DIR)/d/d_chain.d $(CALL_HEADERS) | directories
 	cp $(CHAIN_DIR)/d/d_chain.h $(HEADER_DIR)/d_chain.h

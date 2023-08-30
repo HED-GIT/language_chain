@@ -2,6 +2,7 @@ void call_ada(const char * text);
 void call_c(const char * text);
 void call_cpp(const char * text);
 void call_cobol(const char * text);
+void call_crystal(const char * text);
 void call_d(const char * text);
 void call_fortran(const char * text);
 void call_go(const char * text);

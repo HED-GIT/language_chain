@@ -4,6 +4,7 @@ include!("../../../build/rust/ada_call.rs");
 include!("../../../build/rust/c_call.rs");
 include!("../../../build/rust/cpp_call.rs");
 include!("../../../build/rust/cobol_call.rs");
+include!("../../../build/rust/crystal_call.rs");
 include!("../../../build/rust/d_call.rs");
 include!("../../../build/rust/fortran_call.rs");
 include!("../../../build/rust/go_call.rs");
@@ -37,6 +38,8 @@ pub extern fn start_rust_chain(){
         call_cpp(cpp.as_ptr());
         let cobol = CString::new("cobol called by rust").unwrap();
         call_cobol(cobol.as_ptr() as *mut i8);
+        let crystal = CString::new("crystal called by rust").unwrap();
+        call_crystal(crystal.as_ptr() as *mut i8);
         let d = CString::new("d called by rust").unwrap();
         call_d(d.as_ptr());
         let fortran = CString::new("fortran called by rust").unwrap();

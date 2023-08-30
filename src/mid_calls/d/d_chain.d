@@ -2,6 +2,7 @@ extern (C) void call_ada(const char* x);
 extern (C) void call_c(const char* x);
 extern (C) void call_cpp(const char* x);
 extern (C) void call_cobol(const char* x);
+extern (C) void call_crystal(const char* x);
 extern (C) void call_d(const char* x);
 extern (C) void call_fortran(const char* x);
 extern (C) void call_go(const char* x);
@@ -21,6 +22,7 @@ extern (C) void start_d_chain(){
     call_c("c called by d");
     call_cpp("cpp called by d");
     call_cobol("cobol called by d");
+    call_crystal("crystal called by d");
     call_d("d called by d");
     call_fortran("fortran called by d");
     call_go("go called by d");

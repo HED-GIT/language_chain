@@ -20,6 +20,11 @@ module c_interface
             character(kind=c_char),dimension (*) :: a
         end subroutine call_cobol
 
+        subroutine call_crystal(a) bind(C, name='call_crystal')
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char),dimension (*) :: a
+        end subroutine call_crystal
+
         subroutine call_d(a) bind(C, name='call_d')
             use, intrinsic :: iso_c_binding
             character(kind=c_char),dimension (*) :: a
@@ -96,6 +101,7 @@ subroutine start_fortran_chain() bind ( C, name='start_fortran_chain')
     call call_c('c called by fortran'//char(0));
     call call_cpp('cpp called by fortran'//char(0));
     call call_cobol('cobol called by fortran'//char(0));
+    call call_crystal('crystal called by fortran'//char(0));
     call call_d('d called by fortran'//char(0));
     call call_fortran('fortran called by fortran'//char(0));
     call call_go('go called by fortran'//char(0));
