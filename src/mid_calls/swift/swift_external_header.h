@@ -8,6 +8,7 @@ void call_fortran(const char * text);
 void call_go(const char * text);
 void call_haskell(const char * text);
 void call_java(const char * text);
+void call_julia(const char * text);
 void call_kotlin(const char * text);
 void call_nim(const char * text);
 void call_oc(const char * text);

@@ -10,6 +10,7 @@
 #include "go_call.h"
 #include "haskell_call.h"
 #include "java_call.h"
+#include "julia_call.h"
 #include "kotlin_call.h"
 extern "C"{
 #include "nim_call.h"
@@ -32,6 +33,7 @@ void start_cpp_chain(){
     call_go((char*)"go called by cpp");
     call_haskell((char*)"haskell called by cpp");
     call_java("java called by cpp");
+    call_julia("julia called by cpp");
     call_kotlin("kotlin called by cpp");
     call_nim((char*)"nim called by cpp");
     call_oc("oc called by cpp");

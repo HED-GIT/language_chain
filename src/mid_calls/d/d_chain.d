@@ -8,6 +8,7 @@ extern (C) void call_fortran(const char* x);
 extern (C) void call_go(const char* x);
 extern (C) void call_haskell(const char* x);
 extern (C) void call_java(const char* x);
+extern (C) void call_julia(const char* x);
 extern (C) void call_kotlin(const char* x);
 extern (C) void call_nim(const char* x);
 extern (C) void call_oc(const char* x);
@@ -28,6 +29,7 @@ extern (C) void start_d_chain(){
     call_go("go called by d");
     call_haskell("haskell called by d");
     call_java("java called by d");
+    call_julia("julia called by d");
     call_kotlin("kotlin called by d");
     call_nim("nim called by d");
     call_oc("oc called by d");

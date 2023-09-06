@@ -10,6 +10,7 @@ include!("../../../build/rust/fortran_call.rs");
 include!("../../../build/rust/go_call.rs");
 include!("../../../build/rust/haskell_call.rs");
 include!("../../../build/rust/java_call.rs");
+include!("../../../build/rust/julia_call.rs");
 include!("../../../build/rust/kotlin_call.rs");
 //include!("../../../build/rust/nim_call.rs");
 include!("../../../build/rust/oc_call.rs");
@@ -50,6 +51,8 @@ pub extern fn start_rust_chain(){
         call_haskell(haskell.as_ptr() as *mut c_void);
         let java = CString::new("java called by rust").unwrap();
         call_java(java.as_ptr() as *mut i8);
+        let julia = CString::new("julia called by rust").unwrap();
+        call_julia(julia.as_ptr() as *mut i8);
         let kotlin = CString::new("kotlin called by rust").unwrap();
         call_kotlin(kotlin.as_ptr() as *mut i8);
         let nim = CString::new("nim called by rust").unwrap();

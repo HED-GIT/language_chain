@@ -1,0 +1,6 @@
+name = "julia_chain"
+uuid = "f25c8d71-58ef-417a-8e56-0d0883a5ffd7"
+[deps]
+# Add your dependencies here
+[files]
+primary = "julia_chain.jl"

@@ -39,6 +39,9 @@ public class r_java_chain
     @CFunction(value = "call_java")
     static native void call_java(CCharPointer c);
 
+    @CFunction(value = "call_julia")
+    static native void call_julia(CCharPointer c);
+
     @CFunction(value = "call_kotlin")
     static native void call_kotlin(CCharPointer c);
 
@@ -94,6 +97,9 @@ public class r_java_chain
     @CFunction(value = "javastring")
     static native CCharPointer javastring();
 
+    @CFunction(value = "juliastring")
+    static native CCharPointer juliastring();
+
     @CFunction(value = "kotlinstring")
     static native CCharPointer kotlinstring();
 
@@ -131,6 +137,7 @@ public class r_java_chain
         call_go(gostring());
         call_haskell(haskellstring());
         call_java(javastring());
+        call_julia(juliastring());
         call_kotlin(kotlinstring());
         call_nim(nimstring());
         call_oc(ocstring());

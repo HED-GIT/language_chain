@@ -50,6 +50,11 @@ module c_interface
             character(kind=c_char),dimension (*) :: a
         end subroutine call_java
 
+        subroutine call_julia(a) bind(C, name='call_julia')
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char),dimension (*) :: a
+        end subroutine call_julia
+
         subroutine call_kotlin(a) bind(C, name='call_kotlin')
             use, intrinsic :: iso_c_binding
             character(kind=c_char),dimension (*) :: a
@@ -107,6 +112,7 @@ subroutine start_fortran_chain() bind ( C, name='start_fortran_chain')
     call call_go('go called by fortran'//char(0));
     call call_haskell('haskell called by fortran'//char(0));
     call call_java('java called by fortran'//char(0));
+    call call_julia('julia called by fortran'//char(0));
     call call_kotlin('kotlin called by fortran'//char(0));
     call call_nim('nim called by fortran'//char(0));
     call call_oc('oc called by fortran'//char(0));

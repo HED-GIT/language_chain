@@ -14,6 +14,7 @@ a test program where different languages call each other
 - go
 - haskell
 - java
+- julia
 - kotlin
 - nim
 - objective-c
@@ -36,6 +37,7 @@ a test program where different languages call each other
 - ghc 9.0.2
 - gnucobol
 - go
+- julia
 - kotlin-native
 - make
 - native-image

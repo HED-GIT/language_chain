@@ -14,12 +14,12 @@ RUST_DIR 			:= 	$(CURDIR)/$(BUILD_DIR)/rust
 KOTLIN_DIR 			:= 	$(CURDIR)/$(BUILD_DIR)/kotlin
 DIR_LIST			:= 	$(LIB_DIR) $(OBJECT_DIR) $(HEADER_DIR) $(RUST_DIR) $(KOTLIN_DIR)
 
-SRC_DIR				:=	src
-TEST_DIR			:=	test
+SRC_DIR				:=	$(CURDIR)/src
+TEST_DIR			:=	$(CURDIR)/test
 CALL_DIR 			:= 	$(SRC_DIR)/end_calls
 CHAIN_DIR 			:= 	$(SRC_DIR)/mid_calls
 
-LANGUAGES			:=	ada c cpp cobol crystal d fortran go haskell java kotlin nim oc odin pascal rust swift zig
+LANGUAGES			:=	ada c cpp cobol crystal d fortran go haskell java julia kotlin nim oc odin pascal rust swift zig
 LANGUAGE_WRAPPERS	:=	java kotlin
 # everything that requires a wrapper to run
 
@@ -46,8 +46,10 @@ GHC_LIB_DIR			:= /usr/lib/ghc-$(GHC_VERSION)/rts/
 
 BASE_INCLUDE		:= /usr/include/
 
-LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(GHC_LIB) -lgfortran
-LIB_DIR_FLAGS		:= -L$(LIB_DIR) -L$(GHC_LIB_DIR)
+JULIA_LIB_DIR		:= /usr/lib/julia
+
+LIBS_FLAGS 			:= $(CALL_LIBS_FLAGS) $(CHAIN_LIBS_FLAGS) $(GHC_LIB) -lgfortran -ljulia -ljulia-internal
+LIB_DIR_FLAGS		:= -L$(LIB_DIR) -L$(GHC_LIB_DIR) -L/$(JULIA_LIB_DIR)
 HEADER_DIR_FLAGS 	:= -I$(HEADER_DIR) -I$(GHC_INCLUDE) 
 
 # -----
@@ -132,6 +134,11 @@ $(LIB_DIR)/libjava_call.so $(LIB_DIR)/libr_java_call.so $(HEADER_DIR)/java_call.
 	
 	gcc -c -I$(HEADER_DIR) -FPIC $(CALL_DIR)/java/java_call.c -o $(OBJECT_DIR)/java_call.o
 	gcc -shared -o $(LIB_DIR)/libjava_call.so $(OBJECT_DIR)/java_call.o
+
+$(LIB_DIR)/libjulia_call.so $(HEADER_DIR)/julia_call.h: $(CALL_DIR)/julia/src/julia_call.jl $(CALL_DIR)/julia/julia_call.h | $(DIR_LIST)
+	julia -e 'using Pkg; Pkg.activate("$(CALL_DIR)/julia/"); using PackageCompiler; create_library("$(CALL_DIR)/julia/", "$(OBJECT_DIR)/julia_call", lib_name="libjulia_call", force=true, incremental=false, filter_stdlibs=true)'
+	cp $(CALL_DIR)/julia/julia_call.h $(HEADER_DIR)/julia_call.h
+	cp $(OBJECT_DIR)/julia_call/lib/*.so $(LIB_DIR)/
 
 $(LIB_DIR)/libkotlin_call.so $(HEADER_DIR)/kotlin_call.h $(LIB_DIR)/libr_kotlin_call.so $(HEADER_DIR)/r_kotlin_call.h: $(CALL_DIR)/kotlin/r_kotlin_call.kt $(CALL_DIR)/kotlin/kotlin_call.c $(CALL_DIR)/kotlin/kotlin_call.h | $(DIR_LIST)
 	kotlinc-native -produce dynamic -o $(OBJECT_DIR)/r_kotlin_call $(CALL_DIR)/kotlin/r_kotlin_call.kt
@@ -238,6 +245,11 @@ $(LIB_DIR)/libjava_chain.so $(LIB_DIR)/libr_java_chain.so $(HEADER_DIR)/java_cha
 	gcc -c -I$(HEADER_DIR) -FPIC $(CHAIN_DIR)/java/java_chain.c -o $(OBJECT_DIR)/java_chain.o
 	gcc -shared -o $(LIB_DIR)/libjava_chain.so $(OBJECT_DIR)/java_chain.o
 
+$(LIB_DIR)/libjulia_chain.so $(HEADER_DIR)/julia_chain.h: $(CHAIN_DIR)/julia/src/julia_chain.jl $(CHAIN_DIR)/julia/julia_chain.h $(CALL_LIBS) | $(DIR_LIST)
+	julia -e 'using Pkg; Pkg.activate("$(CHAIN_DIR)/julia/"); using PackageCompiler; create_library("$(CHAIN_DIR)/julia/", "$(OBJECT_DIR)/julia_chain", lib_name="libjulia_chain", force=true, incremental=false, filter_stdlibs=true)'
+	cp $(OBJECT_DIR)/julia_chain/lib/*.so $(LIB_DIR)/
+	cp $(CHAIN_DIR)/julia/julia_chain.h $(HEADER_DIR)/julia_chain.h
+
 $(LIB_DIR)/libkotlin_chain.so $(LIB_DIR)/libr_kotlin_chain.so $(HEADER_DIR)/kotlin_chain.h $(HEADER_DIR)/r_kotlin_chain.h: $(CHAIN_DIR)/kotlin/r_kotlin_chain.kt $(CHAIN_DIR)/kotlin/kotlin_chain.c $(CHAIN_DIR)/kotlin/kotlin_chain.h $(KOTLIN_CALL_HEADERS) | $(DIR_LIST)
 	kotlinc-native -produce dynamic -o $(OBJECT_DIR)/r_kotlin_chain $(CHAIN_DIR)/kotlin/r_kotlin_chain.kt $(foreach HEADER,$(KOTLIN_CALL_HEADERS), -library $(HEADER))
 	mv $(OBJECT_DIR)/libr_kotlin_chain.so $(LIB_DIR)/libr_kotlin_chain.so
@@ -316,15 +328,15 @@ $(DIR_LIST):
 # -----
 
 run: build/main
-	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" $(BUILD_DIR)/$(EXE_NAME)
+	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$(JULIA_LIB_DIR):$LD_LIBRARY_PATH" $(BUILD_DIR)/$(EXE_NAME)
 
 run_test: run_call_tests run_chain_tests
 
 run_call_tests: $(CALL_TEST_EXES)
-	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" bash $(TEST_DIR)/call_test_runner.sh $(LANGUAGES)
+	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$(JULIA_LIB_DIR):$LD_LIBRARY_PATH" bash $(TEST_DIR)/call_test_runner.sh $(LANGUAGES)
 
 run_chain_tests: $(CHAIN_TEST_EXES)
-	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$LD_LIBRARY_PATH" bash $(TEST_DIR)/chain_test_runner.sh $(LANGUAGES)
+	LD_LIBRARY_PATH="$(LIB_DIR):$(GHC_LIB_DIR):$(JULIA_LIB_DIR):$LD_LIBRARY_PATH" bash $(TEST_DIR)/chain_test_runner.sh $(LANGUAGES)
 
 clean:
 	rm -rf build

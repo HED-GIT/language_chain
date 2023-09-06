@@ -17,6 +17,7 @@ PROCEDURE DIVISION.
     CALL "call_go" using z"go called by cobol".
     CALL "call_haskell" using z"haskell called by cobol".
     CALL "call_java" using z"java called by cobol".
+    CALL "call_julia" using z"julia called by cobol".
     CALL "call_kotlin" using z"kotlin called by cobol".
     CALL "call_nim" using z"nim called by cobol".
     CALL "call_oc" using z"oc called by cobol".

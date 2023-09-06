@@ -28,6 +28,9 @@ const call_haskell = @cImport({
 const call_java = @cImport({
     @cInclude("java_call.h");
 }).call_java;
+const call_julia = @cImport({
+    @cInclude("julia_call.h");
+}).call_julia;
 const call_kotlin = @cImport({
     @cInclude("kotlin_call.h");
 }).call_kotlin;

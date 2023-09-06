@@ -10,6 +10,7 @@ import fortran_call.call_fortran
 import go_call.call_go
 import haskell_call.call_haskell
 import java_call.call_java
+import julia_call.call_julia
 import kotlin_call.call_kotlin
 import nim_call.call_nim
 import oc_call.call_oc
@@ -32,6 +33,7 @@ fun r_start_kotlin_chain(){
         call_haskell("haskell called by kotlin".cstr.getPointer(this))
     }
     call_java("java called by kotlin")
+    call_julia("julia called by kotlin")
     call_kotlin("kotlin called by kotlin")
     memScoped {
         call_nim("nim called by kotlin".cstr.getPointer(this))

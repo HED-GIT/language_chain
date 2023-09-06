@@ -46,6 +46,10 @@ char* javastring(){
     return "java called by java";
 }
 
+char* juliastring(){
+    return "julia called by java";
+}
+
 char* kotlinstring(){
     return "kotlin called by java";
 }

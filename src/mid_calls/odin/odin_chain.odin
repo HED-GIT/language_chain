@@ -51,6 +51,9 @@ foreign lib_haskell {
 foreign lib_java {
     call_java :: proc(x: cstring) ---
 }
+foreign lib_julia {
+    call_julia :: proc(x: cstring) ---
+}
 foreign lib_kotlin {
     call_kotlin :: proc(x: cstring) ---
 }
@@ -89,6 +92,7 @@ start_odin_chain :: proc "c"() {
     call_go("go called by odin")
     call_haskell("haskell called by odin")
     call_java("java called by odin")
+    call_julia("julia called by odin")
     call_kotlin("kotlin called by odin")
     call_nim("nim called by odin")
     call_oc("oc called by odin")

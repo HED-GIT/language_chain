@@ -11,6 +11,8 @@ do
     else
         echo -e "\033[31m${lang} failed\033[0m"
         ((failures++))
+        echo "expected ${expected_string}"
+        echo "got ${output}"
     fi
 done
 

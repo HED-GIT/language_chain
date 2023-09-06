@@ -9,6 +9,7 @@ lib Call
     fun call_go(text: UInt8*) : Void
     fun call_haskell(text: UInt8*) : Void
     fun call_java(text: UInt8*) : Void
+    fun call_julia(text: UInt8*) : Void
     fun call_kotlin(text: UInt8*) : Void
     fun call_nim(text: UInt8*) : Void
     fun call_oc(text: UInt8*) : Void
@@ -30,6 +31,7 @@ fun log = start_crystal_chain(): Void
     Call.call_go("go called by crystal".to_unsafe);
     Call.call_haskell("haskell called by crystal".to_unsafe);
     Call.call_java("java called by crystal".to_unsafe);
+    Call.call_julia("julia called by crystal".to_unsafe);
     Call.call_kotlin("kotlin called by crystal".to_unsafe);
     Call.call_nim("nim called by crystal".to_unsafe);
     Call.call_oc("oc called by crystal".to_unsafe);
